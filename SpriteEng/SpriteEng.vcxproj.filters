@@ -1,0 +1,684 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Source Files\Core">
+      <UniqueIdentifier>{ca9a6950-f38a-4acb-aebf-ed1d3bd0eee5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Core">
+      <UniqueIdentifier>{882cbb0f-e781-4014-a2ed-0f8dea458775}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\2D">
+      <UniqueIdentifier>{4b15752c-6cd2-4eb4-be3d-2fe517fcb3cd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\2D">
+      <UniqueIdentifier>{f697f6b6-f716-4641-9c03-661db43c4a80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Math">
+      <UniqueIdentifier>{53450266-3172-495b-b420-3e7df6d15eb9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Math">
+      <UniqueIdentifier>{085e84c9-9049-42e1-9226-edb349765166}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game">
+      <UniqueIdentifier>{7e716d43-7453-45ac-be6b-da9a20df4271}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game">
+      <UniqueIdentifier>{d91e9814-48f3-47c2-80c5-c9d069d08e14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Platform">
+      <UniqueIdentifier>{9f117b65-f2ee-45a5-bd4b-d706f1ac8192}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\jpeg">
+      <UniqueIdentifier>{fd00d3ad-a38d-405f-8494-78ad1c60ae10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\png">
+      <UniqueIdentifier>{cd3a5064-d00e-4554-bfe2-b9a2c1cdee57}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Core\zlib">
+      <UniqueIdentifier>{88bd3ed7-ef27-414e-938c-7d65aa2805a5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Base">
+      <UniqueIdentifier>{a1c88d81-7ae3-45b8-bcb8-8f4b48727e6d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Base">
+      <UniqueIdentifier>{b873bb66-317f-45e5-b918-1edc0ab0a22c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Gui">
+      <UniqueIdentifier>{0998fdab-b5d2-41f1-ba65-c1b92898fcbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Gui">
+      <UniqueIdentifier>{28ffc41b-215c-4f67-ba0e-e326d56412f7}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Core\FStack.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FString.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FLog.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FFile.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FBMPResource.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FImageResource.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FResource.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FJPEGResource.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FPNGResource.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FResourceManager.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FTGAResource.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FLoopAllocator.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FException.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FAnimation2D.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FGraphObject.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FScene.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FFont.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FPrimitive.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FLine.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FAtlasResource.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FObject2D.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FGLShader.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\libExt.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FGLSLResource.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FView.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FGLView.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FGLTexture.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FShader.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FFillQuad.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FText.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FSimpleScene.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\FGame.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\FWorld.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jaricom.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jcapimin.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jcapistd.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jcarith.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jccoefct.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jccolor.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jcdctmgr.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jchuff.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jcinit.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jcmainct.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jcmarker.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jcmaster.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jcomapi.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jcparam.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jcprepct.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jcsample.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jctrans.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jdapimin.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jdapistd.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jdarith.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jdatadst.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jdatasrc.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jdcoefct.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jdcolor.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jddctmgr.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jdhuff.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jdinput.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jdmainct.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jdmarker.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jdmaster.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jdmerge.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jdpostct.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jdsample.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jdtrans.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jerror.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jfdctflt.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jfdctfst.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jfdctint.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jidctflt.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jidctfst.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jidctint.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jmemmgr.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jmemnobs.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jquant1.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jquant2.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\jpeg\jutils.c">
+      <Filter>Source Files\Core\jpeg</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\png\png.c">
+      <Filter>Source Files\Core\png</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\png\pngerror.c">
+      <Filter>Source Files\Core\png</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\png\pngget.c">
+      <Filter>Source Files\Core\png</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\png\pngmem.c">
+      <Filter>Source Files\Core\png</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\png\pngpread.c">
+      <Filter>Source Files\Core\png</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\png\pngread.c">
+      <Filter>Source Files\Core\png</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\png\pngrio.c">
+      <Filter>Source Files\Core\png</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\png\pngrtran.c">
+      <Filter>Source Files\Core\png</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\png\pngrutil.c">
+      <Filter>Source Files\Core\png</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\png\pngset.c">
+      <Filter>Source Files\Core\png</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\png\pngtrans.c">
+      <Filter>Source Files\Core\png</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\png\pngwio.c">
+      <Filter>Source Files\Core\png</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\png\pngwrite.c">
+      <Filter>Source Files\Core\png</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\png\pngwtran.c">
+      <Filter>Source Files\Core\png</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\png\pngwutil.c">
+      <Filter>Source Files\Core\png</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\zlib\adler32.c">
+      <Filter>Source Files\Core\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\zlib\compress.c">
+      <Filter>Source Files\Core\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\zlib\crc32.c">
+      <Filter>Source Files\Core\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\zlib\deflate.c">
+      <Filter>Source Files\Core\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\zlib\gzclose.c">
+      <Filter>Source Files\Core\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\zlib\gzlib.c">
+      <Filter>Source Files\Core\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\zlib\gzread.c">
+      <Filter>Source Files\Core\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\zlib\gzwrite.c">
+      <Filter>Source Files\Core\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\zlib\infback.c">
+      <Filter>Source Files\Core\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\zlib\inffast.c">
+      <Filter>Source Files\Core\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\zlib\inflate.c">
+      <Filter>Source Files\Core\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\zlib\inftrees.c">
+      <Filter>Source Files\Core\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\zlib\trees.c">
+      <Filter>Source Files\Core\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\zlib\uncompr.c">
+      <Filter>Source Files\Core\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\zlib\zutil.c">
+      <Filter>Source Files\Core\zlib</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\FArithGame.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\FArithWorld.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\FAttention.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\FBonus.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\FDigit.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\FHiddenDigit.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\FInterface.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\FMessage.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\FParticle.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\FScoreAdd.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Game\FGameObject.cpp">
+      <Filter>Source Files\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\FObject.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\FObjectAllocator.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="Base\FMetaData.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FImage2D.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui\FGuiNavigator.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui\FGuiController.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui\FGuiView.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui\FGuiScene.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FGroupSeq.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FSerialSeq.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui\FGuiLabel.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui\FGuiImage.cpp">
+      <Filter>Source Files\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="Core\FWinFile.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="2D\FTexture.cpp">
+      <Filter>Source Files\2D</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Core\FStack.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FString.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FLog.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FList.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FFile.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FWinFile.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FBMPResource.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FImageResource.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FJPEGResource.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FPNGResource.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FResource.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FResourceManager.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FTGAResource.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FLoopAllocator.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FException.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FAnimation2D.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FArray.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FTexture.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FView.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FGraphObject.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FShader.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FObject2D.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FFont.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FPrimitive.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FScene.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FLine.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FColor.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Math\FVector2D.h">
+      <Filter>Header Files\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FAtlasResource.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FAtlasHeader.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FDictionary.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FGLShader.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\glext.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\libExt.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\wglext.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FGLSLResource.h">
+      <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FGLView.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FGLTexture.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FFillQuad.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FText.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FSimpleScene.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FGame.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FWorld.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FArithGame.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FArithWorld.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FAttention.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FBonus.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FDigit.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FGameDef.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FHiddenDigit.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FInterface.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FMessage.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FParticle.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FScoreAdd.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Game\FGameObject.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\FObjectAllocator.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\FObject.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\FMetaData.h">
+      <Filter>Header Files\Base</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FImage2D.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui\FGuiView.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui\FGuiController.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui\FGuiScene.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui\FGuiNavigator.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FSerialSeq.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FGroupSeq.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="2D\FDrawSeq.h">
+      <Filter>Header Files\2D</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui\FGuiLabel.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui\FGuiViewType.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui\FGuiImage.h">
+      <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

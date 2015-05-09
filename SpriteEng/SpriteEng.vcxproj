@@ -1,0 +1,278 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{E0318C26-C845-4F09-8C28-9817768AE66F}</ProjectGuid>
+    <RootNamespace>SpriteEng</RootNamespace>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <CharacterSet>NotSet</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v110</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup />
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>OpenGL32.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+    </ClCompile>
+    <Link>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="2D\FAnimation2D.cpp" />
+    <ClCompile Include="2D\FGroupSeq.cpp" />
+    <ClCompile Include="2D\FFillQuad.cpp" />
+    <ClCompile Include="2D\FFont.cpp" />
+    <ClCompile Include="2D\FGLShader.cpp" />
+    <ClCompile Include="2D\FGLTexture.cpp" />
+    <ClCompile Include="2D\FGLView.cpp" />
+    <ClCompile Include="2D\FGraphObject.cpp" />
+    <ClCompile Include="2D\FImage2D.cpp" />
+    <ClCompile Include="2D\FLine.cpp" />
+    <ClCompile Include="2D\FObject2D.cpp" />
+    <ClCompile Include="2D\FPrimitive.cpp" />
+    <ClCompile Include="2D\FScene.cpp" />
+    <ClCompile Include="2D\FSerialSeq.cpp" />
+    <ClCompile Include="2D\FShader.cpp" />
+    <ClCompile Include="2D\FSimpleScene.cpp" />
+    <ClCompile Include="2D\FText.cpp" />
+    <ClCompile Include="2D\FTexture.cpp" />
+    <ClCompile Include="2D\FView.cpp" />
+    <ClCompile Include="2D\libExt.cpp" />
+    <ClCompile Include="Base\FMetaData.cpp" />
+    <ClCompile Include="Base\FObject.cpp" />
+    <ClCompile Include="Base\FObjectAllocator.cpp" />
+    <ClCompile Include="Core\FAtlasResource.cpp" />
+    <ClCompile Include="Core\FBMPResource.cpp" />
+    <ClCompile Include="Core\FException.cpp" />
+    <ClCompile Include="Core\FFile.cpp" />
+    <ClCompile Include="Core\FGLSLResource.cpp" />
+    <ClCompile Include="Core\FImageResource.cpp" />
+    <ClCompile Include="Core\FJPEGResource.cpp" />
+    <ClCompile Include="Core\FLog.cpp" />
+    <ClCompile Include="Core\FLoopAllocator.cpp" />
+    <ClCompile Include="Core\FPNGResource.cpp" />
+    <ClCompile Include="Core\FResource.cpp" />
+    <ClCompile Include="Core\FResourceManager.cpp" />
+    <ClCompile Include="Core\FTGAResource.cpp" />
+    <ClCompile Include="Core\FWinFile.cpp" />
+    <ClCompile Include="Core\FStack.cpp" />
+    <ClCompile Include="Core\FString.cpp" />
+    <ClCompile Include="Core\jpeg\jaricom.c" />
+    <ClCompile Include="Core\jpeg\jcapimin.c" />
+    <ClCompile Include="Core\jpeg\jcapistd.c" />
+    <ClCompile Include="Core\jpeg\jcarith.c" />
+    <ClCompile Include="Core\jpeg\jccoefct.c" />
+    <ClCompile Include="Core\jpeg\jccolor.c" />
+    <ClCompile Include="Core\jpeg\jcdctmgr.c" />
+    <ClCompile Include="Core\jpeg\jchuff.c" />
+    <ClCompile Include="Core\jpeg\jcinit.c" />
+    <ClCompile Include="Core\jpeg\jcmainct.c" />
+    <ClCompile Include="Core\jpeg\jcmarker.c" />
+    <ClCompile Include="Core\jpeg\jcmaster.c" />
+    <ClCompile Include="Core\jpeg\jcomapi.c" />
+    <ClCompile Include="Core\jpeg\jcparam.c" />
+    <ClCompile Include="Core\jpeg\jcprepct.c" />
+    <ClCompile Include="Core\jpeg\jcsample.c" />
+    <ClCompile Include="Core\jpeg\jctrans.c" />
+    <ClCompile Include="Core\jpeg\jdapimin.c" />
+    <ClCompile Include="Core\jpeg\jdapistd.c" />
+    <ClCompile Include="Core\jpeg\jdarith.c" />
+    <ClCompile Include="Core\jpeg\jdatadst.c" />
+    <ClCompile Include="Core\jpeg\jdatasrc.c" />
+    <ClCompile Include="Core\jpeg\jdcoefct.c" />
+    <ClCompile Include="Core\jpeg\jdcolor.c" />
+    <ClCompile Include="Core\jpeg\jddctmgr.c" />
+    <ClCompile Include="Core\jpeg\jdhuff.c" />
+    <ClCompile Include="Core\jpeg\jdinput.c" />
+    <ClCompile Include="Core\jpeg\jdmainct.c" />
+    <ClCompile Include="Core\jpeg\jdmarker.c" />
+    <ClCompile Include="Core\jpeg\jdmaster.c" />
+    <ClCompile Include="Core\jpeg\jdmerge.c" />
+    <ClCompile Include="Core\jpeg\jdpostct.c" />
+    <ClCompile Include="Core\jpeg\jdsample.c" />
+    <ClCompile Include="Core\jpeg\jdtrans.c" />
+    <ClCompile Include="Core\jpeg\jerror.c" />
+    <ClCompile Include="Core\jpeg\jfdctflt.c" />
+    <ClCompile Include="Core\jpeg\jfdctfst.c" />
+    <ClCompile Include="Core\jpeg\jfdctint.c" />
+    <ClCompile Include="Core\jpeg\jidctflt.c" />
+    <ClCompile Include="Core\jpeg\jidctfst.c" />
+    <ClCompile Include="Core\jpeg\jidctint.c" />
+    <ClCompile Include="Core\jpeg\jmemmgr.c" />
+    <ClCompile Include="Core\jpeg\jmemnobs.c" />
+    <ClCompile Include="Core\jpeg\jquant1.c" />
+    <ClCompile Include="Core\jpeg\jquant2.c" />
+    <ClCompile Include="Core\jpeg\jutils.c" />
+    <ClCompile Include="Core\png\png.c" />
+    <ClCompile Include="Core\png\pngerror.c" />
+    <ClCompile Include="Core\png\pngget.c" />
+    <ClCompile Include="Core\png\pngmem.c" />
+    <ClCompile Include="Core\png\pngpread.c" />
+    <ClCompile Include="Core\png\pngread.c" />
+    <ClCompile Include="Core\png\pngrio.c" />
+    <ClCompile Include="Core\png\pngrtran.c" />
+    <ClCompile Include="Core\png\pngrutil.c" />
+    <ClCompile Include="Core\png\pngset.c" />
+    <ClCompile Include="Core\png\pngtrans.c" />
+    <ClCompile Include="Core\png\pngwio.c" />
+    <ClCompile Include="Core\png\pngwrite.c" />
+    <ClCompile Include="Core\png\pngwtran.c" />
+    <ClCompile Include="Core\png\pngwutil.c" />
+    <ClCompile Include="Core\zlib\adler32.c" />
+    <ClCompile Include="Core\zlib\compress.c" />
+    <ClCompile Include="Core\zlib\crc32.c" />
+    <ClCompile Include="Core\zlib\deflate.c" />
+    <ClCompile Include="Core\zlib\gzclose.c" />
+    <ClCompile Include="Core\zlib\gzlib.c" />
+    <ClCompile Include="Core\zlib\gzread.c" />
+    <ClCompile Include="Core\zlib\gzwrite.c" />
+    <ClCompile Include="Core\zlib\infback.c" />
+    <ClCompile Include="Core\zlib\inffast.c" />
+    <ClCompile Include="Core\zlib\inflate.c" />
+    <ClCompile Include="Core\zlib\inftrees.c" />
+    <ClCompile Include="Core\zlib\trees.c" />
+    <ClCompile Include="Core\zlib\uncompr.c" />
+    <ClCompile Include="Core\zlib\zutil.c" />
+    <ClCompile Include="Game\FArithGame.cpp" />
+    <ClCompile Include="Game\FArithWorld.cpp" />
+    <ClCompile Include="Game\FAttention.cpp" />
+    <ClCompile Include="Game\FBonus.cpp" />
+    <ClCompile Include="Game\FDigit.cpp" />
+    <ClCompile Include="Game\FGame.cpp" />
+    <ClCompile Include="Game\FHiddenDigit.cpp" />
+    <ClCompile Include="Game\FInterface.cpp" />
+    <ClCompile Include="Game\FMessage.cpp" />
+    <ClCompile Include="Game\FGameObject.cpp" />
+    <ClCompile Include="Game\FParticle.cpp" />
+    <ClCompile Include="Game\FScoreAdd.cpp" />
+    <ClCompile Include="Game\FWorld.cpp" />
+    <ClCompile Include="Gui\FGuiController.cpp" />
+    <ClCompile Include="Gui\FGuiImage.cpp" />
+    <ClCompile Include="Gui\FGuiLabel.cpp" />
+    <ClCompile Include="Gui\FGuiNavigator.cpp" />
+    <ClCompile Include="Gui\FGuiScene.cpp" />
+    <ClCompile Include="Gui\FGuiView.cpp" />
+    <ClCompile Include="main.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="2D\FAnimation2D.h" />
+    <ClInclude Include="2D\FDrawSeq.h" />
+    <ClInclude Include="2D\FGroupSeq.h" />
+    <ClInclude Include="2D\FFillQuad.h" />
+    <ClInclude Include="2D\FFont.h" />
+    <ClInclude Include="2D\FGLShader.h" />
+    <ClInclude Include="2D\FGLTexture.h" />
+    <ClInclude Include="2D\FGLView.h" />
+    <ClInclude Include="2D\FGraphObject.h" />
+    <ClInclude Include="2D\FImage2D.h" />
+    <ClInclude Include="2D\FLine.h" />
+    <ClInclude Include="2D\FObject2D.h" />
+    <ClInclude Include="2D\FPrimitive.h" />
+    <ClInclude Include="2D\FScene.h" />
+    <ClInclude Include="2D\FSerialSeq.h" />
+    <ClInclude Include="2D\FShader.h" />
+    <ClInclude Include="2D\FSimpleScene.h" />
+    <ClInclude Include="2D\FText.h" />
+    <ClInclude Include="2D\FTexture.h" />
+    <ClInclude Include="2D\FView.h" />
+    <ClInclude Include="2D\glext.h" />
+    <ClInclude Include="2D\libExt.h" />
+    <ClInclude Include="2D\wglext.h" />
+    <ClInclude Include="Base\FMetaData.h" />
+    <ClInclude Include="Base\FObject.h" />
+    <ClInclude Include="Base\FObjectAllocator.h" />
+    <ClInclude Include="Core\FArray.h" />
+    <ClInclude Include="Core\FAtlasHeader.h" />
+    <ClInclude Include="Core\FAtlasResource.h" />
+    <ClInclude Include="Core\FBMPResource.h" />
+    <ClInclude Include="Core\FColor.h" />
+    <ClInclude Include="Core\FDictionary.h" />
+    <ClInclude Include="Core\FException.h" />
+    <ClInclude Include="Core\FFile.h" />
+    <ClInclude Include="Core\FGLSLResource.h" />
+    <ClInclude Include="Core\FImageResource.h" />
+    <ClInclude Include="Core\FJPEGResource.h" />
+    <ClInclude Include="Core\FList.h" />
+    <ClInclude Include="Core\FLog.h" />
+    <ClInclude Include="Core\FPNGResource.h" />
+    <ClInclude Include="Core\FResource.h" />
+    <ClInclude Include="Core\FResourceManager.h" />
+    <ClInclude Include="Core\FLoopAllocator.h" />
+    <ClInclude Include="Core\FTGAResource.h" />
+    <ClInclude Include="Core\FWinFile.h" />
+    <ClInclude Include="Core\FStack.h" />
+    <ClInclude Include="Core\FString.h" />
+    <ClInclude Include="Game\FArithGame.h" />
+    <ClInclude Include="Game\FArithWorld.h" />
+    <ClInclude Include="Game\FAttention.h" />
+    <ClInclude Include="Game\FBonus.h" />
+    <ClInclude Include="Game\FDigit.h" />
+    <ClInclude Include="Game\FGame.h" />
+    <ClInclude Include="Game\FGameDef.h" />
+    <ClInclude Include="Game\FHiddenDigit.h" />
+    <ClInclude Include="Game\FInterface.h" />
+    <ClInclude Include="Game\FMessage.h" />
+    <ClInclude Include="Game\FGameObject.h" />
+    <ClInclude Include="Game\FParticle.h" />
+    <ClInclude Include="Game\FScoreAdd.h" />
+    <ClInclude Include="Game\FWorld.h" />
+    <ClInclude Include="Gui\FGuiController.h" />
+    <ClInclude Include="Gui\FGuiImage.h" />
+    <ClInclude Include="Gui\FGuiLabel.h" />
+    <ClInclude Include="Gui\FGuiNavigator.h" />
+    <ClInclude Include="Gui\FGuiScene.h" />
+    <ClInclude Include="Gui\FGuiView.h" />
+    <ClInclude Include="Gui\FGuiViewType.h" />
+    <ClInclude Include="Math\FVector2D.h" />
+    <ClInclude Include="types.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
