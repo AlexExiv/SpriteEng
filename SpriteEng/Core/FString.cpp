@@ -201,7 +201,8 @@ FStringAllocator::FNode * FStringAllocator::FindFree( UI32 iLen )
 			if( lpNode == lpFreeNodes[iPos] )
 			{
 				lpFreeNodes[iPos] = lpNode->lpNext;
-				lpFreeNodes[iPos]->lpPrev = NULL;
+				if( lpFreeNodes[iPos] )
+					lpFreeNodes[iPos]->lpPrev = NULL;
 				lpNode->lpNext = NULL;
 			}
 			else
@@ -824,6 +825,30 @@ FString FString::GetMirrored()const
 
 	return sMirror;
 }
+
+FString FString::AppendToName( const CHAR_ * lpStr )const
+{
+	UI32 iLen0 = iLen - 1, iStrLen = strlen( lpStr );
+	for(;iLen0 != 0;iLen0-- )
+	{
+		if( lpString[iLen0] == '.' )
+			break;
+	}
+
+	if( iLen0 == 0 )
+		iLen0 = iLen;
+
+	CHAR_ * lpNewStr = (CHAR_ *)PUSH_BLOCK( (iLen + 1 + iStrLen )*sizeof( CHAR_ ) );
+	strncpy( lpNewStr, lpString, iLen0 );
+	strncpy( lpNewStr + iLen0, lpStr, iStrLen );
+	strncpy( lpNewStr + iLen0 + iStrLen, lpString + iLen0, iLen - iLen0 + 1 );
+
+	FString sNewStr( lpNewStr );
+	POP_BLOCK;
+
+	return sNewStr;
+}
+
 
 void FString::Mirrored()
 {

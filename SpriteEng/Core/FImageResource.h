@@ -45,7 +45,7 @@ public:
 	bool IsCompressed()const;
 
 	virtual void AddAlphaData( FImageResource * lpImage );
-	virtual void AddAlphaData( void * lpAlphaData, I32 iFormat );
+	virtual void AddAlphaData( void * lpAlphaData, UI32 iFormat );
 };
 
 #endif

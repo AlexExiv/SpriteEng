@@ -76,7 +76,14 @@ FGLShader::FGLShader( const FString & sName ) : FShader( sName ), iProgramID( 0 
 	{
 		if( lpRes )
 			delete lpRes;
-		throw;
+
+		glDetachObject( iProgramID, iVertexID );
+		glDetachObject( iProgramID, iFragmentID );
+		glDeleteObject( iVertexID );
+		glDeleteObject( iFragmentID );
+		glDeleteObject( iProgramID );
+
+		throw eExcp;
 	}
 	delete lpRes;
 }

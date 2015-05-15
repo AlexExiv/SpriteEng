@@ -10,7 +10,7 @@
 #define LINE_DRAW_CONT_COUNT 3
 
 const FString sLineWidth( "fLineWidth" );
-const FString sLinsShaderName( "line.shr" );
+const FString sLineShaderName( "bundle\\line.shr" );
 
 
 struct FLineDrawData
@@ -35,7 +35,7 @@ FLine::FLine( FScene * lpScene, UI32 iLayer ) : FPrimitive( iLayer, lpScene )
 FLine::FLine( const FVector2F & vStart, const FVector2F & vEnd, F32 fLineWidth, const FColor4F & cColor,  FScene * lpScene, UI32 iLayer ) 
 	: FPrimitive( iLayer, lpScene ), vStart( vStart ), vEnd( vEnd ), fLineWidth( fLineWidth ), cLineColor( cColor )
 {
-	lpShader = (FShader *)FGraphObjectManager::GetInstance()->CreateObject( sLinsShaderName, FGraphObjectManager::OBJECT_SHADER );
+	lpShader = (FShader *)FGraphObjectManager::GetInstance()->CreateObject( sLineShaderName, FGraphObjectManager::OBJECT_SHADER );
 	fAlpha = cColor.a;
 }
 

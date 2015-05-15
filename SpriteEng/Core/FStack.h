@@ -25,11 +25,13 @@ public:
 	void * PushBlock( UI32 iSize );//выделяет блок памяти в случае переполнения стека возвращается указатель на NULL
 	void * PushBlockThrow( UI32 iSize );//выделяет блок памяти в случае переполнения стека генерируется исключение типа FException
 	void PopBlock();//освободить последний выделеный блок в стеке
+	void CheckStack();
 };
 
 
 #define PUSH_BLOCK( iSize ) FStack::GetInstanceStack()->PushBlock( iSize )
 #define PUSH_BLOCKT( iSize ) FStack::GetInstanceStack()->PushBlockThrow( iSize )
 #define POP_BLOCK FStack::GetInstanceStack()->PopBlock()
+#define CHECK_STACK FStack::GetInstanceStack()->CheckStack()
 
 #endif

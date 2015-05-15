@@ -25,14 +25,14 @@ struct FFontVertexData
 };
 
 
-const FString sFontShaderName( "font.shr" );
+const FString sFontShaderName( "bundle\\font.shr" );
 const FString sFontAlphaBlock( "tAlphaTex" );
 
 const FDrawDataCont dFontDataCont[FONT_DATA_CONT_COUNT] =
 {
-	{ 2, FView::DATA_FLOAT, sizeof( FFontVertexData ), FIELD_OFFSET_( FFontVertexData, vPoint ) },
-	{ 2, FView::DATA_FLOAT, sizeof( FFontVertexData ), FIELD_OFFSET_( FFontVertexData, vTexCoord ) },
-	{ 4, FView::DATA_FLOAT, sizeof( FFontVertexData ), FIELD_OFFSET_( FFontVertexData, cColor ) }
+	{ FView::VERTEX_DATA, 2, FView::DATA_FLOAT, sizeof( FFontVertexData ), FIELD_OFFSET_( FFontVertexData, vPoint ) },
+	{ FView::TEXCOORD_DATA, 2, FView::DATA_FLOAT, sizeof( FFontVertexData ), FIELD_OFFSET_( FFontVertexData, vTexCoord ) },
+	{ FView::COLOR_DATA, 4, FView::DATA_FLOAT, sizeof( FFontVertexData ), FIELD_OFFSET_( FFontVertexData, cColor ) }
 };
 
 
@@ -153,7 +153,7 @@ FFont::FFont( const FString & sFontName ) : FGraphObject( sFontName, FGraphObjec
 		delete lpFile;
 		delete lpImg;
 	}
-	catch( ... )
+	catch( FException eExcp )
 	{
 		if( lpData )
 			POP_BLOCK;
@@ -161,7 +161,11 @@ FFont::FFont( const FString & sFontName ) : FGraphObject( sFontName, FGraphObjec
 			delete lpFile;
 		if( lpImg )
 			delete lpImg;
-		throw;
+		//this->~FFont();
+		FGraphObjectManager::GetInstance()->ReleaseObject( lpShader );
+		FGraphObjectManager::GetInstance()->ReleaseObject( lpTexture );
+
+		throw eExcp;
 	}
 }
 
@@ -181,10 +185,11 @@ UI32 FFont::LoadCommon( UI32 iBlockSize, UI8 * lpData )
     return iBlockSize;
 }
 
-UI32 FFont::LoadPages( UI32 iBlockSize, UI8 * lpData, FString & sFileName )
+UI32 FFont::LoadPages( UI32 iBlockSize, UI8 * lpData, FString & sFileName_ )
 {
 	FFontPages * lpPage = (FFontPages *)lpData;
-	sFileName = lpPage->cPageNames;
+	FString sPath = GetName().GetPath();
+	sFileName_ = sPath + lpPage->cPageNames;
 
     return iBlockSize;
 }
@@ -271,6 +276,7 @@ void FFont::DrawInLine( const FVector2F & vPos, const CHAR_ * lpString, F32 fFon
 		{
 			fXSym = vPos.x;
 			fYSym -= fCharHeight;
+			lpSym++;
 #ifdef WINDOWS_FAMILY
 			lpSym++;
 #endif
@@ -281,7 +287,10 @@ void FFont::DrawInLine( const FVector2F & vPos, const CHAR_ * lpString, F32 fFon
 		UI8 iSym = TOUCHARA( *lpSym );
 		FChar * lpChar = &cAlphabit[iSym];
 		if( lpChar->cChar == 0 )
+		{
+			lpSym++;
 			continue;
+		}
 
 		F32 fWidth = lpChar->fWidth*fFontSize;
 		F32 fHeight = lpChar->fHeight*fFontSize;

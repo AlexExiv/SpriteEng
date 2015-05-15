@@ -19,7 +19,7 @@ struct FImageVertexData
 };
 
 
-const FString sImageShaderName( "image2d.shr" );
+const FString sImageShaderName( "bundle\\image2d.shr" );
 const FString sImageTex( "tImage" );
 
 
@@ -35,7 +35,7 @@ const FDrawDataCont dImageDataCont[IMAGE_DATA_CONT_COUNT] =
 FImage2D::FImage2D( const FVector2F & vPos, FScene * lpScene, UI32 iLayer, const FString & sName ) : FPrimitive( iLayer, lpScene ), vPos( vPos ), lpShader( NULL ), lpTexture( NULL ), iTexBlock( 0 )
 {
 	lpTexture = (FTexture *)FGraphObjectManager::GetInstance()->CreateObject( sName, FGraphObjectManager::OBJECT_TEXTURE );
-	lpShader = (FShader *)FGraphObjectManager::GetInstance()->CreateObject( sName, FGraphObjectManager::OBJECT_SHADER );
+	lpShader = (FShader *)FGraphObjectManager::GetInstance()->CreateObject( sImageShaderName, FGraphObjectManager::OBJECT_SHADER );
 	if( lpTexture )
 	{
 		iWidth = lpTexture->GetWidth();

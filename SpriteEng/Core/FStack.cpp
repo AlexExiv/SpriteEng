@@ -52,6 +52,12 @@ void FStack::PopBlock()
 	iAllocatedSize -= iElementSizes[--iLastElement];
 }
 
+void FStack::CheckStack()
+{
+	if( iAllocatedSize != 0 )
+		FLog::PutError( "Stack is not empty, may be leaks, allocated size: %i", iAllocatedSize );
+}
+
 void FStack::Init()
 {
 	lpInstStack = new FStack( MAX_STACK_SIZE );

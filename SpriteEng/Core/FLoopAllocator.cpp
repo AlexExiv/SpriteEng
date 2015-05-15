@@ -65,7 +65,7 @@ void FLoopAllocator::Destroy()
 
 FLoopAllocator * FLoopAllocator::GetInstance()
 {
-	if( lpLoopAlloc )
+	if( !lpLoopAlloc )
 		FLoopAllocator::Init();
 	return lpLoopAlloc;
 }

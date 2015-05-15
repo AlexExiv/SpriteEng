@@ -29,10 +29,16 @@ public:
 	void Draw( UI32 iPrimType, UI32 iPrimCount );
 	void DrawIndexed( UI32 iPrimType, UI32 iPrimCount, const void * lpIndeces ) ;
 
-	FTexture * CreateTexture( const FString & sName );
-	FTexture * CreateTexture( const FString & sName, const FImageResource * lpImg );
+	void BeginDraw();
+	void EndDraw();
+
+	FTexture * CreateTexture( FGraphObject * lpPlacement, const FString & sName );
+	FTexture * CreateTexture( FGraphObject * lpPlacement, const FString & sName, const FImageResource * lpImg );
 	FTexture * CreateTexture( const FString & sName, UI32 iWidth, UI32 iHeight, UI32 iFormat );
-	FShader * CreateShader( const FString & sShaderName );
+	FShader * CreateShader( FGraphObject * lpPlacement, const FString & sShaderName );
+
+	UI32 GetTextureObjSize()const;
+	UI32 GetShaderObjSize()const;
 };
 
 #endif

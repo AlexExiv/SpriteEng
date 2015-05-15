@@ -20,7 +20,7 @@ struct FAnimVertexData
 };
 
 
-const FString sAnimShaderName( "anim.shr" );
+const FString sAnimShaderName( "bundle\\anim.shr" );
 const FString sAtlasTex( "tAtlasTex" );
 
 const FDrawDataCont dAnimDataCont[ANIM_DATA_CONT_COUNT] =
@@ -77,14 +77,22 @@ FAnimation2D::FAnimation2D( const FString & sName ) : FGraphObject( sName, FGrap
 	{
 		if( lpAtlasRes )
 			delete lpAtlasRes;
+		DeleteAll();
+		//this->~FAnimation2D();
 		throw eExcp;
 	}
 }
 
 FAnimation2D::~FAnimation2D()
 {
+	DeleteAll();
+}
+
+void FAnimation2D::DeleteAll()
+{
 	for( UI32 i = 0;i < aFrameArr.GetCount();i++ )
 		delete aFrameArr[i];
+	aFrameArr.Clear();
 
 	FAnimationDict::FStringList lStringList;
 	dAnimatioDict.GetKeyList( lStringList );
@@ -99,8 +107,10 @@ FAnimation2D::~FAnimation2D()
 
 	if( lpTexture )
 		delete lpTexture;
+	lpTexture = NULL;
 	if( lpShader )
 		FGraphObjectManager::GetInstance()->ReleaseObject( lpShader );
+	lpShader = NULL;
 }
 
 UI32 FAnimation2D::GetWidth( UI32 iFrame )const
@@ -128,7 +138,7 @@ UI32 FAnimation2D::GetHeight( UI32 iFrame )const
 void FAnimation2D::GetAnimInf( const FString & sAnimName, FAnimation2D::FAnimation * lpInfo )
 {
 	FAnimationRecord rRec = dAnimatioDict.FindRecord( sAnimName );
-	if( rRec != NULL )
+	if( rRec != FAnimationRecord( NULL ) )
 	{
 		lpInfo->iStartFrame = rRec->iStartFrame;
 		lpInfo->iEndFrame = rRec->iEndFrame;

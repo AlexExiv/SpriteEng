@@ -114,15 +114,7 @@ FJPEGResource::FJPEGResource( void * lpData0, UI32 iDataLen, FResourceManager * 
 
 	jpeg_decompress_struct jInfo;
 	MyErrorMgr jError;
-
-	
-	jInfo.err = jpeg_std_error( &jError.jPub );
-	jInfo.mem->alloc_small = AllocSmallJPGT;
-	jInfo.mem->alloc_large = AllocLargeJPGT;
-	jInfo.mem->alloc_sarray = AllocSArrayJPGT;
-	jInfo.mem->alloc_barray = AllocBArrayJPGT;
 	jError.jPub.error_exit = MyErrorExit;
-
 	if( setjmp( jError.jJmpBuf ) )
 	{
 		jpeg_destroy_decompress( &jInfo );
@@ -130,6 +122,14 @@ FJPEGResource::FJPEGResource( void * lpData0, UI32 iDataLen, FResourceManager * 
 	}
 
 	jpeg_create_decompress( &jInfo );
+
+	
+	jInfo.err = jpeg_std_error( &jError.jPub );
+	jInfo.mem->alloc_small = AllocSmallJPGT;
+	jInfo.mem->alloc_large = AllocLargeJPGT;
+	//jInfo.mem->alloc_sarray = AllocSArrayJPGT;
+	//jInfo.mem->alloc_barray = AllocBArrayJPGT;
+
 
 	jpeg_source_mgr jSrc;
 	jSrc.bytes_in_buffer = iDataLen;

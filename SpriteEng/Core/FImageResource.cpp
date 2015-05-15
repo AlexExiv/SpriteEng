@@ -1,5 +1,6 @@
 #include "FImageResource.h"
 #include "FResourceManager.h"
+#include "FLog.h"
 
 
 FImageResource::FImageResource( const FString & sExtStr ) : FResource( sExtStr, "Image" )
@@ -81,37 +82,204 @@ bool FImageResource::IsCompressed()const
 }
 
 
-void FImageResource::AddAlphaData( void * lpAlphaData, I32 iFormat )
+void FImageResource::AddAlphaData( void * lpAlphaData, UI32 iFormat_ )
 {
-	if( iFormat == IMAGE_RGBA )
-	{
-		RGBA * lpDst = (RGBA *)GetData();
-		RGBA * lpSrc = (RGBA *)lpAlphaData;
+	if( !lpAlphaData )
+		return;
 
-		for( I32 i = 0;i < iWidth*iHeight;i++, lpDst++, lpSrc++ )
-			lpDst->a = lpSrc->r;
-	}
-	else if( iFormat == IMAGE_A )
+	if( IsCompressed() )
 	{
-		RGBA * lpDst = (RGBA *)GetData();
-		UI8 * lpSrc = (UI8 *)lpAlphaData;
-
-		for( I32 i = 0;i < iWidth*iHeight;i++, lpDst++, lpSrc++ )
-			lpDst->a = *lpSrc;
+		FLog::PutError( "Can't add alpha data from DXT compressed format" );
+		return;
 	}
+
+	if( iFormat_ == IMAGE_DXT1 || iFormat_ == IMAGE_DXT2 || iFormat_ == IMAGE_DXT3 
+		|| iFormat_ == IMAGE_DXT4 || iFormat_ == IMAGE_DXT5 || iFormat_ == IMAGE_RGBX )
+	{
+		FLog::PutError( "Can't add alpha data to DXT compressed format" );
+		return;
+	}
+
+
+	RGBA * lpNewData;
+	if( (iFormat == IMAGE_RGBA) || (iFormat == IMAGE_RGBX) )
+		lpNewData = (RGBA *)lpData;
+	else if( (iFormat == IMAGE_A) || (iFormat == IMAGE_L) )
+	{
+		UI8 * lpDst = (UI8 *)lpData;
+		UI8 * lpSrc1;
+		RGB * lpSrc3;
+		RGBA * lpSrc4;
+		UI32 i = 0;
+
+		switch( iFormat_ )
+		{
+		case IMAGE_A:
+		case IMAGE_L:
+			lpSrc1 = (UI8 *)lpAlphaData;
+			for(;i < iWidth*iHeight;i++, lpSrc1++, lpDst++ )
+				*lpDst = *lpSrc1;
+			break;
+		case IMAGE_RGB:
+			lpSrc3 = (RGB *)lpAlphaData;
+			for(;i < iWidth*iHeight;i++, lpSrc3++, lpDst++ )
+				*lpDst = lpSrc3->r;
+			break;
+		case IMAGE_RGBA:
+			lpSrc4 = (RGBA *)lpAlphaData;
+			for(;i < iWidth*iHeight;i++, lpSrc4++, lpDst++ )
+				*lpDst = lpSrc4->a;
+			break;
+		default:
+			FLog::PutError( "Can't add alpha data: unknown source file format" );
+		};
+
+		return;
+	}
+	else
+	{
+		lpNewData = (RGBA *)lpCreator->AllocForResource( iWidth*iHeight*sizeof( RGBA ) );
+		RGB * lpSrc = (RGB *)lpData;
+		RGBA * lpDst = lpNewData;
+		for( UI32 i = 0;i < iWidth*iHeight;i++, lpSrc++, lpDst++ )
+		{
+			lpDst->r = lpSrc->r;
+			lpDst->g = lpSrc->g;
+			lpDst->b = lpSrc->b;
+		}
+	}
+
+	RGBA * lpDst = (RGBA *)lpNewData;
+	UI8 * lpSrc1;
+	RGB * lpSrc3;
+	RGBA * lpSrc4;
+	UI32 i = 0;
+
+	switch( iFormat_ )
+	{
+	case IMAGE_A:
+	case IMAGE_L:
+		lpSrc1 = (UI8 *)lpAlphaData;
+		for(;i < iWidth*iHeight;i++, lpSrc1++, lpDst++ )
+			lpDst->a = *lpSrc1;
+		break;
+	case IMAGE_RGB:
+		lpSrc3 = (RGB *)lpAlphaData;
+		for(;i < iWidth*iHeight;i++, lpSrc3++, lpDst++ )
+			lpDst->a = lpSrc3->r;
+		break;
+	case IMAGE_RGBA:
+		lpSrc4 = (RGBA *)lpAlphaData;
+		for(;i < iWidth*iHeight;i++, lpSrc4++, lpDst++ )
+			lpDst->a = lpSrc4->a;
+		break;
+	default:
+		FLog::PutError( "Can't add alpha data: unknown source file format" );
+		return;
+	};
+	lpData = lpNewData;
 }
 
 void FImageResource::AddAlphaData( FImageResource * lpImage )
 {
-	if( (lpImage->GetWidth() != iWidth) || (lpImage->GetHeight() != iHeight) )
+	if( !lpImage )
 		return;
 
-	RGBA * lpSrc = (RGBA *)lpImage->GetData();
-	RGBA * lpDst = (RGBA *)lpData;
+	if( IsCompressed() )
+	{
+		FLog::PutError( "Can't add alpha data from DXT compressed format" );
+		return;
+	}
 
-	for( I32 i = 0;i < (iHeight*iWidth);i++, lpSrc++, lpDst++ )
-		lpDst->a = lpSrc->r;
-	
+	if( lpImage->IsCompressed() )
+	{
+		FLog::PutError( "Can't add alpha data to DXT compressed format" );
+		return;
+	}
+
+	if( (lpImage->GetWidth() != iWidth) || (lpImage->GetHeight() != iHeight) )
+	{
+		FLog::PutError( "Can't add alpha data different width and height" );
+		return;
+	}
+
+	RGBA * lpNewData;
+	if( (iFormat == IMAGE_RGBA) || (iFormat == IMAGE_RGBX) )
+		lpNewData = (RGBA *)lpData;
+	else if( (iFormat == IMAGE_A) || (iFormat == IMAGE_L) )
+	{
+		UI8 * lpDst = (UI8 *)lpData;
+		UI8 * lpSrc1;
+		RGB * lpSrc3;
+		RGBA * lpSrc4;
+		UI32 i = 0;
+
+		switch( lpImage->GetFormat() )
+		{
+		case IMAGE_A:
+		case IMAGE_L:
+			lpSrc1 = (UI8 *)lpImage->GetData();
+			for(;i < iWidth*iHeight;i++, lpSrc1++, lpDst++ )
+				*lpDst = *lpSrc1;
+			break;
+		case IMAGE_RGB:
+			lpSrc3 = (RGB *)lpImage->GetData();
+			for(;i < iWidth*iHeight;i++, lpSrc3++, lpDst++ )
+				*lpDst = lpSrc3->r;
+			break;
+		case IMAGE_RGBA:
+			lpSrc4 = (RGBA *)lpImage->GetData();
+			for(;i < iWidth*iHeight;i++, lpSrc4++, lpDst++ )
+				*lpDst = lpSrc4->a;
+			break;
+		default:
+			FLog::PutError( "Can't add alpha data: unknown source file format" );
+		};
+
+		return;
+	}
+	else
+	{
+		lpNewData = (RGBA *)lpCreator->AllocForResource( iWidth*iHeight*sizeof( RGBA ) );
+		RGB * lpSrc = (RGB *)lpData;
+		RGBA * lpDst = lpNewData;
+		for( UI32 i = 0;i < iWidth*iHeight;i++, lpSrc++, lpDst++ )
+		{
+			lpDst->r = lpSrc->r;
+			lpDst->g = lpSrc->g;
+			lpDst->b = lpSrc->b;
+		}
+	}
+
+	RGBA * lpDst = (RGBA *)lpNewData;
+	UI8 * lpSrc1;
+	RGB * lpSrc3;
+	RGBA * lpSrc4;
+	UI32 i = 0;
+
+	switch( lpImage->GetFormat() )
+	{
+	case IMAGE_A:
+	case IMAGE_L:
+		lpSrc1 = (UI8 *)lpImage->GetData();
+		for(;i < iWidth*iHeight;i++, lpSrc1++, lpDst++ )
+			lpDst->a = *lpSrc1;
+		break;
+	case IMAGE_RGB:
+		lpSrc3 = (RGB *)lpImage->GetData();
+		for(;i < iWidth*iHeight;i++, lpSrc3++, lpDst++ )
+			lpDst->a = lpSrc3->r;
+		break;
+	case IMAGE_RGBA:
+		lpSrc4 = (RGBA *)lpImage->GetData();
+		for(;i < iWidth*iHeight;i++, lpSrc4++, lpDst++ )
+			lpDst->a = lpSrc4->a;
+		break;
+	default:
+		FLog::PutError( "Can't add alpha data: unknown source file format" );
+		return;
+	};
+	lpData = lpNewData;
 }
 
 FResource * FImageResource::Make( void * lpData, UI32 iDataLen, FResourceManager * lpCreator )

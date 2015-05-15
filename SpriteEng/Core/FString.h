@@ -72,10 +72,12 @@ public:
 	//	ComputeKey();
 	//}
 
-	FString GetExt( bool bPoint = false )const;
-	FString GetName()const;
-	FString GetPath()const;
-	FString GetMirrored()const;
+	FString GetExt( bool bPoint = false )const;//получить расширение файла
+	FString GetName()const;//получить имя файла
+	FString GetPath()const;//получить путь к файлу
+	FString GetMirrored()const;//зеркало строки
+	FString AppendToName( const CHAR_ * lpStr )const;//добавить к имени файла с конца
+
 	void Mirrored();
 	UI32 GetKey()const;
 	void ScanString( const CHAR_ * lpFormat, ... );

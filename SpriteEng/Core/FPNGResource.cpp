@@ -86,12 +86,15 @@ FPNGResource::FPNGResource( void * lpData0, UI32 iDataLen, FResourceManager * lp
 		throw FException( FException::EXCP_DECOMPR_FAILURE, FString( "Can't create png decompressor info struct" ) );
 	}
 
+	PngRead sPngRead = { (UI8 *)lpData0 + 8, iDataLen };
+	png_set_read_fn( lpPng, &sPngRead, PngReadFunc );
+
 	png_set_sig_bytes( lpPng, 8 );
 	png_read_info( lpPng, lpInfo );
 
 	iWidth = png_get_image_width( lpPng, lpInfo );
 	iHeight = png_get_image_height( lpPng, lpInfo );
-	iBpp = png_get_bit_depth( lpPng, lpInfo );
+	iBpp = png_get_bit_depth( lpPng, lpInfo )*png_get_channels( lpPng, lpInfo )/8;
 	I32 iImFmt = png_get_color_type( lpPng, lpInfo );
 
 	if( iBpp == 16 )
@@ -130,9 +133,7 @@ FPNGResource::FPNGResource( void * lpData0, UI32 iDataLen, FResourceManager * lp
 
 	png_read_update_info( lpPng, lpInfo );
 	I32 iRowBytes = png_get_rowbytes( lpPng, lpInfo );
-	iBpp = png_get_bit_depth( lpPng, lpInfo );
-	PngRead sPngRead = { (UI8 *)lpData0, iDataLen };
-	png_set_read_fn( lpPng, &sPngRead, PngReadFunc );
+	iBpp = png_get_bit_depth( lpPng, lpInfo )*png_get_channels( lpPng, lpInfo )/8;
 
 	lpData = lpCreator->AllocForResource( iWidth*iHeight*iBpp );
 	png_bytep * lpRow = (png_bytep *)PUSH_BLOCKT( iHeight*sizeof( png_bytep * ) );

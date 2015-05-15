@@ -100,6 +100,7 @@
     <ClCompile Include="Core\FResource.cpp" />
     <ClCompile Include="Core\FResourceManager.cpp" />
     <ClCompile Include="Core\FTGAResource.cpp" />
+    <ClCompile Include="Core\FWAVResource.cpp" />
     <ClCompile Include="Core\FWinFile.cpp" />
     <ClCompile Include="Core\FStack.cpp" />
     <ClCompile Include="Core\FString.cpp" />
@@ -245,6 +246,7 @@
     <ClInclude Include="Core\FResourceManager.h" />
     <ClInclude Include="Core\FLoopAllocator.h" />
     <ClInclude Include="Core\FTGAResource.h" />
+    <ClInclude Include="Core\FWAVResource.h" />
     <ClInclude Include="Core\FWinFile.h" />
     <ClInclude Include="Core\FStack.h" />
     <ClInclude Include="Core\FString.h" />

@@ -18,7 +18,12 @@ class FGame;
 
 class FInterface : public FGuiController
 {
-	CHAR_ cTime[6];
+	enum
+	{
+		TIME_LEN = 6
+	};
+
+	CHAR_ cTime[TIME_LEN];
     F32 fShowTimeDC;
     UI32 iLastScore, iMaxScore;
     F32 fScoreTime;

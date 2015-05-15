@@ -9,6 +9,7 @@
 class FTexture;
 class FShader;
 class FImageResource;
+class FGraphObject;
 
 struct FDrawDataCont
 {
@@ -67,13 +68,18 @@ public:
 	virtual void Draw( UI32 iPrimType, UI32 iPrimCount ) = 0;
 	virtual void DrawIndexed( UI32 iPrimType, UI32 iPrimCount, const void * lpIndeces ) = 0;
 
-	virtual FTexture * CreateTexture( const FString & sName ) = 0;
-	virtual FTexture * CreateTexture( const FString & sName, const FImageResource * lpImg ) = 0;
+	virtual void BeginDraw() = 0;
+	virtual void EndDraw() = 0;
+
+	virtual FTexture * CreateTexture( FGraphObject * lpPlacement, const FString & sName ) = 0;
+	virtual FTexture * CreateTexture( FGraphObject * lpPlacement, const FString & sName, const FImageResource * lpImg ) = 0;
 	virtual FTexture * CreateTexture( const FString & sName, UI32 iWidth, UI32 iHeight, UI32 iFormat ) = 0;
-	virtual FShader * CreateShader( const FString & sShaderName ) = 0;
+	virtual FShader * CreateShader( FGraphObject * lpPlacement, const FString & sShaderName ) = 0;
 
 	UI32 GetWidth()const;
 	UI32 GetHeight()const;
+	virtual UI32 GetTextureObjSize()const = 0;
+	virtual UI32 GetShaderObjSize()const = 0;
 
 	static void Init( UI32 iWidth, UI32 iHeight );
 	static FView * GetMainView();

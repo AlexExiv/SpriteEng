@@ -38,6 +38,8 @@ UI32 AtlasTypeRemap( UI32 iAtlasType )
 
 FAtlasResource::FAtlasResource( void * lpData0, UI32 iDataLen, FResourceManager * lpCreator ) : FResource( sAtlasExt, lpCreator )
 {
+	bRemoveData = false;
+
 	FAtlasHeader * lpHeader = (FAtlasHeader *)lpData0;
 	if( lpHeader->iFileType != ATLAS_FILE_TYPE )
 		throw FException( FException::EXCP_UNK_FILE_FORMAT, "Not valid signature of atlas file format" );

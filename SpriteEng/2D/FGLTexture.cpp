@@ -12,6 +12,10 @@ FGLTexture::FGLTexture( const FString & sName ) : FTexture( sName ), iTexID( 0 )
 	if( !lpRes )
 		throw FException( FException::EXCP_FILE_NOT_FOUND, "Can't create texture object" );
 
+	FImageResource * lpAlphaRes = (FImageResource *)FResourceManager::SharedManager()->CreateResource( sName.AppendToName( "_a" ) );
+	if( lpAlphaRes )
+		lpRes->AddAlphaData( lpAlphaRes );
+
 	iWidth = lpRes->GetWidth();
 	iHeight = lpRes->GetHeight();
 	
@@ -33,6 +37,7 @@ FGLTexture::FGLTexture( const FString & sName ) : FTexture( sName ), iTexID( 0 )
 	{
 		delete lpRes;
 		glBindTexture( GL_TEXTURE_2D, 0 );
+		glDeleteTextures( 1, &iTexID );
 		throw eExcp;
 	}
 
@@ -77,6 +82,7 @@ FGLTexture::FGLTexture( const FString & sName, const FImageResource * lpImg ) : 
 	catch( FException eExcp )
 	{
 		glBindTexture( GL_TEXTURE_2D, 0 );
+		glDeleteTextures( 1, &iTexID );
 		throw eExcp;
 	}
 

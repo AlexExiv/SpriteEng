@@ -468,6 +468,9 @@
     <ClCompile Include="2D\FTexture.cpp">
       <Filter>Source Files\2D</Filter>
     </ClCompile>
+    <ClCompile Include="Core\FWAVResource.cpp">
+      <Filter>Source Files\Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\FStack.h">
@@ -679,6 +682,9 @@
     </ClInclude>
     <ClInclude Include="Gui\FGuiImage.h">
       <Filter>Header Files\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="Core\FWAVResource.h">
+      <Filter>Header Files\Core</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

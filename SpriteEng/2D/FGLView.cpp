@@ -2,10 +2,11 @@
 #include "FGLShader.h"
 #include "FGLTexture.h"
 #include "libExt.h"
+#include <new.h>
 
 
 
-FGLView::FGLView( UI32 iWidth, UI32 iHeight ) : FView( iWidth, iHeight )
+FGLView::FGLView( UI32 iWidth, UI32 iHeight ) : FView( iWidth, iHeight ), iCurState( 0 )
 {
 	initExtensions();
 	glViewport( 0, 0, iWidth, iHeight );
@@ -168,21 +169,33 @@ void FGLView::DrawIndexed( UI32 iPrimType, UI32 iPrimCount, const void * lpIndec
 	ResetStates();
 }
 
+void FGLView::BeginDraw()
+{
+	glClearColor( 1.f, 0.f, 0.f, 1.f );
+	glClear( GL_COLOR_BUFFER_BIT );
+	glDisable( GL_DEPTH_TEST );
+}
+
+void FGLView::EndDraw()
+{
+	glFlush();
+}
 
 void FGLView::ResetStates()
 {
 	for( UI32 i = 0;i < iCurState;i++ )
 		glDisableClientState( eState[i] );
+	iCurState = 0;
 }
 
-FTexture * FGLView::CreateTexture( const FString & sName )
+FTexture * FGLView::CreateTexture( FGraphObject * lpPlacement, const FString & sName )
 {
-	return new FGLTexture( sName );
+	return new (lpPlacement) FGLTexture( sName );
 }
 
-FTexture * FGLView::CreateTexture( const FString & sName, const FImageResource * lpImg )
+FTexture * FGLView::CreateTexture( FGraphObject * lpPlacement, const FString & sName, const FImageResource * lpImg )
 {
-	return new FGLTexture( sName, lpImg );
+	return new (lpPlacement ) FGLTexture( sName, lpImg );
 }
 
 FTexture * FGLView::CreateTexture( const FString & sName, UI32 iWdth, UI32 iHeight, UI32 iFormat )
@@ -190,8 +203,17 @@ FTexture * FGLView::CreateTexture( const FString & sName, UI32 iWdth, UI32 iHeig
 	return new FGLTexture( sName, iWidth, iHeight, iFormat );
 }
 
-FShader * FGLView::CreateShader( const FString & sShaderName )
+FShader * FGLView::CreateShader( FGraphObject * lpPlacement, const FString & sShaderName )
 {
-	return new FGLShader( sShaderName );
+	return new (lpPlacement) FGLShader( sShaderName );
 }
 
+UI32 FGLView::GetTextureObjSize()const
+{
+	return sizeof( FGLTexture );
+}
+
+UI32 FGLView::GetShaderObjSize()const
+{
+	return sizeof( FGLShader );
+}

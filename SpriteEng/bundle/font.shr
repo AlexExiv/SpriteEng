@@ -1,0 +1,23 @@
+[BLOCK_PROGRAM]
+tAlphaTex = 0
+
+[VERTEX_PROGRAM]
+
+out vec3 vColor;
+
+void main()
+{
+	gl_Position = gl_ModelViewProjectionMatrix*gl_Vertex;
+	gl_TexCoord[0] = gl_MultiTexCoord0;
+	vColor = gl_Color.rgb;
+}
+
+[FRAGMENT_PROGRAM]
+
+uniform sampler2D tAlphaTex;
+in vec3 vColor;
+void main()
+{
+	gl_FragColor.rgb = vColor.rgb;
+	gl_FragColor.a = texture2D( tAlphaTex, gl_TexCoord[0].xy ).a;
+}

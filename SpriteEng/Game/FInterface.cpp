@@ -28,6 +28,7 @@ FInterface::FInterface( FGuiScene * lpGuiScene ) : FGuiController( lpGuiScene ),
 	 iMaxScore( 0 ), lpGameOver( NULL ), fShowTimeDC( 0.f )
 {
 	FRect rFrame;
+	cTime[TIME_LEN - 1] = 0;
 	lpMainView = (FGuiView *)AllocObject( "FGuiView", "\\rect\\guicontroller", &rFrame, this );
 	lpUpper = (FGuiImage *)AllocObject( "FGuiImage", "\\vector\\string\\guiview", &FVector2F( 0.f, 0.f ), &sInterfaceBack, lpMainView );
 	lpGameOver = (FGuiImage *)AllocObject( "FGuiImage", "\\vector\\string\\guiview", &FVector2F( 0.f, 0.f ), &sGameOver, lpMainView );

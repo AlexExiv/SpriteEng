@@ -38,6 +38,7 @@ void FSerialSeq::AddPrimitive( FPrimitive * lpPrim )
 
 	lpLastNode->lpNext = lpNode;
 	lpLastNode = lpNode;
+	lpNode->lpNext = NULL;
 	lpNode->lpPrim = lpPrim;
 
 	//группируем соседнии примитивы имеющие одинаковые идентификаторы
@@ -82,8 +83,9 @@ void FSerialSeq::DrawSeq()
 				UI32 iStartVert = 0;
 				FBYTE * lpVertData = (FBYTE *)lpData;
 				UI32 * lpInd = lpIndeces;
+				FNode * lpFirstNode = lpNode;
 
-				for( UI32 j = 0;j < lpNode->iCount;j++ )
+				for( UI32 j = 0;j < lpFirstNode->iCount;j++ )
 				{
 					iPrimCount += lpNode->lpPrim->AddDataToSeq( lpVertData, lpInd, iStartVert );
 					lpVertData += lpNode->lpPrim->GetDataSizePerInst();
@@ -93,7 +95,7 @@ void FSerialSeq::DrawSeq()
 					lpLastNode = lpNode;
 					lpNode = lpNode->lpNext;
 				}
-				i += (lpNode->iCount - 1);
+				i += (lpFirstNode->iCount - 1);
 			}
 			else
 			{
@@ -103,6 +105,9 @@ void FSerialSeq::DrawSeq()
 
 			lpLastNode->lpPrim->DrawCallback( iPrimCount, lpData, lpIndeces );
 			lpNode = lpLastNode->lpNext;
+
+			POP_BLOCK;
+			POP_BLOCK;
 		}
 	}
 	catch( FException eExcp )

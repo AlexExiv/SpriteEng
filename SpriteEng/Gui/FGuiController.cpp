@@ -68,7 +68,7 @@ FGuiController::FGuiController( FGuiController * lpRootController ) : lpGuiScene
 
 FGuiController::~FGuiController()
 {
-	AssertFatal( lpNavigator, "Try to delete FGuiController, which is in FGuiNavigator stack" );
+	AssertFatal( lpNavigator == NULL, "Try to delete FGuiController, which is in FGuiNavigator stack" );
 }
 
 

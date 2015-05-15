@@ -543,7 +543,7 @@ void FArithWorld::Clear()
 {
     FObjectIterator iIt = lObjectList.Begin();
     for( ;iIt != lObjectList.End();iIt++ )
-        delete *iIt;
+		Delete( *iIt );
     lObjectList.Clear();
 }
 

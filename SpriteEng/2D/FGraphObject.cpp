@@ -18,6 +18,7 @@ FGraphObject::FGraphObject( const FString & sName, UI32 iObjType ) : sName( sNam
 
 FGraphObject::~FGraphObject()
 {
+	iObjType = 0;
 }
 
 const FString & FGraphObject::GetName()const
@@ -105,6 +106,7 @@ FGraphObject * FGraphObjectManager::CreateObject( const FString & sName, UI32 iO
 	if( lpObject )
 	{
 		AssertFatal( iObjType == lpObject->GetType(), "same object name, have different object types" );
+		lpObject->AddRef();
 		return lpObject;
 	}
 
@@ -113,16 +115,20 @@ FGraphObject * FGraphObjectManager::CreateObject( const FString & sName, UI32 iO
 		switch( iObjType )
 		{
 		case OBJECT_ANIMATION:
-			lpObject = new FAnimation2D( sName );
+			lpObject = (FGraphObject *)FMalloc( sizeof( FAnimation2D ) );
+			lpObject = new (lpObject ) FAnimation2D( sName );
 			break;
 		case OBJECT_SHADER:
-			lpObject = FView::GetMainView()->CreateShader( sName );
+			lpObject = (FGraphObject *)FMalloc( FView::GetMainView()->GetShaderObjSize() );
+			lpObject = FView::GetMainView()->CreateShader( lpObject, sName );
 			break;
 		case OBJECT_FONT:
-			lpObject = new FFont( sName );
+			lpObject = (FGraphObject *)FMalloc( sizeof( FFont ) );
+			lpObject = new (lpObject ) FFont( sName );
 			break;
 		case OBJECT_TEXTURE:
-			lpObject = FView::GetMainView()->CreateTexture( sName );
+			lpObject = (FGraphObject *)FMalloc( FView::GetMainView()->GetTextureObjSize() );
+			lpObject = FView::GetMainView()->CreateTexture( lpObject, sName );
 
 			break;
 		default:
@@ -133,13 +139,16 @@ FGraphObject * FGraphObjectManager::CreateObject( const FString & sName, UI32 iO
 		lpNode->lpObject = lpObject;
 		UI32 iKey = sName.GetKey()%MAX_HASH;
 		lpNode->lpNext = lpObjectHash[iKey];
-		lpObjectHash[iKey]->lpPrev = lpNode;
+		if( lpObjectHash[iKey] )
+			lpObjectHash[iKey]->lpPrev = lpNode;
 		lpObjectHash[iKey] = lpNode;
 	}
 	catch( FException eExcp )
 	{
 		if( lpObject )
-			delete lpObject;
+			FFree( lpObject );
+		lpObject = NULL;
+
 		FLog::PutError( FString::PrintString( "%s: \"%s\"", eExcp.GetMessage().GetChar(), sName.GetChar() ) );
 		if( eExcp.GetCode() == FException::EXCP_FATAL_ERROR )
 			throw eExcp;
@@ -154,18 +163,28 @@ FTexture * FGraphObjectManager::CreateTexture( const FString & sName, const FIma
 	if( lpTexture )
 	{
 		AssertFatal( lpTexture->GetType() == FGraphObjectManager::OBJECT_TEXTURE, "same object name, have different object types" );
+		lpTexture->AddRef();
 		return lpTexture;
 	}
 
 	try
 	{
-		lpTexture = FView::GetMainView()->CreateTexture( sName, lpImg );
+		lpTexture = (FTexture *)FMalloc( FView::GetMainView()->GetTextureObjSize() );
+		lpTexture = FView::GetMainView()->CreateTexture( lpTexture, sName, lpImg );
+
+		FNode * lpNode = AllocNode();
+		lpNode->lpObject = lpTexture;
+		UI32 iKey = sName.GetKey()%MAX_HASH;
+		lpNode->lpNext = lpObjectHash[iKey];
+		if( lpObjectHash[iKey] )
+			lpObjectHash[iKey]->lpPrev = lpNode;
+		lpObjectHash[iKey] = lpNode;
 	}
 	catch( FException eExcp )
 	{
 		if( eExcp.GetCode() == FException::EXCP_FILE_NOT_FOUND )
 			FLog::PutError( "Can't load object data" );
-		delete lpTexture;
+		FFree( lpTexture );
 		return NULL;
 	}
 	return lpTexture;
@@ -173,6 +192,9 @@ FTexture * FGraphObjectManager::CreateTexture( const FString & sName, const FIma
 
 void FGraphObjectManager::ReleaseObject( FGraphObject * lpObject )
 {
+	if( !lpObject )
+		return;
+
 	lpObject->DecrRef();
 	if( !lpObject->IsRef() )
 	{
@@ -184,7 +206,7 @@ void FGraphObjectManager::ReleaseObject( FGraphObject * lpObject )
 				break;
 			lpNode = lpNode->lpNext;
 		}
-		AssertFatal( lpNode == NULL, "Release unknow object" );
+		AssertFatal( lpNode != NULL, "Release unknow object" );
 		if( lpNode )
 		{
 			if( lpNode->lpPrev )

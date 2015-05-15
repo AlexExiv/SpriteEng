@@ -17,7 +17,7 @@ FBMPResource::FBMPResource() : FImageResource( sBMPExt )
 FBMPResource::FBMPResource( void * lpData0, UI32 iDataLen, FResourceManager * lpCreator ) : FImageResource( lpData0, sBMPExt, lpCreator )
 {
 	BITMAPFILEHEADER * lpFileBmp = (BITMAPFILEHEADER *)lpData0;
-	BITMAPINFOHEADER * lpBmp = (BITMAPINFOHEADER *)((I8 *)lpData0 + sizeof(BITMAPFILEHEADER));
+	BITMAPINFOHEADER * lpBmp = (BITMAPINFOHEADER *)((FBYTE *)lpData0 + sizeof(BITMAPFILEHEADER));
 
 	if( lpFileBmp->bfType != BMP_FILE_TYPE )
 		throw FException( FException::EXCP_UNK_FILE_FORMAT, FString( "Unknown file format, first 2 bytes must be 0x4D42 or \"BM\"" ) );
@@ -31,10 +31,10 @@ FBMPResource::FBMPResource( void * lpData0, UI32 iDataLen, FResourceManager * lp
 	lpData = lpCreator->AllocForResource( iWidth * iHeight * sizeof( RGB ) );
 	RGB * lpDst = (RGB *)lpData;
 
-	for( I32 i = 0;i < iHeight;i++ )
+	for( UI32 i = 0;i < iHeight;i++ )
 	{
 		RGB * lpSrc = (RGB *)(lpBmpData + (lpBmp->biHeight - i - 1)*DWORD_ALIG( lpBmp->biWidth ));
-		for( I32 j = 0;j < iWidth;j++ )
+		for( UI32 j = 0;j < iWidth;j++ )
 		{
 			lpDst->r = lpSrc->b;
 			lpDst->g = lpSrc->g;

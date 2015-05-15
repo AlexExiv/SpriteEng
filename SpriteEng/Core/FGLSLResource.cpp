@@ -3,6 +3,7 @@
 #include "FException.h"
 #include "FLoopAllocator.h"
 #include <string.h>
+#include "FStack.h"
 
 
 
@@ -274,68 +275,81 @@ FGLSLResource::FGLSLResource() : FResource( sGLSLExt, FString( "Shader" ) )
 
 FGLSLResource::FGLSLResource( void * lpData0, UI32 iDataLen, FResourceManager * lpCreator ) : FResource( sGLSLExt, lpCreator )
 {
+	bRemoveData = false;
+
 	lpData = lpData0;
-	CHAR_ * lpText = (CHAR_ *)lpData;
+	CHAR_ * lpText = (CHAR_ *)PUSH_BLOCKT( iDataLen + 1 );
+	memcpy( lpText, lpData0, iDataLen );
+	lpText[iDataLen] = 0;
 	UI32 iTokenType = 0, iLen = 0;
 	CHAR_ cBuffer[256];
 
-	for( UI32 i = 0;i < ARRAY_SIZE( pProgramType );i++ )
+	try
 	{
-		CHAR_ * lpStr = strstr( lpText, pProgramType[i].sName.GetChar() );
-		if( lpStr == NULL )
-			continue;
-		lpStr += TextRollback( lpStr, lpText );
-		lpStr += SkipSpacesRet( lpStr );
-
-		lpStr += GetToken( lpStr, cBuffer, iTokenType );
-		if( iTokenType != TOKEN_SQBRACK0 )
-			throw FException( FException::EXCP_UNK_FILE_FORMAT, FString::PrintString( "Unexpected token \"%s\"", cBuffer ) );
-
-		lpStr += GetToken( lpStr, cBuffer, iTokenType );
-		if( iTokenType != TOKEN_WORD )
-			throw FException( FException::EXCP_UNK_FILE_FORMAT, FString::PrintString( "Unexpected token, must be word \"%s\"", cBuffer ) );
-
-		UI32 iProgType = GetProgramType( cBuffer );
-		if( iProgType != pProgramType[i].iProgType )
-			throw FException( FException::EXCP_UNK_FILE_FORMAT, FString::PrintString( "Unknown shader program type \"%s\"", cBuffer ) );
-
-		lpStr += GetToken( lpStr, cBuffer, iTokenType );
-		if( iTokenType != TOKEN_SQBRACK1 )
-			throw FException( FException::EXCP_UNK_FILE_FORMAT, FString::PrintString( "Unexpected token \"%s\"", cBuffer ) );
-
-		lpStr += GetToken( lpStr, cBuffer, iTokenType );
-		if( iTokenType != TOKEN_EOL )
-			throw FException( FException::EXCP_UNK_FILE_FORMAT, FString::PrintString( "Shader program must start from new line" ) );
-
-		iLen = 0;
-		while( true )
+		for( UI32 i = 0;i < ARRAY_SIZE( pProgramType );i++ )
 		{
-			while( lpStr[iLen] != '[' && lpStr[iLen] != 0 )
-				iLen++;
-			if( lpStr[iLen - 1] == 0 )
-				break;
+			CHAR_ * lpStr = strstr( lpText, pProgramType[i].sName.GetChar() );
+			if( lpStr == NULL )
+				continue;
+			lpStr += TextRollback( lpStr, lpText );
+			lpStr += SkipSpacesRet( lpStr );
 
-			UI32 iInd = GetToken( lpStr, cBuffer, iTokenType );
-			if( iTokenType == TOKEN_WORD )
+			lpStr += GetToken( lpStr, cBuffer, iTokenType );
+			if( iTokenType != TOKEN_SQBRACK0 )
+				throw FException( FException::EXCP_UNK_FILE_FORMAT, FString::PrintString( "Unexpected token \"%s\"", cBuffer ) );
+
+			lpStr += GetToken( lpStr, cBuffer, iTokenType );
+			if( iTokenType != TOKEN_WORD )
+				throw FException( FException::EXCP_UNK_FILE_FORMAT, FString::PrintString( "Unexpected token, must be word \"%s\"", cBuffer ) );
+
+			UI32 iProgType = GetProgramType( cBuffer );
+			if( iProgType != pProgramType[i].iProgType )
+				throw FException( FException::EXCP_UNK_FILE_FORMAT, FString::PrintString( "Unknown shader program type \"%s\"", cBuffer ) );
+
+			lpStr += GetToken( lpStr, cBuffer, iTokenType );
+			if( iTokenType != TOKEN_SQBRACK1 )
+				throw FException( FException::EXCP_UNK_FILE_FORMAT, FString::PrintString( "Unexpected token \"%s\"", cBuffer ) );
+
+			lpStr += GetToken( lpStr, cBuffer, iTokenType );
+			if( iTokenType != TOKEN_EOL )
+				throw FException( FException::EXCP_UNK_FILE_FORMAT, FString::PrintString( "Shader program must start from new line" ) );
+
+			iLen = 0;
+			while( true )
 			{
-				UI32 iProgType = GetProgramType( cBuffer );
-				if( iProgType != UNKNOWN_PROGRAM )
+				while( lpStr[iLen] != '[' && lpStr[iLen] != 0 )
+					iLen++;
+				if( lpStr[iLen] == 0 )
 					break;
+
+				UI32 iInd = GetToken( lpStr + iLen + 1, cBuffer, iTokenType );
+				if( iTokenType == TOKEN_WORD )
+				{
+					UI32 iProgType = GetProgramType( cBuffer );
+					if( iProgType != UNKNOWN_PROGRAM )
+						break;
+				}
+				iLen += iInd;
 			}
-			iLen += iInd;
-		}
-		iLen--;
-		if( pProgramType[i].iProgType == BLOCK_PROGRAM_ )
-		{
-			ParseBlocks( lpStr, iLen );
-		}
-		else
-		{
-			UI32 iProg = ProgramRemap( pProgramType[i].iProgType );
-			pProgram[iProg].lpProgram = lpStr;
-			pProgram[iProg].iLen = iLen;
+			//iLen--;
+			if( pProgramType[i].iProgType == BLOCK_PROGRAM_ )
+			{
+				ParseBlocks( lpStr, iLen );
+			}
+			else
+			{
+				UI32 iProg = ProgramRemap( pProgramType[i].iProgType );
+				pProgram[iProg].lpProgram = lpStr;
+				pProgram[iProg].iLen = iLen;
+			}
 		}
 	}
+	catch( FException eExcp )
+	{
+		POP_BLOCK;
+		throw eExcp;
+	}
+	POP_BLOCK;
 }
 
 FGLSLResource::~FGLSLResource()

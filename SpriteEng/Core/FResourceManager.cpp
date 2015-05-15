@@ -72,19 +72,19 @@ FResource * FResourceManager::CreateResource( const FString & sFileName )
 
 	try
 	{
-		void * lpData = AllocForResource( lpFile->GetSize() );
-		lpFile->GetData( lpData );
+		void * lpData_ = AllocForResource( lpFile->GetSize() );
+		lpFile->GetData( lpData_ );
 		for(;iIt != lResources.End();iIt++ )
 		{
 			if( (*iIt)->IsExtEqual( sFileExt ) )
 			{
-				lpRes = (*iIt)->Make( lpData, lpFile->GetSize(), this );
+				lpRes = (*iIt)->Make( lpData_, lpFile->GetSize(), this );
 				break;
 			}
 		}
 
 		if( iIt == lResources.End() )
-			FLog::PutError( "Unknown file type with name: %s", sFileName.GetChar() );
+			FLog::PutError( "Unknown file type with name: \"%s\"", sFileName.GetChar() );
 	}
 	catch( FException eExcp )
 	{
@@ -93,7 +93,7 @@ FResource * FResourceManager::CreateResource( const FString & sFileName )
 		case FException::EXCP_UNK_FILE_FORMAT:
 		case FException::EXCP_UNK_IMAGE_FORMAT:
 		case FException::EXCP_RESALLOC_INSUFFIENC:
-			FLog::PutError( "%s, name of resource %s", eExcp.GetMessage().GetChar(), sFileName.GetChar() );
+			FLog::PutError( "%s, name of resource \"%s\"", eExcp.GetMessage().GetChar(), sFileName.GetChar() );
 			break;
 		case FException::EXCP_FATAL_ERROR:
 			throw eExcp;

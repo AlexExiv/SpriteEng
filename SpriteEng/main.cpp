@@ -6,10 +6,11 @@
 #include "Core\FException.h"
 #include "Core\FLog.h"
 #include <gl\GL.h>
+#include "Core\FStack.h"
 
 
 
-#define FIELD_WIDTH 320
+#define FIELD_WIDTH 640
 #define FIELD_HEIGHT 480
 
 static FArithGame * lpGame = NULL;
@@ -145,7 +146,16 @@ int WINAPI WinMain(	HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow )
 			iOldTick = iTickCount;
 
 			lpGame->Update( F32( iDTime )/100.f );
+
+			HDC hDC = GetWindowDC( hWnd );
+			HGLRC hGLrc = wglGetCurrentContext();
+			wglMakeCurrent( hDC, hGLrc  );
+			
 			lpGame->Draw();
+
+			SwapBuffers( hDC );
+
+			CHECK_STACK;
 		}
 	}
 	catch( FException eExcp )

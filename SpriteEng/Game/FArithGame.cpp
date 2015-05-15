@@ -33,26 +33,26 @@ struct FGameBlock
 
 
 
-const FString sDeffFont( "bundle\\digit2" );
-const FString sScoreFont( "bundle\\comic" );
+const FString sDeffFont( "bundle\\digit2.fnt" );
+const FString sScoreFont( "bundle\\comic.fnt" );
 const FString sInterfaceBack( "bundle\\scoresback.bmp" );
 const FString sGameOver( "bundle\\gmn.bmp" );
-const FString sCellBack( "bundle\\cellback.bmp" );
-const FString sPartName( "bundle\\stars.bmp" );
+const FString sCellBack( "bundle\\cellback.adf" );
+const FString sPartName( "bundle\\stars.adf" );
 const FString sEndMoveSound( "bundle\\bryak.caf" );
 const FString sDestroySound( "bundle\\zvon.caf" );
 const FString sTimeBinusSound( "bundle\\magic_mirror.caf" );
 const FString sNotRightSound( "bundle\\not_right.caf" );
 const FString sAttentionPrepare( "bundle\\prepareatack.bmp" );
-const FString sAttentionCounter( "bundle\\counter.bmp" );
+const FString sAttentionCounter( "bundle\\counter.adf" );
 const FString sAttentionHoldon( "bundle\\holdon.bmp" );
 const FString sAttentionAttackSoon( "bundle\\beready.bmp" );
 
 
-const FString sDigitStayAnim( "DIGIT_STAY" );
-const FString sDigitSelectAnim( "DIGIT_SELECT" );
-const FString sDigitDyingAnim( "DIGIT_DYING" );
-const FString sHiddenDigitAnim( "HIDDEN_DIGIT" );
+const FString sDigitStayAnim( "WAIT" );
+const FString sDigitSelectAnim( "SELECTED" );
+const FString sDigitDyingAnim( "DYING" );
+const FString sHiddenDigitAnim( "HIDDEN" );
 const FString sParticleAnim( "BLOW" );
 const FString sCounterAnim( "COUNTER" );
 
@@ -109,6 +109,8 @@ void FArithGame::Draw()
 {
 	FRect rFrustum( 0.f, 0.f, lpWorld->GetWorldWidth(), lpWorld->GetWorldHeight() );
 
+	FView::GetMainView()->BeginDraw();
+
 	lpWorldSeq->BeginBuildSeq();
 	lpWorldScene->BuildSeq( rFrustum );
 	lpWorldSeq->EndBuildSeq();
@@ -118,6 +120,8 @@ void FArithGame::Draw()
 	lpGuiScene->BuildSeq( rFrustum );
 	lpGuiSeq->EndBuildSeq();
 	lpGuiSeq->DrawSeq();
+
+	FView::GetMainView()->EndDraw();
 }
 
 void FArithGame::Save( const FString & sFileName )

@@ -43,6 +43,8 @@ protected:
 	FShader * lpShader;
 	UI32 iAtlasBlock;
 
+	void DeleteAll();
+
 public:
 	FAnimation2D( const FString & sName );
 	~FAnimation2D();
