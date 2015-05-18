@@ -120,6 +120,12 @@ void FFillQuad::Move( const FVector2F & vDPos )
 	vPos += vDPos;
 }
 
+void FFillQuad::SetPos( const FVector2F & vPos_ )
+{
+	vPos = vPos_;
+}
+
+
 void FFillQuad::SetDim( const FVector2F & vDim0 )
 {
 	vDim = vDim0;

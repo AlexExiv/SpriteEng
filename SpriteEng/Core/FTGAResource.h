@@ -7,7 +7,8 @@ class FTGAResource : public FImageResource
 {
 	friend class FResourceManager;
 
-	virtual FResource * Make( void * lpData, UI32 iDataLen, FResourceManager * lpCreator );
+	FResource * Make( void * lpPlacement, void * lpData, UI32 iDataLen, FResourceManager * lpCreator );
+	UI32 GetSize()const;
 
 	FTGAResource();
 public:

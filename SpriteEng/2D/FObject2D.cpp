@@ -43,7 +43,8 @@ UI32 FObject2D::AddDataToSeq( void * lpData, UI32 * lpIndeces, UI32 iStartVert )
 	if( !lpAnimation )
 		return 0;
 
-	lpAnimation->Draw( vPos, iCurFrame, fAlpha, lpData, lpIndeces, iStartVert );
+	//FVector2F vPos_ = vPos + 0.5f*(1.f - fScale)*FVector2F( lpAnimation->GetWidth( iCurFrame ), lpAnimation->GetHeight( iCurFrame ) );
+	lpAnimation->Draw( vPos, fScale, iCurFrame, fAlpha, lpData, lpIndeces, iStartVert );
 	return 1;
 }
 
@@ -175,6 +176,12 @@ void FObject2D::Move( const FVector2F & vDPos )
 {
 	vPos += vDPos;
 }
+
+void FObject2D::SetPos( const FVector2F & vPos_ )
+{
+	vPos = vPos_;
+}
+
 
 void FObject2D::StartAnimation( const FString & sAnimName )
 {

@@ -33,9 +33,9 @@ FInterface::FInterface( FGuiScene * lpGuiScene ) : FGuiController( lpGuiScene ),
 	lpUpper = (FGuiImage *)AllocObject( "FGuiImage", "\\vector\\string\\guiview", &FVector2F( 0.f, 0.f ), &sInterfaceBack, lpMainView );
 	lpGameOver = (FGuiImage *)AllocObject( "FGuiImage", "\\vector\\string\\guiview", &FVector2F( 0.f, 0.f ), &sGameOver, lpMainView );
 	lpScore = (FGuiLabel *)AllocObject( "FGuiLabel", "\\vector\\string\\string\\color\\f\\guiview", &FVector2F( 0.f, 0.f ), &FString( "00000000" ),
-		&sDeffFont, &FColor4F( 0.f, 0.f, 0.f, 1.f ), 24.f, lpMainView );
-	lpTime = (FGuiLabel *)AllocObject( "FGuiLabel", "\\vector\\string\\string\\color\\f\\guiview", &FVector2F( 0.f, 0.f ), &FString( cTime ),
-		&sDeffFont, &FColor4F( 0.f, 0.f, 0.f, 1.f ), 24.f, lpMainView );
+		&sDeffFont, &FColor4F( 1.f, 0.f, 0.f, 1.f ), 12.f, lpMainView );
+	lpTime = (FGuiLabel *)AllocObject( "FGuiLabel", "\\vector\\string\\string\\color\\f\\guiview", &FVector2F( 0.f, 0.f ), &FString( "0" ),
+		&sDeffFont, &FColor4F( 0.f, 0.f , 0.f, 1.f ), 12.f, lpMainView );
 
 	rFrame.fLeft = 0.f;
 	rFrame.fBottom = lpGuiScene->GetHeight() - lpUpper->GetSize().fHeight;
@@ -43,8 +43,8 @@ FInterface::FInterface( FGuiScene * lpGuiScene ) : FGuiController( lpGuiScene ),
 	rFrame.fTop = lpGuiScene->GetHeight();
 	lpMainView->SetFrame( rFrame );
 
-	FVector2F vScorePos( 410, (lpUpper->GetSize().fHeight - lpScore->GetSize().fHeight)/2.f );
-	FVector2F vTimePos( 60.f, (lpUpper->GetSize().fHeight - lpScore->GetSize().fHeight)/2.f );
+	FVector2F vScorePos( 205.f, (lpUpper->GetSize().fHeight - lpScore->GetSize().fHeight)/2.f );
+	FVector2F vTimePos( 30.f, (lpUpper->GetSize().fHeight - lpScore->GetSize().fHeight)/2.f );
 	FVector2F vGOPos( (lpMainView->GetSize().fWidth - lpGameOver->GetSize().fWidth)/2.f,
 		(lpMainView->GetSize().fHeight - lpGameOver->GetSize().fHeight)/2.f );
 

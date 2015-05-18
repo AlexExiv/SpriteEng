@@ -103,11 +103,12 @@ FAtlasResource::FAtlasResource( void * lpData0, UI32 iDataLen, FResourceManager 
 	if( (2*iResSize + iDataLen) > lpCreator->GetAllocSize() )
 		throw FException( FException::EXCP_RESALLOC_INSUFFIENC, FString( "Insufficiently memory for open and decode sprite atlas"  ) );
 
-	lpCreator->ResetAllocator();
+	//lpCreator->ResetAllocator();
 	lpData = lpCreator->AllocForResource( iAtlasWidth*iAtlasHeight*sizeof( RGBA ) );
 
 	FImageResource * lpRGBRes = NULL, * lpAlphaRes = NULL;
 	void * lpRGBData = NULL, * lpAlphaData = NULL;
+	UI32 iAlphaBpp = 0;
 	try
 	{
 		if( lpHeader->iFlags & ATLAS_PACKED )
@@ -116,30 +117,39 @@ FAtlasResource::FAtlasResource( void * lpData0, UI32 iDataLen, FResourceManager 
 			{
 			case ATLAS_COMPR_RLE:
 			case ATLAS_COMPR_NONE:
-				lpRGBData = (UI8 *)lpData0 + lpHeader->iTexAtlasDataStart;
+				lpRGBData = (FBYTE *)lpData0 + lpHeader->iTexAtlasDataStart;
 				break;
 			case ATLAS_COMPR_JPG:
 				lpRGBRes = new FJPEGResource( (UI8 *)lpData0 + lpHeader->iTexAtlasDataStart, lpHeader->iRGBDataLen, lpCreator );
 				lpAlphaRes = new FJPEGResource( (UI8 *)lpData0 + lpHeader->iTexAtlasDataStart + lpHeader->iRGBDataLen, lpHeader->iAlphaDataLen, lpCreator );
+				iAlphaBpp = 1;
 				break;
 			case ATLAS_COMPR_PNG:
 				lpRGBRes = new FPNGResource( (UI8 *)lpData0 + lpHeader->iTexAtlasDataStart, lpHeader->iRGBDataLen, lpCreator );
 				break;
 			}
-
-			lpRGBData = lpRGBRes->GetData();
+			if( lpRGBRes )
+				lpRGBData = lpRGBRes->GetData();
 			if( lpAlphaRes )
 				lpAlphaData = lpAlphaRes->GetData();
 		}
 		else
 		{
-			FString sRGBName = lpStrTable + lpHeader->iAtlasNameOff;
-			FString sAlphaName = lpStrTable + lpHeader->iAtlasAlphaNameOff;
+			FString sRGBName = FString( "bundle\\" ) + FString(lpStrTable + lpHeader->iAtlasNameOff);
+			FString sAlphaName = FString( "bundle\\" ) + FString(lpStrTable + lpHeader->iAtlasAlphaNameOff);
 
 			lpRGBRes = (FImageResource *)lpCreator->CreateResource( sRGBName );
-			lpAlphaRes = (FImageResource *)lpCreator->CreateResource( sAlphaName );
+			if( lpHeader->iFlags & ATLAS_ALPHA )
+				lpAlphaRes = (FImageResource *)lpCreator->CreateResource( sAlphaName );
+
+			if( !lpRGBRes )
+				throw FException( FException::EXCP_FILE_NOT_FOUND, FString::PrintString( "Atlas image file \"%s\" not found", sRGBName.GetChar() ));
+			if( !lpAlphaRes )
+				throw FException( FException::EXCP_FILE_NOT_FOUND, FString::PrintString( "Atlas alpha file \"%s\" not found", sAlphaName.GetChar() ));
+			
 			lpRGBData = lpRGBRes->GetData();
 			lpAlphaData = lpAlphaRes->GetData();
+			iAlphaBpp = lpAlphaRes->GetBpp();
 		}
 
 		if( lpHeader->iFlags & ATLAS_RGB )
@@ -156,31 +166,37 @@ FAtlasResource::FAtlasResource( void * lpData0, UI32 iDataLen, FResourceManager 
 		if( lpHeader->iFlags & ATLAS_ALPHA )
 		{
 			RGBA * lpDst = (RGBA *)lpData;
-			UI8 * lpSrc = (UI8 *)lpAlphaData;
-			for( UI32 i = 0;i < (iAtlasWidth*iAtlasHeight);i++, lpDst++, lpSrc++ )
+			FBYTE * lpSrc = (FBYTE *)lpAlphaData + iAlphaBpp - 1;
+			for( UI32 i = 0;i < (iAtlasWidth*iAtlasHeight);i++, lpDst++, lpSrc += iAlphaBpp )
 				lpDst->a = *lpSrc;
 		}
 		if( lpHeader->iFlags & ATLAS_RGBA )
 		{
 			RGBA * lpDst = (RGBA *)lpData;
-			RGBA * lpSrc = (RGBA *)lpAlphaData;
+			RGBA * lpSrc = (RGBA *)lpRGBData;
 			for( UI32 i = 0;i < (iAtlasWidth*iAtlasHeight);i++, lpDst++, lpSrc++ )
 				*lpDst = *lpSrc;
 		}
 	}
 	catch( FException eExcp )
 	{
-		if( lpRGBRes )
-			delete lpRGBRes;
-		if( lpAlphaRes )
-			delete lpAlphaRes;
+		//if( lpRGBRes )
+		//	delete lpRGBRes;
+		//if( lpAlphaRes )
+		//	delete lpAlphaRes;
 
-		throw;
+		for( UI32 i = 0;i < iAddCount;i++ )
+		{
+			if( lpAdds[i].iType == FAtlasResource::TYPE_STR )
+				lpAdds[i].lpStr->~FString();
+		}
+
+		throw eExcp;
 	}
-	if( lpRGBRes )
-		delete lpRGBRes;
-	if( lpAlphaRes )
-		delete lpAlphaRes;
+	//if( lpRGBRes )
+	//	delete lpRGBRes;
+	//if( lpAlphaRes )
+	//	delete lpAlphaRes;
 }
 
 FAtlasResource::FAtlasResource() : FResource( sAtlasExt, FString( "Atlas file" ) )
@@ -196,10 +212,16 @@ FAtlasResource::~FAtlasResource( )
 	}
 }
 
-FResource * FAtlasResource::Make( void * lpData, UI32 iDataLen, FResourceManager * lpCreator )
+FResource * FAtlasResource::Make( void * lpPlacement, void * lpData, UI32 iDataLen, FResourceManager * lpCreator )
 {
-	return new FAtlasResource( lpData, iDataLen, lpCreator );
+	return new (lpPlacement) FAtlasResource( lpData, iDataLen, lpCreator );
 }
+
+UI32 FAtlasResource::GetSize()const
+{
+	return sizeof( FAtlasResource );
+}
+
 
 void FAtlasResource::SaveResource( void ** lpData, UI32 & iImgSize )
 {

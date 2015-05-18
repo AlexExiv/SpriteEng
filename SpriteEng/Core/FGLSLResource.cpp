@@ -447,10 +447,16 @@ void FGLSLResource::GetBlockParams( UI32 iIndex, FString & sTexName, UI32 & iBlo
 	iBlock = aTextureArray[iIndex]->iBlock;
 }
 
-FResource * FGLSLResource::Make( void * lpData, UI32 iDataLen, FResourceManager * lpCreator ) 
+FResource * FGLSLResource::Make( void * lpPlacement, void * lpData, UI32 iDataLen, FResourceManager * lpCreator ) 
 {
-	return new FGLSLResource( lpData, iDataLen, lpCreator );
+	return new (lpPlacement) FGLSLResource( lpData, iDataLen, lpCreator );
 }
+
+UI32 FGLSLResource::GetSize()const
+{
+	return sizeof( FGLSLResource );
+}
+
 
 void FGLSLResource::SaveResource( void ** lpData, UI32 & iDataSize )
 {

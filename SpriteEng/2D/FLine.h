@@ -39,6 +39,7 @@ public:
 	void SetLineWidth( F32 fLineWidth );
 	void SetLineColor( const FColor4F & cColor );
 	void Move( const FVector2F & vVec );
+	void SetPos( const FVector2F & vPos );
 	void SetPoints( const FVector2F & vStart, const FVector2F & vEnd );
 	PRIM_ID GetID()const;
 };

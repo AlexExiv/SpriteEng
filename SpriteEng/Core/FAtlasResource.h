@@ -59,8 +59,9 @@ protected:
 	FAtlasResource( void * lpData, UI32 iDataLen, FResourceManager * lpCreator );
 	FAtlasResource();
 
-	virtual FResource * Make( void * lpData, UI32 iDataLen, FResourceManager * lpCreator );
+	FResource * Make( void * lpPlacement, void * lpData, UI32 iDataLen, FResourceManager * lpCreator );
 	void SaveResource( void ** lpData, UI32 & iImgSize );
+	UI32 GetSize()const;
 
 public:
 	~FAtlasResource( );

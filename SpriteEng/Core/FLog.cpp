@@ -19,7 +19,7 @@ public:
 	void PutString( const CHAR_ * lpFormat, va_list lpArgs );
 };
 
-FDebugConsole::FDebugConsole() : FLogOutput( FLogOutput::LOG_ERROR | FLogOutput::LOG_WARNING )
+FDebugConsole::FDebugConsole() : FLogOutput( FLogOutput::LOG_ERROR | FLogOutput::LOG_WARNING | FLogOutput::LOG_MESSAGE )
 {
 }
 
@@ -74,8 +74,8 @@ namespace FLog
 		iWarnLen = strlen( lpWarningL );
 	UI32 iEndLen = strlen( lpEndL );
 
-	typedef FList<FLogOutput *> FLogList;
-	typedef FList<FLogOutput *>::Iterator FLogIterator;
+	typedef FList<FLogOutput *, FFreePointer__<FLogOutput *>> FLogList;
+	typedef FList<FLogOutput *, FFreePointer__<FLogOutput *>>::Iterator FLogIterator;
 
 	FLogList lLogList;
 

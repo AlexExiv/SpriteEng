@@ -28,7 +28,7 @@ protected:
 		F32 u0, v0;
 		F32 u1, v1;
 
-		UI32 iWidth, iHeight;
+		F32 fWidth, fHeight;
 	};
 
 	typedef FDictionary<FAnimation *> FAnimationDict;
@@ -49,11 +49,11 @@ public:
 	FAnimation2D( const FString & sName );
 	~FAnimation2D();
 
-	UI32 GetWidth( UI32 iFrame )const;
-	UI32 GetHeight( UI32 iFrame )const;
+	F32 GetWidth( UI32 iFrame )const;
+	F32 GetHeight( UI32 iFrame )const;
 	void GetAnimInf( const FString & sAnimName, FAnimation * lpInfo );
 
-	void Draw( const FVector2F & vPos, UI32 iFrameIndex, F32 fAlpha, void * lpData, UI32 * lpIndeces, UI32 iStartVert );
+	void Draw( const FVector2F & vPos, F32 fScale, UI32 iFrameIndex, F32 fAlpha, void * lpData, UI32 * lpIndeces, UI32 iStartVert );
 
 	UI32 GetDrawContCount()const;
 	const FDrawDataCont * GetDrawDataCont()const;

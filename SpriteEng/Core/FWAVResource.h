@@ -10,7 +10,8 @@ protected:
 	UI32 iSampleRate, iNumChan, iBitsPerSample;
 	F32 FWavLen;
 
-	FResource * Make( void * lpData, UI32 iDataLen, FResourceManager * lpCreator );
+	FResource * Make( void * lpPlacement, void * lpData, UI32 iDataLen, FResourceManager * lpCreator );
+	UI32 GetSize()const;
 	void SaveResource( void ** lpData, UI32 & iDataSize );
 
 public:

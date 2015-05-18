@@ -41,6 +41,7 @@ public:
 	void Update( F32 fDTime );
 
 	void Move( const FVector2F & vDPos );
+	void SetPos( const FVector2F & vPos );
 };
 
 #endif

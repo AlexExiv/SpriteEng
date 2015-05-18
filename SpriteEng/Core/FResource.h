@@ -16,8 +16,9 @@ protected:
 	void * lpData;
 	bool bRemoveData;
 
-	virtual FResource * Make( void * lpData, UI32 iDataLen, FResourceManager * lpCreator ) = 0;
+	virtual FResource * Make( void * lpPlacement, void * lpData, UI32 iDataLen, FResourceManager * lpCreator ) = 0;
 	virtual void SaveResource( void ** lpData, UI32 & iDataSize ) = 0;
+	virtual UI32 GetSize()const = 0;
 
 	bool IsExtEqual( const FString & sExtStr );
 	FResource( const FString & sExtStr, FResourceManager * lpCreator );

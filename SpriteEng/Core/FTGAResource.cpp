@@ -100,8 +100,12 @@ FTGAResource::~FTGAResource()
 }
 
 
-FResource * FTGAResource::Make( void * lpData, UI32 iDataLen, FResourceManager * lpCreator )
+FResource * FTGAResource::Make( void * lpPlacement, void * lpData, UI32 iDataLen, FResourceManager * lpCreator )
 {
-	return new FTGAResource( lpData, iDataLen, lpCreator );
+	return new (lpPlacement) FTGAResource( lpData, iDataLen, lpCreator );
 }
 
+UI32 FTGAResource::GetSize()const
+{
+	return sizeof( FTGAResource );
+}

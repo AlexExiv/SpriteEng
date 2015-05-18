@@ -34,13 +34,12 @@ void FGuiView::SetSuperView( FGuiView * lpSuperView_ )
 	lpSuperView = lpSuperView_;
 }
 
-void FGuiView::CalcPrimitivePos( const FVector2F & vOldPos )
+void FGuiView::CalcPrimitivePos( const FVector2F & vDPos )
 {
 	FGuiViewIterator iIt = lGuiViewList.Begin();
 	for(;iIt != lGuiViewList.End();iIt++ )
-		iIt->CalcPrimitivePos( vOldPos );
+		iIt->CalcPrimitivePos( vDPos );
 
-	FVector2F vDPos = FVector2F( rFrame.fLeft, rFrame.fBottom ) - vOldPos;
 	FPrimitiveIterator iItPrim = lPrimitiveList.Begin();
 	for(;iItPrim != lPrimitiveList.End();iItPrim++)
 		iItPrim->Move( vDPos );
@@ -102,7 +101,7 @@ void FGuiView::SetFrame( const FRect & rFrame_ )
 {
 	FVector2F vOldPos( rFrame.fLeft, rFrame.fBottom );
 	rFrame = rFrame_;
-	CalcPrimitivePos( vOldPos );
+	CalcPrimitivePos( FVector2F( rFrame.fLeft, rFrame.fBottom ) - vOldPos );
 }
 
 void FGuiView::SetPos( const FVector2F & vPos )
@@ -110,7 +109,7 @@ void FGuiView::SetPos( const FVector2F & vPos )
 	FVector2F vOldPos( rFrame.fLeft, rFrame.fBottom );
 	rFrame.fLeft = vPos.x;
 	rFrame.fBottom = vPos.y;
-	CalcPrimitivePos( vOldPos );
+	CalcPrimitivePos( FVector2F( rFrame.fLeft, rFrame.fBottom ) - vOldPos );
 }
 
 void FGuiView::SetSize( const FVector2F & vSize )

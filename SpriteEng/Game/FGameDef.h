@@ -56,7 +56,7 @@ extern const FString sAttentionAttackSoon;
 #define ATTENTION_NEXT_ATTACK_MIN_TIME 1200.f
 #define ATTENTION_NEXT_ATTACK_TIME_DIV 600
 
-#define NUMBER_SIZE 32.f
+#define NUMBER_SIZE 16.f
 #define NUMBER_IN_LINE 9
 
 #define MAX_CLICK 5

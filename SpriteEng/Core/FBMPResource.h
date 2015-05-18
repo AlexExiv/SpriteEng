@@ -7,8 +7,9 @@ class FBMPResource : public FImageResource
 {
 	friend class FResourceManager;
 
-	virtual FResource * Make( void * lpData, UI32 iDataLen, FResourceManager * lpCreator );
+	virtual FResource * Make( void * lpPlacement, void * lpData, UI32 iDataLen, FResourceManager * lpCreator );
 	void SaveResource( void ** lpData, UI32 & iImgSize );
+	UI32 GetSize()const;
 	FBMPResource();
 
 public:

@@ -13,7 +13,7 @@
 #include "FArithWorld.h"
 //#include "../Sound/FSoundManager.h"
 #include "../Core/FFile.h"
-
+#include "..\Core\FLog.h"
 
 #define CUR_VER 2
 
@@ -55,7 +55,8 @@ FDigit::FDigit( FArithWorld * lpWorld ) : FGameObject( FGameObject::OBJECT_DIGIT
     Init();
 }
 
-FDigit::FDigit( const FVector2F & vPos, UI32 iNum, FArithWorld * lpWorld ) : FGameObject( vPos, FGameObject::OBJECT_DIGIT, lpWorld ), lpAnimation( NULL ), lpLabel( NULL ), iNum( iNum ), lpNext( NULL ), lpMirror( NULL ), fDestrTime( 0.f )
+FDigit::FDigit( const FVector2F & vPos, UI32 iNum, FArithWorld * lpWorld ) : FGameObject( vPos, FGameObject::OBJECT_DIGIT, lpWorld ), 
+	lpAnimation( NULL ), lpLabel( NULL ), iNum( iNum ), lpNext( NULL ), lpMirror( NULL ), fDestrTime( 0.f )
 {
     Init();
 	fXLine = ((lpWorld->GetWorldHeight() - vPos.y)/GetHeight() - 1.f)*GetFieldWidth() + vPos.x;
@@ -98,10 +99,10 @@ void FDigit::CenterLabel()
     if( !lpLabel )
         return;
     
-    F32 fLabX = lpAnimation->GetX() + (lpAnimation->GetScaleWidth() - lpLabel->GetTextWidth())/2.f;
-    F32 fLabY = lpAnimation->GetY() + (lpAnimation->GetScaleHeight() - lpLabel->GetTextHeight())/2.f;
+    F32 fLabX = lpAnimation->GetX() + (lpAnimation->GetScaleWidth() - lpLabel->GetScaleTextWidth())/2.f;
+    F32 fLabY = lpAnimation->GetY() + (lpAnimation->GetScaleHeight() - lpLabel->GetScaleTextHeight())/2.f;
     
-    lpLabel->Move( FVector2F( fLabX, fLabY ) );
+    lpLabel->SetPos( FVector2F( fLabX, fLabY ) );
 }
 
 FDigit * FDigit::CreateMirror( const FVector2F & vMirrorPos )
@@ -153,7 +154,7 @@ void FDigit::BornDigit( F32 fDTime )
         lpAnimation->Scale( 3.f );
         lpLabel->Scale( 3.f );
     }
-	lpAnimation->Move( FVector2F( (lpWorld->GetWorldWidth() - lpAnimation->GetScaleWidth())/2.f, 20.f ) );
+	lpAnimation->SetPos( FVector2F( (lpWorld->GetWorldWidth() - lpAnimation->GetScaleWidth())/2.f, 20.f ) );
     CenterLabel();
 }
 
@@ -162,7 +163,7 @@ void FDigit::Move2Pos( F32 fDTime )
     fDestrTime += fDTime;
     F32 xn = (lpWorld->GetWorldWidth() - lpAnimation->GetScaleWidth())/2.f + (fDestrTime/DIGIT_MOVE_TIME)*(vPos.x - (lpWorld->GetWorldWidth() - lpAnimation->GetScaleWidth())/2.f),
     yn = 20.f + (fDestrTime/DIGIT_MOVE_TIME)*(vPos.y - 20.f);
-    lpAnimation->Move( FVector2F( xn, yn ) );
+    lpAnimation->SetPos( FVector2F( xn, yn ) );
     F32 fScale = 4.f - 3.f*fDestrTime/DIGIT_MOVE_TIME;
     lpAnimation->Scale( fScale );
     lpLabel->Scale( fScale );
@@ -173,7 +174,7 @@ void FDigit::Move2Pos( F32 fDTime )
         fDestrTime = 0.f;
         lpAnimation->Scale( 1.f );
         lpLabel->Scale( 1.f );
-        lpAnimation->Move( vPos );
+        lpAnimation->SetPos( vPos );
     }
     
     CenterLabel();
@@ -254,6 +255,8 @@ void FDigit::StrideLeft( F32 fDTime )
 	//вычисляем реальные координаты из виртуальных
     vPos.x = F32(I32( fXLine ) % iFieldW) + (fXLine - F32( I32(fXLine) ));
 	vPos.y = lpWorld->GetWorldHeight() - (I32( fXLine )/iFieldW + 1)*GetHeight();
+	//FLog::PutMessage( "FDigit pos: %f, %f", vPos.x, vPos.y );
+
 	//если х + ширина цифры больше ширины игрового поля, то значит цифра у нас в стадии переноса на новую строку и не видна полность, необходимо зеркало
     if( ((vPos.x + GetWidth()) > iFieldW) && !IsBorning() )
     {
@@ -289,7 +292,7 @@ bool FDigit::IsFirst()const
 void FDigit::Move( const FVector2F & vPos_ )
 {
     FGameObject::Move( vPos_ );
-    lpAnimation->Move( vPos_ );
+    lpAnimation->SetPos( vPos_ );
     CenterLabel();
 }
 
@@ -382,7 +385,7 @@ UI32 FDigit::Load( void * lpData )
 	lpLabel = (FText *)AllocObject( "FText", "\\vector\\color\\f\\string\\string\\ui\\scene", &vPos, &FColor4F( 0.f, 0.f, 0.f, 1.f ), NUMBER_SIZE, &FString( iNum ), &sDeffFont, 1, lpWorld->GetScene() );
     
 	fXLine = ((lpWorld->GetWorldHeight() - vPos.y)/GetHeight() - 1.f)*GetFieldWidth() + vPos.x;
-    lpAnimation->Move( vPos );
+    lpAnimation->SetPos( vPos );
     lpAnimation->Scale( 1.f );
     lpLabel->Scale( 1.f );
     lpLabel->SetFontSize( NUMBER_SIZE );

@@ -30,7 +30,8 @@ protected:
 	FImageResource( void * lpData, const FString & sExtStr, FResourceManager * lpCreator );
 	FImageResource( const FString & sExtStr );
 	FImageResource( UI32 iWidth, UI32 iHeight, void * lpData, UI32 iFormat, const FString & sExtStr );
-	virtual FResource * Make( void * lpData, UI32 iDataLen, FResourceManager * lpCreator );
+	virtual FResource * Make( void * lpPlacement, void * lpData, UI32 iDataLen, FResourceManager * lpCreator );
+	UI32 GetSize()const;
 	virtual void SaveResource( void ** lpBuffer, UI32 & iDataSize ){};
 
 public:

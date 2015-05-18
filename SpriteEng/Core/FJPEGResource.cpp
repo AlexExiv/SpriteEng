@@ -234,7 +234,7 @@ FJPEGResource::FJPEGResource( void * lpData0, UI32 iDataLen, FResourceManager * 
 	{
 		jpeg_finish_decompress( &jInfo );
 		jpeg_destroy_decompress( &jInfo );
-		throw;
+		throw eExcp;
 	}
 }
 
@@ -296,10 +296,16 @@ void FJPEGResource::SaveResource( void ** lpData, UI32 & iImgSize )
 	iImgSize = iDataSize;
 }
 
-FResource * FJPEGResource::Make( void * lpData, UI32 iDataLen, FResourceManager * lpCreator )
+FResource * FJPEGResource::Make( void * lpPlacement, void * lpData, UI32 iDataLen, FResourceManager * lpCreator )
 {
-	return new FJPEGResource( lpData, iDataLen, lpCreator );
+	return new (lpPlacement) FJPEGResource( lpData, iDataLen, lpCreator );
 }
+
+UI32 FJPEGResource::GetSize()const
+{
+	return sizeof( FJPEGResource );
+}
+
 
 void FJPEGResource::SetQuality( I32 iQuality0 )
 {

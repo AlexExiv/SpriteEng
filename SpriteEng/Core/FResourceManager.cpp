@@ -14,7 +14,8 @@
 
 FResourceManager * FResourceManager::lpManager = NULL;
 
-FResourceManager::FResourceManager( UI32 iResAllocSize ) : iResAllocSize( iResAllocSize ), iCurAlloc( 0 ), lpData( NULL )
+FResourceManager::FResourceManager( UI32 iResAllocSize ) : iResAllocSize( iResAllocSize ), iCurAlloc( 0 ), lpData( NULL ), iMaxResSize( 0 ),
+	iAllocCount( 0 ), lpResData( NULL )
 {
 	RegisterResource( new FBMPResource() );
 	RegisterResource( new FTGAResource() );
@@ -24,6 +25,7 @@ FResourceManager::FResourceManager( UI32 iResAllocSize ) : iResAllocSize( iResAl
 	RegisterResource( new FGLSLResource() );
 
 	lpData = (FBYTE *)FMalloc( iResAllocSize );
+	lpResData = (FBYTE *)FMalloc( iMaxResSize*RESOURCE_COUNT );
 	AssertFatal( lpData, "Can't allocate memory for resources" );
 }
 
@@ -35,14 +37,37 @@ void FResourceManager::RegisterResource( FResource * lpResource )
 		if( (*iIt)->IsExtEqual( lpResource->sExtStr ) )
 			return;
 	}
-
+	iMaxResSize = max( iMaxResSize, lpResource->GetSize() );
 	lResources.PushBack( lpResource );
+}
+
+void * FResourceManager::AllocRes()
+{
+	if( iAllocCount == RESOURCE_COUNT )
+	{
+		DestructAllRes();
+		iAllocCount = 0;
+	}
+
+	void * lpRet = lpResData + iAllocCount*iMaxResSize;
+	iAllocCount++;
+	return lpRet;
+}
+
+void FResourceManager::DestructAllRes()
+{
+	for( UI32 i = 0;i < iAllocCount;i++ )
+		((FResource *)(lpResData + i*iMaxResSize))->~FResource();
 }
 
 FResourceManager::~FResourceManager()
 {
+	DestructAllRes();
+
 	if( lpData )
 		FFree( lpData );
+	if( lpResData )
+		FFree( lpResData );
 
 	FResourceIterator iIt = lResources.Begin();
 	for(;iIt != lResources.End();iIt++ )
@@ -76,9 +101,9 @@ FResource * FResourceManager::CreateResource( const FString & sFileName )
 		lpFile->GetData( lpData_ );
 		for(;iIt != lResources.End();iIt++ )
 		{
-			if( (*iIt)->IsExtEqual( sFileExt ) )
+			if( iIt->IsExtEqual( sFileExt ) )
 			{
-				lpRes = (*iIt)->Make( lpData_, lpFile->GetSize(), this );
+				lpRes = iIt->Make( AllocRes(), lpData_, lpFile->GetSize(), this );
 				break;
 			}
 		}
@@ -102,9 +127,9 @@ FResource * FResourceManager::CreateResource( const FString & sFileName )
 			FLog::PutError( eExcp.GetMessage() );
 		};
 
-		if( lpRes )
-			delete lpRes;
-		lpRes = NULL;
+		//if( lpRes )
+		//	delete lpRes;
+		//lpRes = NULL;
 	}
 
 	FFile::CloseFile( lpFile );
@@ -139,6 +164,9 @@ void * FResourceManager::AllocForResource( UI32 iSize )
 {
 	if( iSize > iResAllocSize )
 		throw FException( FException::EXCP_RESALLOC_INSUFFIENC, FString::PrintString( "Insuffience memory for resource allocator, need: %i", iSize ) );
+
+	if( iSize >= (iResAllocSize/4) )
+		FLog::PutWarning( "Allocated resource size(%i byte) is more then 25\% from all resource heap size, loaded data might be overlapped", iSize );
 
 	if( (iCurAlloc + iSize) >= iResAllocSize )
 		iCurAlloc = 0;

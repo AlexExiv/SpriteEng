@@ -35,6 +35,7 @@ public:
 
 	PRIM_ID GetID()const;
 	void Move( const FVector2F & vDPos );
+	void SetPos( const FVector2F & vPos );
 	void SetDim( const FVector2F & vDim );
 	void SetColor( const FColor4F & cColor );
 };

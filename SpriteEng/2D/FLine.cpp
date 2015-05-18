@@ -71,6 +71,13 @@ void FLine::Move( const FVector2F & vDPos )
 	vEnd += vDPos;
 }
 
+void FLine::SetPos( const FVector2F & vPos_ )
+{
+	FVector2F vOldPos = vStart;
+	vStart = vPos_;
+	vEnd += (vStart - vOldPos);
+}
+
 void FLine::SetPoints( const FVector2F & vStart0, const FVector2F & vEnd0 )
 {
 	vStart = vStart0;

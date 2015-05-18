@@ -127,7 +127,13 @@ void FBMPResource::SaveResource( void ** lpBuffer, UI32 & iImgSize )
 	memcpy( ((UI8 *)(*lpBuffer)) + sizeof( BITMAPFILEHEADER ) + sizeof( BITMAPINFOHEADER ), lpAligData, lpBmp->biSizeImage );
 }
 
-FResource * FBMPResource::Make( void *lpData, UI32 iDataLen, FResourceManager * lpCreator )
+UI32 FBMPResource::GetSize()const
 {
-	return new FBMPResource( lpData, iDataLen, lpCreator );
+	return sizeof( FBMPResource );
+}
+
+
+FResource * FBMPResource::Make( void * lpPlacement, void *lpData, UI32 iDataLen, FResourceManager * lpCreator )
+{
+	return new (lpPlacement) FBMPResource( lpData, iDataLen, lpCreator );
 }

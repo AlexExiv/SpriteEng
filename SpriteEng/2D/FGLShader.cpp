@@ -62,6 +62,7 @@ FGLShader::FGLShader( const FString & sName ) : FShader( sName ), iProgramID( 0 
 			throw FException( FException::EXCP_UNK_FILE_FORMAT, FString( cBuffer ) );
 		}
 		
+		Bind();
 		for( UI32 i = 0;i < lpRes->GetBlockCount();i++ )
 		{
 			FString sTexName;
@@ -70,12 +71,14 @@ FGLShader::FGLShader( const FString & sName ) : FShader( sName ), iProgramID( 0 
 			FTextureBlock * lpBlock = new FTextureBlock;
 			lpBlock->iBlock = iBlock;
 			dTextureDict.AddRecord( sTexName, lpBlock );
+			SetTexture( sTexName, iBlock );
 		}
+		UnBind();
 	}
 	catch( FException eExcp )
 	{
-		if( lpRes )
-			delete lpRes;
+		//if( lpRes )
+		//	delete lpRes;
 
 		glDetachObject( iProgramID, iVertexID );
 		glDetachObject( iProgramID, iFragmentID );
@@ -85,7 +88,7 @@ FGLShader::FGLShader( const FString & sName ) : FShader( sName ), iProgramID( 0 
 
 		throw eExcp;
 	}
-	delete lpRes;
+	//delete lpRes;
 }
 
 FGLShader::~FGLShader()

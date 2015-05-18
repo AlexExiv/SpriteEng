@@ -14,12 +14,12 @@ class FGame;
 class FWorld : public FObject
 {
 protected:
-	typedef FList<FObject *> FObjectList;
-	typedef FList<FObject *>::Iterator FObjectIterator;
+	//typedef FList<FObject *, FFreePointer__<FObject *>> FObjectList;
+	//typedef FList<FObject *, FFreePointer__<FObject *>>::Iterator FObjectIterator;
 
 	FScene * lpScene;
 	FGame * lpGame;
-	FObjectList lObjectList;
+	//FObjectList lObjectList;
 	F32 fWorldWidth, fWorldHeight;
 
 	FWorld( const FWorld & wWorld ) ;

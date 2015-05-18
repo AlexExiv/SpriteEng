@@ -35,7 +35,7 @@ struct FGameBlock
 
 const FString sDeffFont( "bundle\\digit2.fnt" );
 const FString sScoreFont( "bundle\\comic.fnt" );
-const FString sInterfaceBack( "bundle\\scoresback.bmp" );
+const FString sInterfaceBack( "bundle\\scoresback.png" );
 const FString sGameOver( "bundle\\gmn.bmp" );
 const FString sCellBack( "bundle\\cellback.adf" );
 const FString sPartName( "bundle\\stars.adf" );

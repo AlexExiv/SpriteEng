@@ -73,6 +73,12 @@ void FImage2D::Move( const FVector2F & vDPos )
 	vPos += vDPos;
 }
 
+void FImage2D::SetPos( const FVector2F & vPos_ )
+{
+	vPos = vPos_;
+}
+
+
 PRIM_ID FImage2D::GetID()const
 {
 	return PRIM_ID( lpTexture );

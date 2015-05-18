@@ -10,7 +10,9 @@ FGLView::FGLView( UI32 iWidth, UI32 iHeight ) : FView( iWidth, iHeight ), iCurSt
 {
 	initExtensions();
 	glViewport( 0, 0, iWidth, iHeight );
-	glOrtho( 0.f, 1.f, 0.f, 1.f, 0.1f, 1.f );
+	glMatrixMode( GL_PROJECTION );
+	glLoadIdentity();
+	glOrtho( 0.f, iWidth, 0.f, iHeight, -1.f, 1.f );
 }
 
 FGLView::~FGLView()
@@ -171,9 +173,12 @@ void FGLView::DrawIndexed( UI32 iPrimType, UI32 iPrimCount, const void * lpIndec
 
 void FGLView::BeginDraw()
 {
-	glClearColor( 1.f, 0.f, 0.f, 1.f );
-	glClear( GL_COLOR_BUFFER_BIT );
+	glClearColor( 0.1f, 0.1f, 0.1f, 1.f );
+	glClearDepth( 1.f );
+	glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 	glDisable( GL_DEPTH_TEST );
+	glMatrixMode( GL_MODELVIEW );
+	glLoadIdentity();
 }
 
 void FGLView::EndDraw()
@@ -198,9 +203,9 @@ FTexture * FGLView::CreateTexture( FGraphObject * lpPlacement, const FString & s
 	return new (lpPlacement ) FGLTexture( sName, lpImg );
 }
 
-FTexture * FGLView::CreateTexture( const FString & sName, UI32 iWdth, UI32 iHeight, UI32 iFormat )
+FTexture * FGLView::CreateTexture( const FString & sName, UI32 iWidth_, UI32 iHeight_, UI32 iFormat )
 {
-	return new FGLTexture( sName, iWidth, iHeight, iFormat );
+	return new FGLTexture( sName, iWidth_, iHeight_, iFormat );
 }
 
 FShader * FGLView::CreateShader( FGraphObject * lpPlacement, const FString & sShaderName )

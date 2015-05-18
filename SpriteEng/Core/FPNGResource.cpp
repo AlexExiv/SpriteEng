@@ -138,7 +138,7 @@ FPNGResource::FPNGResource( void * lpData0, UI32 iDataLen, FResourceManager * lp
 	lpData = lpCreator->AllocForResource( iWidth*iHeight*iBpp );
 	png_bytep * lpRow = (png_bytep *)PUSH_BLOCKT( iHeight*sizeof( png_bytep * ) );
 	for( I32 i = 0;i < iHeight;i++ )
-		lpRow[iHeight - i - 1] = ((UI8 *)lpData) + i*iWidth*iBpp;
+		lpRow[i] = ((FBYTE *)lpData) + i*iWidth*iBpp;
 	png_read_image( lpPng, lpRow );
 
 	POP_BLOCK;
@@ -227,9 +227,14 @@ FPNGResource::~FPNGResource()
 //	png_destroy_read_struct( &lpPng, &lpInfo, NULL );
 //}
 
-FResource * FPNGResource::Make( void * lpData, UI32 iDataLen, FResourceManager * lpCreator )
+FResource * FPNGResource::Make( void * lpPlacement, void * lpData, UI32 iDataLen, FResourceManager * lpCreator )
 {
-	return new FPNGResource( lpData, iDataLen, lpCreator );
+	return new (lpPlacement) FPNGResource( lpData, iDataLen, lpCreator );
+}
+
+UI32 FPNGResource::GetSize()const
+{
+	return sizeof( FPNGResource );
 }
 
 void FPNGResource::SaveResource( void ** lpData0, UI32 & iImgSize )

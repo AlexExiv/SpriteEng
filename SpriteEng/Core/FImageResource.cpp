@@ -249,6 +249,7 @@ void FImageResource::AddAlphaData( FImageResource * lpImage )
 			lpDst->g = lpSrc->g;
 			lpDst->b = lpSrc->b;
 		}
+		iFormat = IMAGE_RGBA;
 	}
 
 	RGBA * lpDst = (RGBA *)lpNewData;
@@ -282,7 +283,13 @@ void FImageResource::AddAlphaData( FImageResource * lpImage )
 	lpData = lpNewData;
 }
 
-FResource * FImageResource::Make( void * lpData, UI32 iDataLen, FResourceManager * lpCreator )
+UI32 FImageResource::GetSize()const
+{
+	return 0 ;
+}
+
+
+FResource * FImageResource::Make( void * lpPlacement, void * lpData, UI32 iDataLen, FResourceManager * lpCreator )
 {
 	return NULL;
 }

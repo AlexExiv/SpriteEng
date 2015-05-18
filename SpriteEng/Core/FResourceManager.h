@@ -11,7 +11,8 @@ class FResourceManager
 {
 	enum
 	{
-		RESOURCE_ALLOC_SIZE = (10*1024*1024)
+		RESOURCE_ALLOC_SIZE = (10*1024*1024),
+		RESOURCE_COUNT = 16
 	};
 
 	typedef FList<FResource *> FResourcesList;
@@ -21,12 +22,16 @@ class FResourceManager
 	FResourcesList lResources;
 	UI32 iResAllocSize, iCurAlloc;
 	FBYTE * lpData;
+	UI32 iMaxResSize, iAllocCount;
+	FBYTE * lpResData;
 
 	FResourceManager( UI32 iResAllocSize );
 	FResourceManager( const FResourceManager & );
 	FResourceManager & operator = ( const FResourceManager& );
 
 	void RegisterResource( FResource * lpResource );
+	void * AllocRes();
+	void DestructAllRes();
 
 public:
 	~FResourceManager();

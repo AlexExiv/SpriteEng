@@ -29,6 +29,9 @@ void FSerialSeq::BeginBuildSeq()
 
 void FSerialSeq::AddPrimitive( FPrimitive * lpPrim )
 {
+	if( !lpPrim->IsVisible() )
+		return;
+
 	if( iAllocCount == iMaxPrimitives )
 	{
 		FLog::PutError( "Primitive count is insuffience" );

@@ -71,6 +71,7 @@ public:
 	void Show( bool bShow );
 	void Scale( F32 fScale );
 	virtual void Move( const FVector2F & vDPos );
+	virtual void SetPos( const FVector2F & vPos );
 	virtual PRIM_ID GetID()const;
 	void UpToFrontView();
 	void DownToBackView();

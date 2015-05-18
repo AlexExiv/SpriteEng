@@ -142,6 +142,10 @@ void FPrimitive::Move( const FVector2F & vPos )
 {
 }
 
+void FPrimitive::SetPos( const FVector2F & vPos )
+{
+}
+
 void FPrimitive::Show( bool bShow_ )
 {
 	bShow = bShow_;

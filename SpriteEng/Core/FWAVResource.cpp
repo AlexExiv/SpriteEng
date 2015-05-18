@@ -30,9 +30,15 @@ FWAVResource::~FWAVResource()
 {
 }
 
-FResource * FWAVResource::Make( void * lpData, UI32 iDataLen, FResourceManager * lpCreator )
+UI32 FWAVResource::GetSize()const
 {
-	return new FWAVResource( lpData, iDataLen, lpCreator );
+	return sizeof( FWAVResource );
+}
+
+
+FResource * FWAVResource::Make( void * lpPlacement, void * lpData, UI32 iDataLen, FResourceManager * lpCreator )
+{
+	return new (lpPlacement) FWAVResource( lpData, iDataLen, lpCreator );
 }
 
 void FWAVResource::SaveResource( void ** lpData, UI32 & iDataSize )

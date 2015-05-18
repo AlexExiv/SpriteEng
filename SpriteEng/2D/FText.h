@@ -46,6 +46,7 @@ public:
 
 	void SetText( const FString & sText );
 	void Move( const FVector2F & vDPos );
+	void SetPos( const FVector2F & vPos );
 	void SetColor( const FColor4F & cColor );
 	void ChangeFont( const FString & sFontName );
 	void SetFontSize( F32 fFontSize );
@@ -56,6 +57,8 @@ public:
 	F32 GetFontSize()const;
 	F32 GetTextWidth()const;
 	F32 GetTextHeight()const;
+	F32 GetScaleTextWidth()const;
+	F32 GetScaleTextHeight()const;
 };
 
 #endif

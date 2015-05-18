@@ -50,7 +50,8 @@ UI32 FText::AddDataToSeq( void * lpData, UI32 * lpIndeces, UI32 iStartVert )
 	if( !lpFont )
 		return 0;
 
-	lpFont->DrawInLine( vPos, sText.GetChar(), fFontSize, cTextColor, lpData, lpIndeces, iStartVert );
+	//FVector2F vPos_ = vPos + 0.5f*(1.f - fScale)*FVector2F( fTextWidth, fTextHeight );
+	lpFont->DrawInLine( vPos, sText.GetChar(), fFontSize*fScale, cTextColor, lpData, lpIndeces, iStartVert );
 	return iPrimCount;
 }
 
@@ -114,6 +115,11 @@ void FText::Move( const FVector2F & vDPos )
 	vPos += vDPos;
 }
 
+void FText::SetPos( const FVector2F & vPos_ )
+{
+	vPos = vPos_;
+}
+
 void FText::SetColor( const FColor4F & cColor )
 {
 	cTextColor = cColor;
@@ -175,6 +181,15 @@ F32 FText::GetTextHeight()const
 	return fTextHeight;
 }
 
+F32 FText::GetScaleTextWidth()const
+{
+	return fTextWidth*fScale;
+}
+
+F32 FText::GetScaleTextHeight()const
+{
+	return fTextHeight*fScale;
+}
 
 //FObject * FText::CreateObject( void * lpPlacement, const CHAR_ * lpTypes, va_list lpArgs )
 //{

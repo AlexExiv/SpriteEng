@@ -69,8 +69,9 @@ protected:
 	FProgram pProgram[PROGRAM_COUNT];
 	FTextureArray aTextureArray;
 
-	FResource * Make( void * lpData, UI32 iDataLen, FResourceManager * lpCreator ) ;
+	FResource * Make( void * lpPlacement, void * lpData, UI32 iDataLen, FResourceManager * lpCreator ) ;
 	void SaveResource( void ** lpData, UI32 & iDataSize ) ;
+	UI32 GetSize()const;
 	UI32 ParseBlocks( CHAR_ * lpText, UI32 iLen );
 
 	FGLSLResource();

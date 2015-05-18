@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <new.h>
 
 #define WINDOWS_FAMILY
 //#define UNIX_FAMILY

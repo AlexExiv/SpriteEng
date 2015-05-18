@@ -50,6 +50,7 @@ public:
 	void SetCurTime( F32 fTime );
 	void SetDuration( F32 fDuration );
 	void Move( const FVector2F & vDPos );
+	void SetPos( const FVector2F & vPos );
 	void StartAnimation( const FString & sAnimName );//запуск анимации по имени, им€ хранитс€ в атлас файле!!!
 };
 

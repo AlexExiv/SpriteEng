@@ -151,7 +151,7 @@ FFont::FFont( const FString & sFontName ) : FGraphObject( sFontName, FGraphObjec
 
 		POP_BLOCK;
 		delete lpFile;
-		delete lpImg;
+		//delete lpImg;
 	}
 	catch( FException eExcp )
 	{
@@ -159,8 +159,8 @@ FFont::FFont( const FString & sFontName ) : FGraphObject( sFontName, FGraphObjec
 			POP_BLOCK;
 		if( lpFile )
 			delete lpFile;
-		if( lpImg )
-			delete lpImg;
+		//if( lpImg )
+		//	delete lpImg;
 		//this->~FFont();
 		FGraphObjectManager::GetInstance()->ReleaseObject( lpShader );
 		FGraphObjectManager::GetInstance()->ReleaseObject( lpTexture );
@@ -258,6 +258,8 @@ void FFont::GetTextRect( const CHAR_ * lpText, FRect * lpRect, F32 fFontSize )
 		fMaxY = max( fMaxY, fHeight );
 		x += fWidth;
 	}
+	fXMax = max( fXMax, x );
+	y += fMaxY;
 
 	lpRect->fRight = lpRect->fLeft + fXMax;
 	lpRect->fTop = lpRect->fBottom + y;
@@ -268,7 +270,7 @@ void FFont::DrawInLine( const FVector2F & vPos, const CHAR_ * lpString, F32 fFon
 	const CHAR_ * lpSym = lpString;
 	FFontVertexData * lpVertData = (FFontVertexData *)lpOutput;
 	UI32 * lpDstInd = lpIndeces;
-	F32 fXSym = vPos.x, fCharHeight = GetCharHeight( ' ', fFontSize ), fYSym = vPos.y - fCharHeight;
+	F32 fXSym = vPos.x, fCharHeight = GetCharHeight( ' ', fFontSize ), fYSym = vPos.y;
 
 	while( *lpSym != 0 )
 	{

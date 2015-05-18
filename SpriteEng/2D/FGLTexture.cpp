@@ -35,7 +35,7 @@ FGLTexture::FGLTexture( const FString & sName ) : FTexture( sName ), iTexID( 0 )
 	}
 	catch( FException eExcp )
 	{
-		delete lpRes;
+		//delete lpRes;
 		glBindTexture( GL_TEXTURE_2D, 0 );
 		glDeleteTextures( 1, &iTexID );
 		throw eExcp;
@@ -54,8 +54,8 @@ FGLTexture::FGLTexture( const FString & sName ) : FTexture( sName ), iTexID( 0 )
 
 	glTexImage2D( GL_TEXTURE_2D, 0, eFmt, iWidth, iHeight, 0, eFmt, GL_UNSIGNED_BYTE, lpRes->GetData() );
 
-	delete lpRes;
-	glBindTexture( GL_TEXTURE_2D, iTexID );
+	//delete lpRes;
+	glBindTexture( GL_TEXTURE_2D, 0 );
 }
 
 FGLTexture::FGLTexture( const FString & sName, const FImageResource * lpImg ) : FTexture( sName ), iTexID( 0 )
@@ -109,12 +109,13 @@ FGLTexture::FGLTexture( const FString & sName, UI32 iWidth, UI32 iHeight, UI32 i
 	switch( iFormat )
 	{
 	case FTexture::TEX_RGB:
-		eFmt = GL_RGB;
+		eFmt = GL_RGB8;
 		break;
 	case FTexture::TEX_RGBA:
-		eFmt = GL_RGBA;
+		eFmt = GL_RGBA8;
 		break;
 	};
+	//glTexImage2D( GL_TEXTURE_2D, 0, eFmt, iWidth, iHeight, 0, eFmt, GL_UNSIGNED_BYTE, NULL );
 	glTexStorage2D( GL_TEXTURE_2D, 1, eFmt, iWidth, iHeight );
 }
 
@@ -145,7 +146,9 @@ void FGLTexture::SetData( UI32 iFormat_, void * lpData )
 		eFmt = GL_RGBA;
 		break;
 	};
+	glBindTexture( GL_TEXTURE_2D, iTexID );
 	glTexSubImage2D( GL_TEXTURE_2D, 0, 0, 0, iWidth, iHeight, eFmt, GL_UNSIGNED_BYTE, lpData );
+	glBindTexture( GL_TEXTURE_2D, 0 );
 }
 
 void FGLTexture::Bind( UI32 iLevel )

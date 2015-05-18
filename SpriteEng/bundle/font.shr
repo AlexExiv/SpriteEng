@@ -3,21 +3,21 @@ tAlphaTex = 0
 
 [VERTEX_PROGRAM]
 
-out vec3 vColor;
+out vec4 vColor;
 
 void main()
 {
 	gl_Position = gl_ModelViewProjectionMatrix*gl_Vertex;
 	gl_TexCoord[0] = gl_MultiTexCoord0;
-	vColor = gl_Color.rgb;
+	vColor = gl_Color;
 }
 
 [FRAGMENT_PROGRAM]
 
 uniform sampler2D tAlphaTex;
-in vec3 vColor;
+in vec4 vColor;
 void main()
 {
 	gl_FragColor.rgb = vColor.rgb;
-	gl_FragColor.a = texture2D( tAlphaTex, gl_TexCoord[0].xy ).a;
+	gl_FragColor.a = texture2D( tAlphaTex, gl_TexCoord[0].xy ).a * vColor.a;
 }

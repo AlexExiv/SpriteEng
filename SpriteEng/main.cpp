@@ -10,7 +10,7 @@
 
 
 
-#define FIELD_WIDTH 640
+#define FIELD_WIDTH 320
 #define FIELD_HEIGHT 480
 
 static FArithGame * lpGame = NULL;
@@ -111,7 +111,8 @@ int WINAPI WinMain(	HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow )
 	if( RegisterClassEx( &wWndClass ) == 0 )
 		return 0;
 
-	hWnd = CreateWindowEx( WS_EX_OVERLAPPEDWINDOW, "Arithmetic Numbers", "Game", WS_OVERLAPPEDWINDOW, 0, 0, FIELD_WIDTH, FIELD_HEIGHT, NULL, NULL, hInst, NULL );
+	hWnd = CreateWindowEx( WS_EX_APPWINDOW | WS_EX_WINDOWEDGE, "Arithmetic Numbers", "Game", WS_POPUP, 0, 0,
+		FIELD_WIDTH, FIELD_HEIGHT, NULL, NULL, hInst, NULL );
 	if( hWnd == 0 )
 		return 0;
 
@@ -142,18 +143,24 @@ int WINAPI WinMain(	HINSTANCE hInst, HINSTANCE, LPSTR, int nCmdShow )
 				DispatchMessage( &mMsg );
 			}
 			UI32 iTickCount = GetTickCount();
-			UI32 iDTime = iTickCount - iOldTick;
+			if( iTickCount - iOldTick < 1000/60 )
+			{
+				Sleep( 1000/60 - (iTickCount - iOldTick) );
+				iTickCount = GetTickCount();
+			}
+			F32 fDTime = F32(iTickCount - iOldTick)/30.f;
 			iOldTick = iTickCount;
 
-			lpGame->Update( F32( iDTime )/100.f );
+			lpGame->Update( fDTime );
 
 			HDC hDC = GetWindowDC( hWnd );
-			HGLRC hGLrc = wglGetCurrentContext();
-			wglMakeCurrent( hDC, hGLrc  );
+			//HGLRC hGLrc = wglGetCurrentContext();
+			//wglMakeCurrent( hDC, hGLrc  );
 			
 			lpGame->Draw();
 
 			SwapBuffers( hDC );
+			ReleaseDC( hWnd, hDC );
 
 			CHECK_STACK;
 		}

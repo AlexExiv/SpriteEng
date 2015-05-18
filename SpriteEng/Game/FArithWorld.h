@@ -27,8 +27,8 @@ class FMessage;
 class FArithWorld : public FWorld
 {
 
-    typedef FList<FGameObject *> FObjectList;
-    typedef FList<FGameObject *>::Iterator FObjectIterator;
+	typedef FList<FGameObject *, FFreePointer__<FGameObject *>> FObjectList;
+    typedef FList<FGameObject *, FFreePointer__<FGameObject *>>::Iterator FObjectIterator;
     
     FArithGame * lpArithGame;
     FObjectList lObjectList;
