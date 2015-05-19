@@ -8,80 +8,84 @@
 #include "FImage2D.h"
 #include "..\Base\FMetaData.h"
 #include <new.h>
+#include "..\Base\FBaseTypes.h"
 
 
+IMPLEMENT_OBJ_DERIVERED( FPrimitive );
 
 FObject * CreateObject2D( void * lpPlacement, va_list lpArgs )
 {
-	FVector2F * lpPos = va_arg( lpArgs, FVector2F * );
+	PFVector2F lpPos = va_arg( lpArgs, PFVector2F );
 	FScene * lpScene = va_arg( lpArgs, FScene * );
-	UI32 iLayer = va_arg( lpArgs, UI32 );
+	PFUInteger lpLayer = va_arg( lpArgs, PFUInteger );
 	FString * lpName = va_arg( lpArgs, FString * );
 
-	return new (lpPlacement) FObject2D( *lpPos, lpScene, iLayer, *lpName );
+	return new (lpPlacement) FObject2D( *lpPos, lpScene, *lpLayer, *lpName );
 }
 
 FObject * CreateLine( void * lpPlacement, va_list lpArgs )
 {
-	FVector2F * lpStart = va_arg( lpArgs, FVector2F * );
-	FVector2F * lpEnd = va_arg( lpArgs, FVector2F * );
-	F32 fLineWidth = va_arg( lpArgs, F32 );
-	FColor4F * lpColor = va_arg( lpArgs, FColor4F * );
+	PFVector2F lpStart = va_arg( lpArgs, PFVector2F );
+	PFVector2F lpEnd = va_arg( lpArgs, PFVector2F );
+	FFloat * lpLineWidth = va_arg( lpArgs, FFloat * );
+	PFColor4F lpColor = va_arg( lpArgs, PFColor4F );
 	FScene * lpScene = va_arg( lpArgs, FScene * );
-	UI32 iLayer = va_arg( lpArgs, UI32 );
+	PFUInteger lpLayer = va_arg( lpArgs, PFUInteger );
 
-	return new (lpPlacement) FLine( *lpStart, *lpEnd, fLineWidth, *lpColor, lpScene, iLayer );
+	return new (lpPlacement) FLine( *lpStart, *lpEnd, *lpLineWidth, *lpColor, lpScene, *lpLayer );
 }
 
 FObject * CreateFillQuad( void * lpPlacement, va_list lpArgs )
 {
-	FVector2F * lpPos = va_arg( lpArgs, FVector2F * );
-	FVector2F * lpDim = va_arg( lpArgs, FVector2F * );
-	FColor4F * lpColor = va_arg( lpArgs, FColor4F * );
-	UI32 iLayer = va_arg( lpArgs, UI32 );
+	PFVector2F lpPos = va_arg( lpArgs, PFVector2F );
+	PFVector2F lpDim = va_arg( lpArgs, PFVector2F );
+	PFColor4F lpColor = va_arg( lpArgs, PFColor4F );
+	PFUInteger lpLayer = va_arg( lpArgs, PFUInteger );
 	FScene * lpScene = va_arg( lpArgs, FScene * );
 
-	return new (lpPlacement) FFillQuad( *lpPos, *lpDim, *lpColor, iLayer, lpScene );
+	return new (lpPlacement) FFillQuad( *lpPos, *lpDim, *lpColor, *lpLayer, lpScene );
 }
 
 FObject * CreateImage2D( void * lpPlacement, va_list lpArgs ) 
 {
-	FVector2F * lpPos = va_arg( lpArgs, FVector2F * );
+	PFVector2F lpPos = va_arg( lpArgs, PFVector2F );
 	FScene * lpScene = va_arg( lpArgs, FScene * );
-	UI32 iLayer = va_arg( lpArgs, UI32 );
+	PFUInteger lpLayer = va_arg( lpArgs, PFUInteger );
 	FString * lpName = va_arg( lpArgs, FString * );
 
-	return new (lpPlacement) FImage2D( *lpPos, lpScene, iLayer, *lpName );
+	return new (lpPlacement) FImage2D( *lpPos, lpScene, *lpLayer, *lpName );
 }
 
 FObject * CreateText( void * lpPlacement, va_list lpArgs )
 {
-	FVector2F * lpPos = va_arg( lpArgs, FVector2F * );
-	FColor4F * lpColor = va_arg( lpArgs, FColor4F * );
-	F32 fFontSize = va_arg( lpArgs, F64 );
+	PFVector2F lpPos = va_arg( lpArgs, PFVector2F );
+	PFColor4F lpColor = va_arg( lpArgs, PFColor4F );
+	FFloat * lpFontSize = va_arg( lpArgs, FFloat * );
 	FString * lpText = va_arg( lpArgs, FString * );
 	FString * lpFontName = va_arg( lpArgs, FString * );
-	UI32 iLayer = va_arg( lpArgs, UI32 );
+	PFUInteger lpLayer = va_arg( lpArgs, PFUInteger );
 	FScene * lpScene = va_arg( lpArgs, FScene * );
 
-	return new (lpPlacement) FText( *lpPos, *lpColor, fFontSize, *lpText, *lpFontName, iLayer, lpScene );
+	return new (lpPlacement) FText( *lpPos, *lpColor, *lpFontSize, *lpText, *lpFontName, *lpLayer, lpScene );
 }
 
 
 void FPrimitive::InitMetaData()
 {
-	DEFINE_META( FPrimitive );
+	FScene::InitMeta();
+
+	DEFINE_META_SUPER( FPrimitive, FObject );
 	DEFINE_META_SUPER( FLine, FPrimitive );
 	DEFINE_META_SUPER( FText, FPrimitive );
 	DEFINE_META_SUPER( FFillQuad, FPrimitive );
 	DEFINE_META_SUPER( FObject2D, FPrimitive );
 	DEFINE_META_SUPER( FImage2D, FPrimitive );
 
-	DEFINE_META_CONSTR( FLine, "\\vector\\vector\\f\\color\\scene\\ui", CreateLine );
-	DEFINE_META_CONSTR( FText, "\\vector\\color\\f\\string\\string\\ui\\scene", CreateText );
-	DEFINE_META_CONSTR( FFillQuad, "\\vector\\vector\\color\\ui\\scene", CreateFillQuad );
-	DEFINE_META_CONSTR( FObject2D, "\\vector\\scene\\ui\\string", CreateObject2D );
-	DEFINE_META_CONSTR( FImage2D, "\\vector\\scene\\ui\\string", CreateImage2D );
+	DEFINE_META_CONSTR6( FLine, CreateLine, FVector2F_, FVector2F_, FFloat, FColor4F_, FScene, FUInteger );
+    DEFINE_META_CONSTR7( FText, CreateText, FVector2F_, FColor4F_, FFloat, FString, FString, FUInteger, FScene );
+	DEFINE_META_CONSTR5( FFillQuad, CreateFillQuad, FVector2F_, FVector2F_, FColor4F_, FUInteger, FScene );
+	DEFINE_META_CONSTR4( FObject2D, CreateObject2D, FVector2F_, FScene, FUInteger, FString );
+	DEFINE_META_CONSTR4( FImage2D, CreateImage2D, FVector2F_, FScene, FUInteger, FString );
 }
 
 

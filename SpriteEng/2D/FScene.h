@@ -3,12 +3,13 @@
 
 
 #include "..\Core\FList.h"
+#include "..\Base\FObject.h"
 
 
 class FPrimitive;
 class FDrawSeq;
 
-class FScene
+class FScene : public FObject
 {
 public:
 	enum
@@ -41,6 +42,12 @@ public:
 	virtual void RemoveObject( FPrimitive * lpPrim ) = 0;
 	virtual void AddObjectToAnimList( FPrimitive * lpPrim ) = 0;
 	virtual void RemoveObjectFromAnimList( FPrimitive * lpPrim ) = 0;
+
+	DEFINE_OBJ_DERIVERED( FScene );
+
+	static void InitMeta();
 };
+
+DEFINE_OBJ_NAME( FScene );
 
 #endif

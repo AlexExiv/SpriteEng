@@ -11,6 +11,7 @@
 #include "..\Gui\FGuiLabel.h"
 #include "..\Gui\FGuiScene.h"
 #include "FGameDef.h"
+#include "..\Base\FBaseTypes.h"
 
 
 
@@ -23,19 +24,20 @@
 #define ZERO_NUM 8
 #define SCORES_INCR_TIME 25.f
 
+IMPLEMENT_OBJ_DERIVERED( FInterface );
 
 FInterface::FInterface( FGuiScene * lpGuiScene ) : FGuiController( lpGuiScene ), fScoreTime( 60.f ), iLastScore( 0 ),
 	 iMaxScore( 0 ), lpGameOver( NULL ), fShowTimeDC( 0.f )
 {
 	FRect rFrame;
 	cTime[TIME_LEN - 1] = 0;
-	lpMainView = (FGuiView *)AllocObject( "FGuiView", "\\rect\\guicontroller", &rFrame, this );
-	lpUpper = (FGuiImage *)AllocObject( "FGuiImage", "\\vector\\string\\guiview", &FVector2F( 0.f, 0.f ), &sInterfaceBack, lpMainView );
-	lpGameOver = (FGuiImage *)AllocObject( "FGuiImage", "\\vector\\string\\guiview", &FVector2F( 0.f, 0.f ), &sGameOver, lpMainView );
-	lpScore = (FGuiLabel *)AllocObject( "FGuiLabel", "\\vector\\string\\string\\color\\f\\guiview", &FVector2F( 0.f, 0.f ), &FString( "00000000" ),
-		&sDeffFont, &FColor4F( 1.f, 0.f, 0.f, 1.f ), 12.f, lpMainView );
-	lpTime = (FGuiLabel *)AllocObject( "FGuiLabel", "\\vector\\string\\string\\color\\f\\guiview", &FVector2F( 0.f, 0.f ), &FString( "0" ),
-		&sDeffFont, &FColor4F( 0.f, 0.f , 0.f, 1.f ), 12.f, lpMainView );
+	lpMainView = (FGuiView *)AllocObject( MFGuiView,  RFRect( rFrame ), this, NULL );
+	lpUpper = (FGuiImage *)AllocObject( MFGuiImage, RFVector2F( 0.f, 0.f ), &sInterfaceBack, lpMainView, NULL );
+	lpGameOver = (FGuiImage *)AllocObject( MFGuiImage, RFVector2F( 0.f, 0.f ), &sGameOver, lpMainView, NULL );
+	lpScore = (FGuiLabel *)AllocObject( MFGuiLabel, RFVector2F( 0.f, 0.f ), &FString( "00000000" ), &sDeffFont, RFColor4F( 1.f, 0.f, 0.f, 1.f ), 
+		RFFloat( 12.f ), lpMainView, NULL );
+	lpTime = (FGuiLabel *)AllocObject( MFGuiLabel, RFVector2F( 0.f, 0.f ), &FString( "0" ), &sDeffFont, RFColor4F( 0.f, 0.f , 0.f, 1.f ), 
+		RFFloat( 12.f ), lpMainView, NULL );
 
 	rFrame.fLeft = 0.f;
 	rFrame.fBottom = lpGuiScene->GetHeight() - lpUpper->GetSize().fHeight;

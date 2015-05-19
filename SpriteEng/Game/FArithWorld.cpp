@@ -20,6 +20,7 @@
 #include "FHiddenDigit.h"
 #include "FMessage.h"
 #include "..\Core\FLog.h"
+#include "..\Base\FBaseTypes.h"
 //#import <UIKit/UIKit.h>
 #include <string.h>
 
@@ -89,13 +90,15 @@ I32 GetBonusIndex( I32 iPropab )
     return -1;
 }
 
+IMPLEMENT_OBJ_DERIVERED( FArithWorld );
+
 FArithWorld::FArithWorld( FArithGame * lpGame ) : FWorld( lpGame->GetWorldScene(), lpGame ),
 	  bNewGame( true ), bPause( false ), lpFirst( NULL ), lpSecond( NULL ), fNewDigitTime( 0.f ), fTimeBonus( 0.f ), iBonusDigitCount( 0 ), 
 	  fGameTime( 0 ), iDigitCount( 0 ), fCurSpeedTime( 0.f ), iLastAvgSpeed( 0 ), iDelDigitCount( 0 ), iSumDelDigitCount( 0 ), iPeriodCount( 0 ),
 	  lpArithGame( lpGame )
 {
-	lpAttention = (FAttention *)AllocObject( "FAttention", "\\vector\\world", &FVector2F( fWorldWidth/2.f, fWorldHeight/2.f ), this );
-	lp2XScoreMess = (FMessage *)AllocObject( "FMessage", "\\world", this );
+	lpAttention = (FAttention *)AllocObject( MFAttention, RFVector2F( fWorldWidth/2.f, fWorldHeight/2.f ), this, NULL );
+	lp2XScoreMess = (FMessage *)AllocObject( MFMessage, this, NULL );
 //    lObjectList.PushBack( lpAttention );
 }
 
@@ -136,7 +139,7 @@ void FArithWorld::Update( F32 fDTime )
     
     if( bNewGame )
     {
-		FDigit * lpTmpDigit = (FDigit *)AllocObject( "FDigit", "\\world", this );
+		FDigit * lpTmpDigit = (FDigit *)AllocObject( MFDigit, this, NULL );
 		FVector2F vPos( 0.f, fWorldHeight );
 		F32  fHeight = lpTmpDigit->GetHeight();
         I32 iNum = 0;
@@ -147,7 +150,7 @@ void FArithWorld::Update( F32 fDTime )
             vPos.y -= fHeight;
             for( I32 j = 0;j < NUMBER_IN_LINE;j++, iNum++ )
             {
-				FDigit * lpDigit = (FDigit *)AllocObject( "FDigit", "\\vector\\ui\\world", &vPos, iNewTable[iNum], this );
+				FDigit * lpDigit = (FDigit *)AllocObject( MFDigit, RFVector2F( vPos ), RFUInteger( iNewTable[iNum] ), this, NULL );
                 lpDigit->SetNext( lpNext );
                 lpNext = lpDigit;
                 
@@ -419,9 +422,9 @@ void FArithWorld::NewDigit()
     
     FDigit * lpDigit;
     if( (rand()%HIDDEN_DIGIT_PROBABILITY) == 0 )
-		lpDigit = (FHiddenDigit *)AllocObject( "FHiddenDigit", "\\vector\\ui\\world", &vPos, iNum, this );
+		lpDigit = (FHiddenDigit *)AllocObject( MFHiddenDigit, RFVector2F( vPos ), RFUInteger( iNum ), this, NULL );
     else
-		lpDigit = (FDigit *)AllocObject( "FDigit", "\\vector\\ui\\world", &vPos, iNum, this );
+		lpDigit = (FDigit *)AllocObject( MFDigit, RFVector2F( vPos ), RFUInteger( iNum ), this, NULL );
     
     lpDigit->SetNext( (FDigit *)*iLast );
     lObjectList.PushBack( lpDigit );
@@ -499,25 +502,25 @@ UI32 FArithWorld::Load( void * lpData )
         switch( iObjType )
         {
             case FGameObject::OBJECT_DIGIT:
-				lpObject = (FDigit *)AllocObject( "FDigit", "\\world", this );
+				lpObject = (FDigit *)AllocObject( MFDigit, this, NULL );
                 ((FDigit *)lpObject)->SetNext( lpNext );
                 lpNext = (FDigit *)lpObject;
                 iDigitCount++;
                 break;
             case FGameObject::OBJECT_HIDDEN_DIGIT:
-				lpObject = (FHiddenDigit *)AllocObject( "FHiddenDigit", "\\world", this );
+				lpObject = (FHiddenDigit *)AllocObject( MFHiddenDigit, this, NULL );
                 ((FDigit *)lpObject)->SetNext( lpNext );
                 lpNext = (FDigit *)lpObject;
                 iDigitCount++;
                 break;
             case FGameObject::OBJECT_LABEL:
-				lpObject = (FScoreAdd *)AllocObject( "FScoreAdd", "\\world", this );
+				lpObject = (FScoreAdd *)AllocObject( MFScoreAdd, this, NULL );
                 break;
             case FGameObject::OBJECT_PARTICLE:
-				lpObject = (FParticle *)AllocObject( "FParticle", "\\world", this );
+				lpObject = (FParticle *)AllocObject( MFParticle, this, NULL );
                 break;
             case FGameObject::OBJECT_BONUS:
-				lpObject = (FBonus *)AllocObject( "FBonus", "\\world", this );
+				lpObject = (FBonus *)AllocObject( MFBonus, this, NULL );
                 break;
             case FGameObject::OBJECT_ATTENTION:
                 lpObject = lpAttention;
@@ -713,18 +716,18 @@ void FArithWorld::ClickMove( const FVector2F & vPoint, UI32 iNum )
 
 void FArithWorld::AddScore( const FVector2F & vPos, I32 iScore )
 {
-	lObjectList.PushBack( (FScoreAdd *)AllocObject( "FScoreAdd", "\\vector\\world\\i", &vPos, this, iScore ) );
+	lObjectList.PushBack( (FScoreAdd *)AllocObject( MFScoreAdd, RFVector2F( vPos ), this, RFInteger( iScore ), NULL ) );
     lpArithGame->AddScore( iScore );
 }
 
 void FArithWorld::AddBonusScore( const FVector2F & vPos, UI32 iBonusType )
 {
-	lObjectList.PushBack( (FBonus *)AllocObject( "FBonus", "\\vector\\ui\\world", &vPos, iBonusType, this ) );
+	lObjectList.PushBack( (FBonus *)AllocObject( MFBonus, RFVector2F( vPos ), RFUInteger( iBonusType ), this, NULL ) );
     //lpSoundManager->PlaySound( TIME_BONUS_SOUND );
 }
 
 void FArithWorld::AddParticle( const FVector2F & vPos )
 {
-	lObjectList.PushBack( (FParticle *)AllocObject( "FParticle", "\\vector\\world", vPos, this ) );
+	lObjectList.PushBack( (FParticle *)AllocObject( MFParticle, RFVector2F( vPos ), this, NULL ) );
 }
 

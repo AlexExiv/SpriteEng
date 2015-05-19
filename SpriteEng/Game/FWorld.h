@@ -38,6 +38,10 @@ public:
 
 	static void SetCurrentWorld( FWorld * lpWorld );
 	static FWorld * GetCurrentWorld();
+
+	DEFINE_OBJ_DERIVERED( FWorld );
 };
+
+DEFINE_OBJ_NAME( FWorld );
 
 #endif

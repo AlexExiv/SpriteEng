@@ -3,11 +3,11 @@
 
 
 #include "..\Math\FVector2D.h"
-#include "..\Base\FObject.h"
+#include "FGameObject.h"
 
 class FWorld;
 
-class FGame : public FObject
+class FGame : public FGameObject
 {
 //protected:
 //	FWorld * lpWorld;
@@ -26,6 +26,10 @@ public:
 	virtual void Draw();
 
 	static void InitMeta();
+
+	DEFINE_OBJ_DERIVERED( FGame );
 };
+
+DEFINE_OBJ_NAME( FGame );
 
 #endif

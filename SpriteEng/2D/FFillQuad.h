@@ -38,6 +38,11 @@ public:
 	void SetPos( const FVector2F & vPos );
 	void SetDim( const FVector2F & vDim );
 	void SetColor( const FColor4F & cColor );
+
+	DEFINE_OBJ_DERIVERED( FFillQuad );
 };
+
+DEFINE_OBJ_NAME( FFillQuad );
+
 
 #endif

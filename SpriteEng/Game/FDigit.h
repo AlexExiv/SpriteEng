@@ -75,6 +75,10 @@ public:
     
     virtual UI32 Load( void * lpData );
     virtual void Save( FFile * lpFile );
+
+	DEFINE_OBJ_DERIVERED( FDigit );
 };
+
+DEFINE_OBJ_NAME( FDigit );
 
 #endif

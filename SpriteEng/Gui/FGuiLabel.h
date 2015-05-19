@@ -26,6 +26,10 @@ public:
 	void SetFontSize( F32 fSize );
 
 	FString GetText()const;
+
+	DEFINE_OBJ_DERIVERED( FGuiLabel );
 };
+
+DEFINE_OBJ_NAME( FGuiLabel );
 
 #endif

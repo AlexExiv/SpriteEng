@@ -92,6 +92,10 @@ public:
 	virtual bool ClickMove( const FVector2F & vPos, UI32 iIndex );
 	virtual bool KeyDown();
 	virtual bool KeyUp();
+
+	DEFINE_OBJ_DERIVERED( FGuiView );
 };
+
+DEFINE_OBJ_NAME( FGuiView );
 
 #endif

@@ -27,6 +27,7 @@ protected:
 	FVector2F vPos;
     F32 fSpeed;
   
+	FGameObject( UI32 iObjReserved );
     FGameObject( UI32 iObjType, FWorld * lpWorld );
 	FGameObject( const FVector2F & vPos, UI32 iObjType, FWorld * lpWorld );
 
@@ -52,8 +53,8 @@ public:
     bool IsDigit()const;
     UI32 GetObjState()const;
     UI32 GetObjType()const;
-    virtual F32 GetWidth()const = 0;
-    virtual F32 GetHeight()const = 0;
+    virtual F32 GetWidth()const;
+    virtual F32 GetHeight()const;
 	FVector2F GetPos()const;
 	virtual void Move( const FVector2F & vPos );
     
@@ -62,6 +63,10 @@ public:
     
     virtual UI32 Load( void * lpData );
     virtual void Save( FFile * lpFile );
+
+	DEFINE_OBJ_DERIVERED( FGameObject );
 };
+
+DEFINE_OBJ_NAME( FGameObject );
 
 #endif

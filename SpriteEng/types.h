@@ -37,6 +37,9 @@ typedef UI32 Index;
 #define FMalloc( iSize ) malloc( iSize )
 #define FFree( lpMem ) free( lpMem )
 
+#define va_parg( ap, t )    ( *(t *)((ap -= _INTSIZEOF(t)) - _INTSIZEOF(t)) )
+#define va_pstart( ap, v ) ( ap = (va_list)_ADDRESSOF(v) )
+
 
 struct RGB
 {

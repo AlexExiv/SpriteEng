@@ -35,7 +35,7 @@ class FArithGame : public FGame
         I32 iPush;
     };
     
-    FArithWorld * lpWorld;
+    FArithWorld * lpAWorld;
     FInterface * lpInterface;
 	FDrawSeq * lpWorldSeq, * lpGuiSeq;
 	FScene * lpWorldScene, * lpGuiScene;
@@ -70,6 +70,10 @@ public:
     void NewGame();
 
 	static void InitMeta();
+
+	DEFINE_OBJ_DERIVERED( FArithGame );
 };
+
+DEFINE_OBJ_NAME( FArithGame );
 
 #endif

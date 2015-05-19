@@ -30,6 +30,10 @@ public:
     
     UI32 Load( void * lpData );
     void Save( FFile * lpFile );
+
+	DEFINE_OBJ_DERIVERED( FParticle );
 };
+
+DEFINE_OBJ_NAME( FParticle );
 
 #endif

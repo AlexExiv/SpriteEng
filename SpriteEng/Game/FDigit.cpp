@@ -14,6 +14,8 @@
 //#include "../Sound/FSoundManager.h"
 #include "../Core/FFile.h"
 #include "..\Core\FLog.h"
+#include "..\Base\FBaseTypes.h"
+
 
 #define CUR_VER 2
 
@@ -48,6 +50,7 @@ typedef FDigitBlock2 FDigitBlock;
 
 //#pragma pack( pop )
 
+IMPLEMENT_OBJ_DERIVERED( FDigit );
 
 FDigit::FDigit( FArithWorld * lpWorld ) : FGameObject( FGameObject::OBJECT_DIGIT, lpWorld ), lpAnimation( NULL ), lpLabel( NULL ), iNum( 0 ), lpNext( NULL ), lpMirror( NULL )
 {
@@ -78,10 +81,13 @@ FDigit::~FDigit()
 
 void FDigit::Init()
 {
-	lpAnimation = (FObject2D *)AllocObject( "FObject2D", "\\vector\\scene\\ui\\string", &vPos, lpWorld->GetScene(), 0, &sCellBack );
+	lpAnimation = (FObject2D *)AllocObject( MFObject2D, RFVector2F( vPos ), lpWorld->GetScene(), RFUInteger( 0 ), &sCellBack, NULL );
 	lpAnimation->StartAnimation( sDigitStayAnim );
     if( iNum != 0)
-		lpLabel = (FText *)AllocObject( "FText", "\\vector\\color\\f\\string\\string\\ui\\scene", &vPos, &FColor4F( 0.f, 0.f, 0.f, 1.f ), NUMBER_SIZE, &FString( iNum ), &sDeffFont, 1, lpWorld->GetScene() );
+	{
+		lpLabel = (FText *)AllocObject( MFText, RFVector2F( vPos ), RFColor4F( 0.f, 0.f, 0.f, 1.f ), 
+			RFFloat( NUMBER_SIZE ), &FString( iNum ), &sDeffFont, RFUInteger( 1 ), lpWorld->GetScene(), NULL );
+	}
     
     lpAnimation->Scale( 0.f );
     if( lpLabel )
@@ -107,7 +113,7 @@ void FDigit::CenterLabel()
 
 FDigit * FDigit::CreateMirror( const FVector2F & vMirrorPos )
 {
-	FDigit * lpDigit = (FDigit *)AllocObject( "FDigit", "\\vector\\ui\\world", &vMirrorPos, iNum, lpWorld );
+	FDigit * lpDigit = (FDigit *)AllocObject( MFDigit, &FVector2F_( vMirrorPos ), FUInteger( iNum ), lpWorld, NULL );
     lpDigit->iObjState = iObjState;
     lpDigit->lpAnimation->Scale( 1.f );
     lpDigit->lpLabel->Scale( 1.f );
@@ -381,8 +387,9 @@ UI32 FDigit::Load( void * lpData )
             iSize += lpMirror->Load( (FBYTE *)lpData + iSize + sizeof( FDigitBlock ) );
         }
     }
-    
-	lpLabel = (FText *)AllocObject( "FText", "\\vector\\color\\f\\string\\string\\ui\\scene", &vPos, &FColor4F( 0.f, 0.f, 0.f, 1.f ), NUMBER_SIZE, &FString( iNum ), &sDeffFont, 1, lpWorld->GetScene() );
+
+    lpLabel = (FText *)AllocObject( MFText, &FVector2F_( vPos ), &FColor4F_( 0.f, 0.f, 0.f, 1.f ), 
+			&FFloat( NUMBER_SIZE ), &FString( iNum ), &sDeffFont, &FUInteger( 1 ), lpWorld->GetScene(), NULL );
     
 	fXLine = ((lpWorld->GetWorldHeight() - vPos.y)/GetHeight() - 1.f)*GetFieldWidth() + vPos.x;
     lpAnimation->SetPos( vPos );

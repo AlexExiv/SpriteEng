@@ -84,6 +84,7 @@
     <ClCompile Include="2D\FTexture.cpp" />
     <ClCompile Include="2D\FView.cpp" />
     <ClCompile Include="2D\libExt.cpp" />
+    <ClCompile Include="Base\FBaseTypes.cpp" />
     <ClCompile Include="Base\FMetaData.cpp" />
     <ClCompile Include="Base\FObject.cpp" />
     <ClCompile Include="Base\FObjectAllocator.cpp" />
@@ -225,6 +226,7 @@
     <ClInclude Include="2D\glext.h" />
     <ClInclude Include="2D\libExt.h" />
     <ClInclude Include="2D\wglext.h" />
+    <ClInclude Include="Base\FBaseTypes.h" />
     <ClInclude Include="Base\FMetaData.h" />
     <ClInclude Include="Base\FObject.h" />
     <ClInclude Include="Base\FObjectAllocator.h" />

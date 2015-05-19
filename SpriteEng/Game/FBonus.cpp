@@ -11,7 +11,10 @@
 #include "..\Core\FString.h"
 #include "FArithWorld.h"
 #include "..\2D\FScene.h"
-#include "../Core/FFile.h"
+#include "..\Core\FFile.h"
+#include "..\Base\FBaseTypes.h"
+
+
 
 #define CUR_VER 1
 
@@ -25,6 +28,8 @@ struct FBonusBlock
 
 const FString sBonusNames[] = { "bundle\\firstbonus.bmp", "bundle\\timebonus.bmp", "bundle\\bonus2X.bmp", "bundle\\bonus_score.bmp", "bundle\\bonus_pairs.bmp" };
 
+IMPLEMENT_OBJ_DERIVERED( FBonus );
+
 FBonus::FBonus( FArithWorld * lpWorld ) : FGameObject( FGameObject::OBJECT_BONUS, lpWorld ), lpImage( NULL ), fShowTime( 0.f ), iBonusType( -1 )
 {
     fSpeed = 3.f;
@@ -36,7 +41,7 @@ FBonus::FBonus( FArithWorld * lpWorld ) : FGameObject( FGameObject::OBJECT_BONUS
 FBonus::FBonus( const FVector2F & vPos, UI32 iBonusType, FArithWorld * lpWorld ) : FGameObject( vPos, FGameObject::OBJECT_BONUS, lpWorld ), lpImage( NULL ), fShowTime( 0.f ), iBonusType( iBonusType )
 {
     fSpeed = 3.f;
-	lpImage = (FImage2D *)AllocObject( "FImage2D", "\\vector\\scene\\ui\\string", &vPos, lpWorld->GetScene(), 1, &sBonusNames[iBonusType] );
+	lpImage = (FImage2D *)AllocObject( MFImage2D, &FVector2F_( vPos ), lpWorld->GetScene(), &FUInteger( 1 ), &sBonusNames[iBonusType] );
     bSolid = false;
     iObjState = BONUS_SHOW;
     Move( FVector2F( vPos.x - lpImage->GetWidth()/2.f, vPos.y - lpImage->GetHeight()/2.f ) );
@@ -114,7 +119,7 @@ UI32 FBonus::Load( void * lpData )
     iBonusType = lpBlock->iBonusTime;
     fShowTime = lpBlock->fShowTime;
     
-	lpImage = (FImage2D *)AllocObject( "Fimage2D", "\\vector\\scene\\ui\\string", &vPos, lpWorld->GetScene(), 1, &sBonusNames[iBonusType] );
+	lpImage = (FImage2D *)AllocObject( MFImage2D, &FVector2F_( vPos ), lpWorld->GetScene(), &FUInteger( 1 ), &sBonusNames[iBonusType] );
     
     return sizeof( FBonusBlock ) + iSize;
 }

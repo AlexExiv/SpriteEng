@@ -42,6 +42,10 @@ public:
 
 	void Move( const FVector2F & vDPos );
 	void SetPos( const FVector2F & vPos );
+
+	DEFINE_OBJ_DERIVERED( FImage2D );
 };
+
+DEFINE_OBJ_NAME( FImage2D );
 
 #endif

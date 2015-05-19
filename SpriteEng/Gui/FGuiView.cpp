@@ -3,6 +3,8 @@
 #include "..\Core\FLog.h"
 
 
+IMPLEMENT_OBJ_DERIVERED( FGuiView );
+
 FGuiView::FGuiView( FGuiView * lpSuperView_ ) : iFlags( GUI_VIEW_ENABLE | GUI_VIEW_VISIBLE ), lGuiViewList( 32, 0 ), 
 	lGuiAnimList( 16, 0 ), lpController( lpSuperView_->GetController() ), lpSuperView( NULL )
 {

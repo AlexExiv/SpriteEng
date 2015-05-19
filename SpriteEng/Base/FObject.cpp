@@ -2,11 +2,17 @@
 #include "FObjectAllocator.h"
 #include <string.h>
 #include "..\Core\FLog.h"
+#include "..\Core\FString.h"
+#include "FMetaData.h"
+#include "FBaseTypes.h"
 
 
+IMPLEMENT_OBJ_DERIVERED( FObject );
 
-FObject::FObject( ) : iRefCount( 1 )/*, lpAllocator( NULL )*/
+FObject::FObject( bool bResetAlloc ) : iRefCount( 1 )/*, lpAllocator( NULL )*/
 {
+	if( bResetAlloc )
+		lpAllocator = NULL;
 }
 
 FObject::FObject( UI32 iObjReserved ) : iRefCount( 1 ), lpAllocator( NULL )
@@ -16,7 +22,7 @@ FObject::FObject( UI32 iObjReserved ) : iRefCount( 1 ), lpAllocator( NULL )
 
 FObject::~FObject()
 {
-	if( lpAllocator->lpOwner == this )
+	if( lpAllocator && (lpAllocator->lpOwner == this) )
 		delete lpAllocator;
 }
 
@@ -46,21 +52,21 @@ FObject * FObject::CreateObject( void * lpPlacement, const CHAR_ * lpTypes, va_l
 	return NULL;
 }
 
-FObject * FObject::AllocObject( const FString & sObjName, const CHAR_ * lpCallTypes, ... )
+FObject * FObject::AllocObject( const FString & sObjName, FObject * lpFirst, ... )
 {
 	va_list lpArgs;
-	va_start( lpArgs, lpCallTypes );
-	FObject * lpObject = lpAllocator->AllocObject( sObjName, lpCallTypes, lpArgs );
+	va_start( lpArgs, lpFirst );
+	FObject * lpObject = lpAllocator->AllocObject( sObjName, lpFirst, lpArgs );
 	va_end( lpArgs );
 
 	return lpObject;
 }
 
-FObject * FObject::AllocObjectT( const FString & sObjName, const CHAR_ * lpCallTypes, ... )
+FObject * FObject::AllocObjectT( const FString & sObjName, FObject * lpFirst, ... )
 {
 	va_list lpArgs;
-	va_start( lpArgs, lpCallTypes );
-	FObject * lpObject = lpAllocator->AllocObjectT( sObjName, lpCallTypes, lpArgs );
+	va_start( lpArgs, lpFirst );
+	FObject * lpObject = lpAllocator->AllocObjectT( sObjName, lpFirst, lpArgs );
 	va_end( lpArgs );
 
 	return lpObject;
@@ -79,4 +85,15 @@ bool FObject::CheckCallTypes( const CHAR_ * lpCallTypes, const CHAR_ * lpObjType
 		return false;
 	}
 	return true;
+}
+
+void FObject::InitMeta()
+{
+	DEFINE_META( FObject );
+	DEFINE_META_SUPER( FInteger, FObject );
+	DEFINE_META_SUPER( FUInteger, FObject );
+	DEFINE_META_SUPER( FFloat, FObject );
+	DEFINE_META_SUPER( FColor4F_, FObject );
+	DEFINE_META_SUPER( FVector2F_, FObject );
+	DEFINE_META_SUPER( FRect_, FObject );
 }

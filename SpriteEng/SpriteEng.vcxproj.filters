@@ -471,6 +471,9 @@
     <ClCompile Include="Core\FWAVResource.cpp">
       <Filter>Source Files\Core</Filter>
     </ClCompile>
+    <ClCompile Include="Base\FBaseTypes.cpp">
+      <Filter>Source Files\Base</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core\FStack.h">
@@ -685,6 +688,9 @@
     </ClInclude>
     <ClInclude Include="Core\FWAVResource.h">
       <Filter>Header Files\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="Base\FBaseTypes.h">
+      <Filter>Header Files\Base</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

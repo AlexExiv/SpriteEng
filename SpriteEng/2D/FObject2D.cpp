@@ -6,6 +6,7 @@
 #include <new.h>
 
 
+IMPLEMENT_OBJ_DERIVERED( FObject2D );
 
 FObject2D::FObject2D( FScene * lpScene, UI32 iLayer, const FString & sName ) : FPrimitive( iLayer, lpScene ), iStartFrame( 0 ), iEndFrame( 0 ), iCurFrame( 0 ), fFrameTime( 0.f ), fCurTime( 0.f ), bLooped( false )
 {

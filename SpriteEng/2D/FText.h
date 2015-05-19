@@ -59,6 +59,10 @@ public:
 	F32 GetTextHeight()const;
 	F32 GetScaleTextWidth()const;
 	F32 GetScaleTextHeight()const;
+
+	DEFINE_OBJ_DERIVERED( FText );
 };
+
+DEFINE_OBJ_NAME( FText );
 
 #endif

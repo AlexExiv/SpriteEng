@@ -91,6 +91,10 @@ public:
     void AddScore( const FVector2F & vPos, I32 iScore );
     void AddBonusScore( const FVector2F & vPos, UI32 iBonusType );
     void AddParticle( const FVector2F & vPos );
+
+	DEFINE_OBJ_DERIVERED( FArithWorld );
 };
+
+DEFINE_OBJ_NAME( FArithWorld );
 
 #endif

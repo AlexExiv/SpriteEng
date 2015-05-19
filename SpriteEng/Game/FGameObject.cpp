@@ -25,6 +25,12 @@ struct FObjectBlock
     F32 fSpeed;
 };
 
+IMPLEMENT_OBJ_DERIVERED( FGameObject );
+
+FGameObject::FGameObject( UI32 iObjReserved ) : FObject( iObjReserved ), iObjType( 0 ),  bSolid( true ), fSpeed( 1.f ), iObjState( 1 ), lpWorld( NULL )
+{
+}
+
 FGameObject::FGameObject( UI32 iObjType, FWorld * lpWorld ) : iObjType( iObjType ),  bSolid( true ), fSpeed( 1.f ), iObjState( 1 ), lpWorld( lpWorld )
 {
 }
@@ -59,6 +65,17 @@ UI32 FGameObject::GetObjType()const
 {
     return iObjType;
 }
+
+F32 FGameObject::GetWidth()const
+{
+	return 0;
+}
+
+F32 FGameObject::GetHeight()const
+{
+	return 0;
+}
+
 
 FVector2F FGameObject::GetPos()const
 {

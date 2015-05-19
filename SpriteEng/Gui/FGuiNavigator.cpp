@@ -2,6 +2,7 @@
 #include "..\Core\FLog.h"
 
 
+IMPLEMENT_OBJ_DERIVERED( FGuiNavigator );
 
 FGuiNavigator::FGuiNavigator() : FGuiController( (FGuiScene *)NULL ), lpHeadCntrl( NULL ), lGuiCntrlStack( 32, 0 )
 {

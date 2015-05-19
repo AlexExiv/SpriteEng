@@ -19,6 +19,10 @@ public:
 	~FGuiImage();
 
 	void SetImage( const FString & sName );
+
+	DEFINE_OBJ_DERIVERED( FGuiImage );
 };
+
+DEFINE_OBJ_NAME( FGuiImage );
 
 #endif

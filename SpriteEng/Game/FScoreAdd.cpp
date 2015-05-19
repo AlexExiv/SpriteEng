@@ -12,6 +12,7 @@
 #include "FArithWorld.h"
 #include "..\Core\FFile.h"
 #include "..\2D\FScene.h"
+#include "..\Base\FBaseTypes.h"
 
 
 #define CUR_VER 1
@@ -28,6 +29,7 @@ struct FScoreBlock
 
 #pragma pack( pop )
 
+IMPLEMENT_OBJ_DERIVERED( FScoreAdd );
 
 FScoreAdd::FScoreAdd( FArithWorld * lpWorld ) : FGameObject( OBJECT_LABEL, lpWorld )
 {
@@ -56,8 +58,8 @@ FScoreAdd::FScoreAdd( const FVector2F & vPos, FArithWorld * lpWorld, I32 iIncrSc
     else
         cColor = FColor4F( 1.f, 0.f, 0.f, 1.f );
     
-	lpLabel = (FText *)AllocObject( "FText", "\\vector\\color\\f\\string\\string\\ui\\scene", &vPos, &cColor, 15, &sScore, 
-		&sScoreFont, 1, lpWorld->GetScene() );
+	lpLabel = (FText *)AllocObject( MFText, RFVector2F( vPos ), RFColor4F( cColor ), RFUInteger( 15 ), &sScore, 
+		&sScoreFont, RFUInteger( 1 ), lpWorld->GetScene(), NULL );
     lpLabel->SetAlpha( 0.f );
     
 }
@@ -144,8 +146,8 @@ UI32 FScoreAdd::Load( void * lpData )
     fShowTime = lpBlock->fShowTime;
 
     FString sScore = &lpBlock->cLabelStr;
-	lpLabel = (FText *)AllocObject( "FText", "\\vector\\color\\f\\string\\string\\ui\\scene", &vPos, &lpBlock->cTextColor, 15, &sScore, 
-		&sScoreFont, 1, lpWorld->GetScene() );
+	lpLabel = (FText *)AllocObject( MFText, RFVector2F( vPos ), RFColor4F( lpBlock->cTextColor ), RFUInteger( 15 ), &sScore, 
+		&sScoreFont, RFUInteger( 1 ), lpWorld->GetScene(), NULL );
     lpLabel->SetAlpha( 0 );
     
     return iSize + sScore.Length() + sizeof( FScoreBlock );

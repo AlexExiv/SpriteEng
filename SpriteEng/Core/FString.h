@@ -2,8 +2,9 @@
 #define __FSTRING_H__
 
 #include "..\types.h"
+#include "..\Base\FObject.h"
 
-class FString
+class FString : public FObject
 {
 	CHAR_ * lpString;
 	UI32 iKey, iLen;
@@ -85,7 +86,12 @@ public:
 
 	static void Init();
 	static void Destroy();
+
+	DEFINE_OBJ_DERIVERED( FString );
 };
+
+DEFINE_OBJ_NAME( FString );
+#define RFString &FString
 
 inline FString operator + ( const FString & sStr0, const FString & sStr1 )
 {

@@ -14,7 +14,7 @@
 #include "..\Core\FString.h"
 #include "..\Core\FFile.h"
 #include "..\Core\FLog.h"
-
+#include "..\Base\FBaseTypes.h"
 
 
 #define CUR_VER 1
@@ -35,15 +35,16 @@ struct FAttentionBlock
 #define ATTENTION_HOLDON "bundle\\holdon.bmp"
 #define ATTENTION_SOONATTACK "bundle\\beready.bmp"
 
+IMPLEMENT_OBJ_DERIVERED( FAttention );
 
 FAttention::FAttention( const FVector2F & vPos, FArithWorld * lpWorld ) : FGameObject( vPos, OBJECT_ATTENTION, lpWorld ), fCurTime( 0.f ), fEventTime( 0.f )
                     , lpPrepare( NULL ), lpCounter( NULL ), lpHoldOn( NULL ), fNextAttackTimeM( ATTENTION_NEXT_ATTACK_MIN_TIME )
 {
-	FVector2F vPos_( 0.f, 0.f );
-	lpAttackSoon = (FImage2D *)AllocObject( "FImage2D", "\\vector\\scene\\ui\\string", &vPos_, lpWorld->GetScene(), 1, &sAttentionAttackSoon );
- 	lpPrepare = (FImage2D *)AllocObject( "FImage2D", "\\vector\\scene\\ui\\string", &vPos_, lpWorld->GetScene(), 1, &sAttentionPrepare );
-	lpHoldOn = (FImage2D *)AllocObject( "FImage2D", "\\vector\\scene\\ui\\string", &vPos_, lpWorld->GetScene(), 1, &sAttentionHoldon );
-	lpCounter = (FObject2D *)AllocObject( "FObject2D", "\\vector\\scene\\ui\\string", &vPos_, lpWorld->GetScene(), 1, &sAttentionCounter );
+	FVector2F_ vPos_( 0.f, 0.f );
+	lpAttackSoon = (FImage2D *)AllocObject( MFImage2D, &vPos_, lpWorld->GetScene(), &FUInteger( 1 ), &sAttentionAttackSoon );
+ 	lpPrepare = (FImage2D *)AllocObject( MFImage2D, &vPos_, lpWorld->GetScene(), &FUInteger( 1 ), &sAttentionPrepare );
+	lpHoldOn = (FImage2D *)AllocObject( MFImage2D, &vPos_, lpWorld->GetScene(), &FUInteger( 1 ), &sAttentionHoldon );
+	lpCounter = (FObject2D *)AllocObject( MFObject2D, &vPos_, lpWorld->GetScene(), &FUInteger( 1 ), &sAttentionCounter );
    
     lpCounter->SetDuration( ATTENTION_SHOW_COUNTER_TIME/3.f );
     

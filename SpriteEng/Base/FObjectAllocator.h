@@ -35,11 +35,11 @@ protected:
 public:
 
 	////
-	FObject * AllocObject( const FString & sObjName, const CHAR_ * lpCallTypes, va_list lpArgs );
-	FObject * AllocObjectT( const FString & sObjName, const CHAR_ * lpCallTypes, va_list lpArgs );//выделение памяти под объек генерирует исключение
+	FObject * AllocObject( const FString & sObjName, FObject * lpFirst, va_list lpArgs );
+	FObject * AllocObjectT( const FString & sObjName, FObject * lpFirst, va_list lpArgs );//выделение памяти под объек генерирует исключение
 	////
-	FObject * AllocObject( const FString & sObjName, const CHAR_ * lpCallTypes, ... );
-	FObject * AllocObjectT( const FString & sObjName, const CHAR_ * lpCallTypes, ... );//выделение памяти под объек генерирует исключение
+	FObject * AllocObject( const FString & sObjName, FObject * lpFirst, ... );
+	FObject * AllocObjectT( const FString & sObjName, FObject * lpFirst, ... );//выделение памяти под объек генерирует исключение
 	void DeleteObject( FObject * lpObject );
 };
 

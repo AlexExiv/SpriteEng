@@ -10,6 +10,8 @@
 #include "../2D/FText.h"
 #include "FGameDef.h"
 #include "FArithWorld.h"
+#include "..\Base\FBaseTypes.h"
+
 
 #define MESSAGE_SHOW_TIME 60.f
 #define MESSAGE_MOVE_TIME 60.f
@@ -25,12 +27,14 @@ inline F32 GetFract( F32 fFloat )
 	return fFloat - F32( I32( fFloat ) );
 }
 
+IMPLEMENT_OBJ_DERIVERED( FMessage );
+
 FMessage::FMessage( FArithWorld * lpWorld ) : FGameObject( FGameObject::OBJECT_MESSAGE, lpWorld ), fCurTime( 0.f ), fCounterTime( 0.f )
 {
     iObjState = MESSAGE_WAIT;
-    
-	lpLabel = (FText *)AllocObject( "FText", "\\vector\\color\\f\\string\\string\\ui\\scene", &vPos, &FColor4F( 1.f, 0.f, 0.f, 1.f ),
-		15.f, &FString( " " ), &sDeffFont, 2, lpWorld->GetScene() );
+	
+	lpLabel = (FText *)AllocObject( MFText, RFVector2F( 0.f, 0.f ), RFColor4F( 1.f, 0.f, 0.f, 1.f ),
+		RFFloat( 15.f ), RFString( " " ), &sDeffFont, RFUInteger( 2 ), lpWorld->GetScene(), NULL );
 
     lpLabel->Show( false );
 }

@@ -44,6 +44,10 @@ public:
     
     UI32 Load( void * lpData );
     void Save( FFile * lpFile );
+
+	DEFINE_OBJ_DERIVERED( FScoreAdd );
 };
+
+DEFINE_OBJ_NAME( FScoreAdd );
 
 #endif

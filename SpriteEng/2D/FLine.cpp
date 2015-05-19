@@ -27,6 +27,9 @@ FDrawDataCont dDrawCont[LINE_DRAW_CONT_COUNT] =
 	{ FView::ATTRIB_DATA, 1, FView::DATA_FLOAT, sizeof( FLineDrawData ), FIELD_OFFSET_( FLineDrawData, fLineWidth ) }
 };
 
+
+IMPLEMENT_OBJ_DERIVERED( FLine );
+
 FLine::FLine( FScene * lpScene, UI32 iLayer ) : FPrimitive( iLayer, lpScene )
 {
 	

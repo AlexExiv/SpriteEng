@@ -41,6 +41,10 @@ public:
     
     UI32 Load( void * lpData );
     void Save( FFile * lpFile );
+
+	DEFINE_OBJ_DERIVERED( FHiddenDigit );
 };
+
+DEFINE_OBJ_NAME( FHiddenDigit );
 
 #endif /* defined(__Arithmetic_Numbers__FHiddenDigit__) */

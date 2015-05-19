@@ -10,6 +10,9 @@
 #include "FArithWorld.h"
 #include "..\2D\FObject2D.h"
 #include "../Core/FFile.h"
+#include "..\Base\FBaseTypes.h"
+
+
 
 #define CUR_VER 1
 
@@ -20,6 +23,8 @@ struct FParticleBlock
     I32 iCurFrame;
     F32 fFrameTime;
 };
+
+IMPLEMENT_OBJ_DERIVERED( FParticle );
 
 FParticle::FParticle( FArithWorld * lpWorld ) : FGameObject( FGameObject::OBJECT_PARTICLE, lpWorld )
 {
@@ -42,7 +47,7 @@ FParticle::~FParticle()
 
 void FParticle::Init()
 {
-	lpAnimation = (FObject2D *)AllocObject( "FObject2D", "\\vector\\scene\\ui\\string", &vPos, lpWorld->GetScene(), 0, &sPartName );
+	lpAnimation = (FObject2D *)AllocObject( MFObject2D, RFVector2F( vPos ), lpWorld->GetScene(), RFUInteger( 0 ), &sPartName, NULL );
 	lpAnimation->StartAnimation( sParticleAnim );
     lpAnimation->SetDuration( 9.f );
 }

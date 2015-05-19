@@ -53,6 +53,10 @@ public:
     bool IsEventEnd();
     void ResetState();
     void SetNextAttackTime( F32 fNextAttackTime );
+
+	DEFINE_OBJ_DERIVERED( FAttention );
 };
+
+DEFINE_OBJ_NAME( FAttention );
 
 #endif

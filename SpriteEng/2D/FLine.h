@@ -42,6 +42,10 @@ public:
 	void SetPos( const FVector2F & vPos );
 	void SetPoints( const FVector2F & vStart, const FVector2F & vEnd );
 	PRIM_ID GetID()const;
+
+	DEFINE_OBJ_DERIVERED( FLine );
 };
+
+DEFINE_OBJ_NAME( FLine );
 
 #endif

@@ -77,8 +77,11 @@ public:
 	void DownToBackView();
 
 	static void InitMetaData();
+
+	DEFINE_OBJ_DERIVERED( FPrimitive );
 };
 
+DEFINE_OBJ_NAME( FPrimitive );
 
 #define MAKE_PRIM_FRIEND( TYPE ) friend class FPrimitive;\
 								TYPE() {}

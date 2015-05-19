@@ -48,7 +48,10 @@ public:
 	void Update( F32 fDTime );
 
 	static void InitMeta();
+
+	DEFINE_OBJ_DERIVERED( FGuiController );
 };
 
+DEFINE_OBJ_NAME( FGuiController );
 
 #endif

@@ -1,13 +1,17 @@
 #include "FGuiLabel.h"
 #include "..\2D\FText.h"
 #include "FGuiController.h"
+#include "..\Base\FBaseTypes.h"
 
+
+
+IMPLEMENT_OBJ_DERIVERED( FGuiLabel );
 
 FGuiLabel::FGuiLabel( const FVector2F & vPos, const FString & sText, const FString & sFont, const FColor4F & cColor,
 					 F32 fSize, FGuiView * lpSuperView ) : FGuiSingleInaccesbleView( lpSuperView ), lpText( NULL )
 {
-	lpText = (FText *)AllocObject( "FText", "\\vector\\color\\f\\string\\string\\ui\\scene", &vPos, &cColor, fSize, &sText, 
-		&sFont, 0, GetController()->GetGuiScene() );
+	lpText = (FText *)AllocObject( MFText, RFVector2F( vPos ), RFColor4F( cColor ), RFFloat( fSize ), &sText, 
+		&sFont, RFUInteger( 0 ), GetController()->GetGuiScene(), NULL );
 	AddPrimitive( lpText );
 	CalcLabelSize( vPos );
 	CalcPrimitivePos( vPos );
@@ -55,8 +59,8 @@ void FGuiLabel::SetFont( const FString & sFont )
 		RemovePrimitive( lpText );
 		Delete( lpText );
 	}
-	lpText = (FText *)AllocObject( "FText", "\\vector\\color\\f\\string\\string\\ui\\scene", &vPos, &cColor, fSize, &sText, 
-		&sFont, 0, GetController()->GetGuiScene() );
+	lpText = (FText *)AllocObject( MFText, RFVector2F( vPos ), RFColor4F( cColor ), RFFloat( fSize ), &sText, 
+		&sFont, RFUInteger( 0 ), GetController()->GetGuiScene(), NULL );
 
 	CalcLabelSize( vPos );
 	CalcPrimitivePos( vPos );

@@ -24,7 +24,7 @@ FObjectAllocator::~FObjectAllocator()
 	}
 }
 
-FObject * FObjectAllocator::AllocObject( const FString & sObjName, const CHAR_ * lpCallTypes, va_list lpArgs )
+FObject * FObjectAllocator::AllocObject( const FString & sObjName, FObject * lpFirst, va_list lpArgs )
 {
 	void * lpObjData = NULL;
 	if( lpFreeList )
@@ -56,7 +56,7 @@ FObject * FObjectAllocator::AllocObject( const FString & sObjName, const CHAR_ *
 
 	FObject * lpTmpObj = new (lpObjData ) FObject();
 	lpTmpObj->SetAllocator( this );
-	FObject * lpObject = lpMeta->CreateObject( lpObjData, lpCallTypes, lpArgs );
+	FObject * lpObject = lpMeta->CreateObject( lpObjData, lpFirst, lpArgs );
 	if( !lpObject )
 	{
 		FLog::PutError( "Can't create \"%s\" object", sObjName.GetChar() );
@@ -65,7 +65,7 @@ FObject * FObjectAllocator::AllocObject( const FString & sObjName, const CHAR_ *
 	return lpObject;
 }
 
-FObject * FObjectAllocator::AllocObjectT( const FString & sObjName, const CHAR_ * lpCallTypes, va_list lpArgs )
+FObject * FObjectAllocator::AllocObjectT( const FString & sObjName, FObject * lpFirst, va_list lpArgs )
 {
 	void * lpObjData = NULL;
 	if( lpFreeList )
@@ -92,14 +92,14 @@ FObject * FObjectAllocator::AllocObjectT( const FString & sObjName, const CHAR_ 
 	iRealCount++;
 	FObjectMetaData * lpMeta = META( sObjName );
 
-	FObject * lpObject = lpMeta->CreateObject( lpObjData, lpCallTypes, lpArgs );
+	FObject * lpObject = lpMeta->CreateObject( lpObjData, lpFirst, lpArgs );
 	if( !lpObject )
 		throw FException( FException::EXCP_FATAL_ERROR, FString::PrintString( "Can't create \"%s\" object", sObjName.GetChar() ) );
 	lpObject->SetAllocator( this );
 	return lpObject;
 }
 
-FObject * FObjectAllocator::AllocObject( const FString & sObjName, const CHAR_ * lpCallTypes, ... )
+FObject * FObjectAllocator::AllocObject( const FString & sObjName, FObject * lpFirst, ... )
 {
 	void * lpObjData = NULL;
 	if( lpFreeList )
@@ -129,9 +129,9 @@ FObject * FObjectAllocator::AllocObject( const FString & sObjName, const CHAR_ *
 	iRealCount++;
 	FObjectMetaData * lpMeta = META( sObjName );
 	va_list lpArgs;
-	va_start( lpArgs, lpCallTypes );
+	va_start( lpArgs, lpFirst );
 
-	FObject * lpObject = lpMeta->CreateObject( lpObjData, lpCallTypes, lpArgs );
+	FObject * lpObject = lpMeta->CreateObject( lpObjData, lpFirst, lpArgs );
 	va_end( lpArgs );
 
 	if( !lpObject )
@@ -143,7 +143,7 @@ FObject * FObjectAllocator::AllocObject( const FString & sObjName, const CHAR_ *
 	return lpObject;
 }
 
-FObject * FObjectAllocator::AllocObjectT( const FString & sObjName, const CHAR_ * lpCallTypes, ... )
+FObject * FObjectAllocator::AllocObjectT( const FString & sObjName, FObject * lpFirst, ... )
 {
 	void * lpObjData = NULL;
 	if( lpFreeList )
@@ -170,9 +170,9 @@ FObject * FObjectAllocator::AllocObjectT( const FString & sObjName, const CHAR_ 
 	iRealCount++;
 	FObjectMetaData * lpMeta = META( sObjName );
 	va_list lpArgs;
-	va_start( lpArgs, lpCallTypes );
+	va_start( lpArgs, lpFirst );
 
-	FObject * lpObject = lpMeta->CreateObject( lpObjData, lpCallTypes, lpArgs );
+	FObject * lpObject = lpMeta->CreateObject( lpObjData, lpFirst, lpArgs );
 	va_end( lpArgs );
 	if( !lpObject )
 		throw FException( FException::EXCP_FATAL_ERROR, FString::PrintString( "Can't create \"%s\" object", sObjName.GetChar() ) );

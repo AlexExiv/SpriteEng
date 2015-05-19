@@ -6,6 +6,7 @@
 #include <stdarg.h>
 
 
+IMPLEMENT_OBJ_DERIVERED( FText );
 
 FText::FText( const FVector2F & vPos, const FColor4F & cColor, F32 fFontSize, const FString & sText, const FString & sFontName, 
 			 UI32 iLayer, FScene * lpScene ) : FPrimitive( iLayer, lpScene ), sText( sText ), vPos( vPos ), cTextColor( cColor ), fFontSize( fFontSize ), iPrimCount( 0 ), iDataSize( 0 ), iIndCount( 0 ), iVertCount( 0 )

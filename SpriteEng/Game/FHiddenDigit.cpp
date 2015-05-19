@@ -11,6 +11,8 @@
 #include "..\Core\FFile.h"
 #include "../2D/FText.h"
 #include "../2D/FObject2D.h"
+#include "..\Base\FBaseTypes.h"
+
 
 #define CUR_VER 1
 
@@ -19,6 +21,8 @@ struct FHiddenDigitBlock
     UI32 iVersion;
     F32 fCurTime;
 };
+
+IMPLEMENT_OBJ_DERIVERED( FHiddenDigit );
 
 FHiddenDigit::FHiddenDigit( FArithWorld * lpWorld ) : FDigit( lpWorld ), fCurTime( 0.f )
 {
@@ -71,7 +75,7 @@ void FHiddenDigit::ReadyDigit()
 
 FDigit * FHiddenDigit::CreateMirror( const FVector2F & vMirrorPos )
 {
-	FHiddenDigit * lpDigit = (FHiddenDigit *)AllocObject( "FHiddenDigit", "\\vector\\ui\\world", &vMirrorPos, 10, lpWorld );
+	FHiddenDigit * lpDigit = (FHiddenDigit *)AllocObject( MFHiddenDigit, &FVector2F_( vMirrorPos ), &FUInteger( 10 ), lpWorld, NULL );
 
     lpDigit->iObjState = iObjState;
     lpDigit->lpAnimation->Scale( 1.f );

@@ -12,8 +12,12 @@
 #include "..\Gui\FGuiScene.h"
 #include "..\2D\FPrimitive.h"
 #include <new.h>
+#include "..\Base\FBaseTypes.h"
+#include "FArithGame.h"
 
 
+
+IMPLEMENT_OBJ_DERIVERED( FGame );
 
 FObject * ConstructDigit1( void * lpPlacement, va_list lpArgs )
 {
@@ -23,10 +27,10 @@ FObject * ConstructDigit1( void * lpPlacement, va_list lpArgs )
 
 FObject * ConstructDigit3( void * lpPlacement, va_list lpArgs )
 {
-	FVector2F * lpPos = va_arg( lpArgs, FVector2F * );
-	UI32 iNum = va_arg( lpArgs, UI32 );
+	PFVector2F lpPos = va_arg( lpArgs, PFVector2F );
+	PFUInteger lpNum = va_arg( lpArgs, PFUInteger );
 	FArithWorld * lpWorld = va_arg( lpArgs, FArithWorld * );
-	return new (lpPlacement) FDigit( *lpPos, iNum, lpWorld );
+	return new (lpPlacement) FDigit( *lpPos, *lpNum, lpWorld );
 }
 
 FObject * ConstructHiddenDigit1( void * lpPlacement, va_list lpArgs )
@@ -37,15 +41,15 @@ FObject * ConstructHiddenDigit1( void * lpPlacement, va_list lpArgs )
 
 FObject * ConstructHiddenDigit3( void * lpPlacement, va_list lpArgs )
 {
-	FVector2F * lpPos = va_arg( lpArgs, FVector2F * );
-	UI32 iNum = va_arg( lpArgs, UI32 );
+	PFVector2F lpPos = va_arg( lpArgs, PFVector2F );
+	PFUInteger lpNum = va_arg( lpArgs, PFUInteger );
 	FArithWorld * lpWorld = va_arg( lpArgs, FArithWorld * );
-	return new (lpPlacement) FHiddenDigit( *lpPos, iNum, lpWorld );
+	return new (lpPlacement) FHiddenDigit( *lpPos, *lpNum, lpWorld );
 }
 
 FObject * ConstructAttention( void * lpPlacement, va_list lpArgs )
 {
-	FVector2F * lpPos = va_arg( lpArgs, FVector2F * );
+	PFVector2F lpPos = va_arg( lpArgs, PFVector2F );
 	FArithWorld * lpWorld = va_arg( lpArgs, FArithWorld * );
 	return new (lpPlacement) FAttention( *lpPos, lpWorld );
 }
@@ -58,10 +62,10 @@ FObject * ConstructBonus1( void * lpPlacement, va_list lpArgs )
 
 FObject * ConstructBonus3( void * lpPlacement, va_list lpArgs )
 {
-	FVector2F * lpPos = va_arg( lpArgs, FVector2F * );
-	UI32 iBonusType = va_arg( lpArgs, UI32 );
+	PFVector2F lpPos = va_arg( lpArgs, PFVector2F );
+	PFUInteger lpBonusType = va_arg( lpArgs, PFUInteger );
 	FArithWorld * lpWorld = va_arg( lpArgs, FArithWorld * );
-	return new (lpPlacement) FBonus( *lpPos, iBonusType, lpWorld );
+	return new (lpPlacement) FBonus( *lpPos, *lpBonusType, lpWorld );
 }
 
 FObject * ConstructInterface( void * lpPlacement, va_list lpArgs )
@@ -90,7 +94,7 @@ FObject * ConstructParticle1( void * lpPlacement, va_list lpArgs )
 
 FObject * ConstructParticle2( void * lpPlacement, va_list lpArgs )
 {
-	FVector2F * lpPos = va_arg( lpArgs, FVector2F * );
+	PFVector2F lpPos = va_arg( lpArgs, PFVector2F );
 	FArithWorld * lpWorld = va_arg( lpArgs, FArithWorld * );
 	return new (lpPlacement) FParticle( *lpPos, lpWorld );
 }
@@ -103,14 +107,15 @@ FObject * ConstructScoreAdd1( void * lpPlacement, va_list lpArgs )
 
 FObject * ConstructScoreAdd3( void * lpPlacement, va_list lpArgs )
 {
-	FVector2F * lpPos = va_arg( lpArgs, FVector2F * );
+	PFVector2F lpPos = va_arg( lpArgs, PFVector2F );
 	FArithWorld * lpWorld = va_arg( lpArgs, FArithWorld * );
-	I32 iNum = va_arg( lpArgs, I32 );
-	return new (lpPlacement) FScoreAdd( *lpPos, lpWorld, iNum );
+	PFInteger lpNum = va_arg( lpArgs, PFInteger );
+	return new (lpPlacement) FScoreAdd( *lpPos, lpWorld, *lpNum );
 }
 
 void FGame::InitMeta()
 {
+	FObject::InitMeta();
 	FPrimitive::InitMetaData();
 	FGuiController::InitMeta();
 
@@ -121,27 +126,30 @@ void FGame::InitMeta()
 	DEFINE_META_SUPER( FBonus, FGameObject );
 	DEFINE_META_SUPER( FMessage, FGameObject );
 	DEFINE_META_SUPER( FParticle, FGameObject );
-	DEFINE_META_SUPER( FInterface, FGameObject );
+	DEFINE_META_SUPER( FInterface, FGuiController );
 	DEFINE_META_SUPER( FScoreAdd, FGameObject );
+	DEFINE_META_SUPER( FWorld, FGameObject );
+	DEFINE_META_SUPER( FGame, FGameObject );
 	DEFINE_META_SUPER( FArithWorld, FGameObject );
+	DEFINE_META_SUPER( FArithGame, FGameObject );
 
-	DEFINE_META_CONSTR( FDigit, "\\world", ConstructDigit1 );
-	DEFINE_META_CONSTR( FDigit, "\\vector\\ui\\world", ConstructDigit3 );
-	DEFINE_META_CONSTR( FHiddenDigit, "\\world", ConstructHiddenDigit1 );
-	DEFINE_META_CONSTR( FHiddenDigit, "\\vector\\ui\\world", ConstructHiddenDigit3 );
-	DEFINE_META_CONSTR( FAttention, "\\vector\\world", ConstructAttention );
-	DEFINE_META_CONSTR( FBonus, "\\world", ConstructBonus1 );
-	DEFINE_META_CONSTR( FBonus, "\\vector\\ui\\world", ConstructBonus3 );
-	DEFINE_META_CONSTR( FMessage, "\\world", ConstructMessage );
-	DEFINE_META_CONSTR( FParticle, "\\world", ConstructParticle1 );
-	DEFINE_META_CONSTR( FParticle, "\\vector\\world", ConstructParticle2 );
-	DEFINE_META_CONSTR( FInterface, "\\scene", ConstructInterface );
-	DEFINE_META_CONSTR( FScoreAdd, "\\world", ConstructScoreAdd1 );
-	DEFINE_META_CONSTR( FScoreAdd, "\\vector\\world\\i", ConstructScoreAdd3 );
-	DEFINE_META_CONSTR( FArithWorld, "\\game", ConstructArithWorld );
+	DEFINE_META_CONSTR1( FDigit, ConstructDigit1, FArithWorld );
+	DEFINE_META_CONSTR3( FDigit, ConstructDigit3, FVector2F_, FUInteger, FArithWorld );
+	DEFINE_META_CONSTR1( FHiddenDigit, ConstructHiddenDigit1, FArithWorld );
+	DEFINE_META_CONSTR3( FHiddenDigit, ConstructHiddenDigit3, FVector2F_, FUInteger, FArithWorld );
+	DEFINE_META_CONSTR2( FAttention, ConstructAttention, FVector2F_, FArithWorld );
+	DEFINE_META_CONSTR1( FBonus, ConstructBonus1, FArithWorld );
+	DEFINE_META_CONSTR3( FBonus, ConstructBonus3, FVector2F_, FUInteger, FArithWorld );
+	DEFINE_META_CONSTR1( FMessage, ConstructMessage, FArithWorld );
+	DEFINE_META_CONSTR1( FParticle, ConstructParticle1, FArithWorld );
+	DEFINE_META_CONSTR2( FParticle, ConstructParticle2, FVector2F_, FArithWorld );
+	DEFINE_META_CONSTR1( FInterface, ConstructInterface, FGuiScene );
+	DEFINE_META_CONSTR1( FScoreAdd, ConstructScoreAdd1, FArithWorld );
+	DEFINE_META_CONSTR3( FScoreAdd, ConstructScoreAdd3, FVector2F_, FArithWorld, FInteger );
+	DEFINE_META_CONSTR1( FArithWorld, ConstructArithWorld, FArithGame );
 }
 
-FGame::FGame( UI32 iObjReserved ) : FObject( iObjReserved )
+FGame::FGame( UI32 iObjReserved ) : FGameObject( iObjReserved )
 {
 
 }

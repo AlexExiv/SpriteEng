@@ -43,6 +43,10 @@ public:
     
     void Update( F32 fDTime );
     void ShowGameOver( bool bShow ); 
+
+	DEFINE_OBJ_DERIVERED( FInterface );
 };
+
+DEFINE_OBJ_NAME( FInterface );
 
 #endif

@@ -31,6 +31,7 @@ const FDrawDataCont dImageDataCont[IMAGE_DATA_CONT_COUNT] =
 };
 
 
+IMPLEMENT_OBJ_DERIVERED( FImage2D );
 
 FImage2D::FImage2D( const FVector2F & vPos, FScene * lpScene, UI32 iLayer, const FString & sName ) : FPrimitive( iLayer, lpScene ), vPos( vPos ), lpShader( NULL ), lpTexture( NULL ), iTexBlock( 0 )
 {

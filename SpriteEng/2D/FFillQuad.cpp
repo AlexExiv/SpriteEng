@@ -24,6 +24,8 @@ FDrawDataCont dFillQuadCont[FILL_QUAD_CONT_COUNT] =
 	{ FView::COLOR_DATA, 4, FView::DATA_FLOAT, sizeof( FFillQuadData ), FIELD_OFFSET_( FFillQuadData, cColor ) }
 };
 
+IMPLEMENT_OBJ_DERIVERED( FFillQuad );
+
 FFillQuad::FFillQuad( const FVector2F & vPos, const FVector2F & vDimension, const FColor4F & cColor, UI32 iLayer, FScene * lpScene ) : FPrimitive( iLayer, lpScene ), vPos( vPos ), vDim( vDimension ), cColor( cColor )
 {
 	lpShader = (FShader *)FGraphObjectManager::GetInstance()->CreateObject( sFillQuadShader, FGraphObjectManager::OBJECT_SHADER );

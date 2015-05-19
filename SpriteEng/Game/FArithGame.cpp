@@ -56,26 +56,28 @@ const FString sHiddenDigitAnim( "HIDDEN" );
 const FString sParticleAnim( "BLOW" );
 const FString sCounterAnim( "COUNTER" );
 
+IMPLEMENT_OBJ_DERIVERED( FArithGame );
 
-FArithGame::FArithGame( ) : FGame( MAX_GAME_OBJECT ), lpWorldSeq( NULL ), lpGuiSeq( NULL ), lpGuiScene( NULL ), lpWorldScene( NULL ), lpWorld( NULL ), lpInterface ( NULL ),
+FArithGame::FArithGame( ) : FGame( MAX_GAME_OBJECT ), lpWorldSeq( NULL ), lpGuiSeq( NULL ), lpGuiScene( NULL ), lpWorldScene( NULL ), lpAWorld( NULL ), lpInterface ( NULL ),
 	iScore( 0 ), iGameTime( 0 )
 {
 	lpGuiSeq = new FSerialSeq( 512 );
 	lpGuiScene = new FGuiScene( FView::GetMainView()->GetWidth(), FView::GetMainView()->GetHeight(), lpGuiSeq );
-	lpInterface = (FInterface *)AllocObject( "FInterface", "\\scene", lpGuiScene );
+	lpInterface = (FInterface *)AllocObject( MFInterface, lpGuiScene, NULL );
 
 	lpWorldSeq = new FGroupSeq( 512 );
 	lpWorldScene = new FSimpleScene( FView::GetMainView()->GetWidth(), FView::GetMainView()->GetHeight() 
 		- lpInterface->GetView()->GetSize().fHeight, lpWorldSeq );
-	lpWorld = (FArithWorld *)AllocObject( "FArithWorld", "\\game", this );
-    for( I32 i = 0;i < MAX_CLICK;i++ )
+	lpAWorld = (FArithWorld *)AllocObject( MFArithWorld, this, NULL );
+
+	for( I32 i = 0;i < MAX_CLICK;i++ )
     {
         cClickSeq[i].x = 0.f;
         cClickSeq[i].y = 0.f;
         cClickSeq[i].iPush = 0;
     }
     
-    srand( ((unsigned)time( NULL ))%1000 );
+    srand( ((UI32)time( NULL ))%1000 );
     
     Load( "save.sav" );
 }    
@@ -83,8 +85,8 @@ FArithGame::FArithGame( ) : FGame( MAX_GAME_OBJECT ), lpWorldSeq( NULL ), lpGuiS
 
 FArithGame::~FArithGame()
 {
-	if( lpWorld )
-		Delete( lpWorld );
+	if( lpAWorld )
+		Delete( lpAWorld );
 	if( lpInterface )
 		Delete( lpInterface );
 	if( lpGuiScene )
@@ -100,14 +102,14 @@ FArithGame::~FArithGame()
 void FArithGame::Update( F32 fDTime )
 {
     lpInterface->Update( fDTime );
-    lpWorld->Update( fDTime );
+    lpAWorld->Update( fDTime );
 	lpWorldScene->Update( fDTime );
 	lpGuiScene->Update( fDTime );
 }
 
 void FArithGame::Draw()
 {
-	FRect rFrustum( 0.f, 0.f, lpWorld->GetWorldWidth(), lpWorld->GetWorldHeight() );
+	FRect rFrustum( 0.f, 0.f, lpAWorld->GetWorldWidth(), lpAWorld->GetWorldHeight() );
 
 	FView::GetMainView()->BeginDraw();
 
@@ -131,7 +133,7 @@ void FArithGame::Save( const FString & sFileName )
     FGameBlock oBlock = { CUR_VER, iScore };
     lpFile->Write( &oBlock, sizeof( FGameBlock ) );
     
-    lpWorld->Save( lpFile );
+    lpAWorld->Save( lpFile );
     
 	FFile::CloseFile( lpFile );
 }
@@ -152,7 +154,7 @@ void FArithGame::Load( const FString & sFileName )
     iScore = lpBlock->iScore;
     lpInterface->SetScore( iScore );
     
-    lpWorld->Load( (FBYTE *)lpData + sizeof( FGameBlock ) );
+    lpAWorld->Load( (FBYTE *)lpData + sizeof( FGameBlock ) );
 	FFile::CloseFile( lpFile );
 	POP_BLOCK;
 }
@@ -168,7 +170,7 @@ void FArithGame::ClickDown( const FVector2F & vPos, UI32 iIndex )
     cClickSeq[iIndex].y = vPos.y;
     cClickSeq[iIndex].iPush = 1;
     
-    lpWorld->ClickDown( vPos, iIndex );
+    lpAWorld->ClickDown( vPos, iIndex );
 }
 
 void FArithGame::ClickUp( const FVector2F & vPos, UI32 iIndex )
@@ -180,7 +182,7 @@ void FArithGame::ClickUp( const FVector2F & vPos, UI32 iIndex )
 	}
 
 	cClickSeq[iIndex].iPush = 0;
-    lpWorld->ClickUp( vPos, iIndex );
+    lpAWorld->ClickUp( vPos, iIndex );
 }
 
 void FArithGame::ClickMove( const FVector2F & vPos, UI32 iIndex )
@@ -191,7 +193,7 @@ void FArithGame::ClickMove( const FVector2F & vPos, UI32 iIndex )
 		return;
 	}
 
-    lpWorld->ClickMove( vPos, iIndex );
+    lpAWorld->ClickMove( vPos, iIndex );
 }
 
 UI32 FArithGame::GetScore()const
@@ -241,6 +243,6 @@ void FArithGame::ShowGameOver( bool bShow )
 
 void FArithGame::NewGame()
 {
-    lpWorld->NewWorld();
+    lpAWorld->NewWorld();
 }
 

@@ -5,6 +5,8 @@
 
 static FWorld * lpCurWorld = NULL;
 
+IMPLEMENT_OBJ_DERIVERED( FWorld );
+
 FWorld::FWorld( FScene * lpScene, FGame * lpGame ) : lpScene( lpScene ), fWorldWidth( lpScene->GetWidth() ), 
 	fWorldHeight( lpScene->GetHeight() )
 {

@@ -1,8 +1,18 @@
 #include "FScene.h"
 #include "FDrawSeq.h"
 #include "..\Core\FLog.h"
+#include "..\Base\FMetaData.h"
+#include "FSimpleScene.h"
 
 
+IMPLEMENT_OBJ_DERIVERED( FScene );
+
+
+void FScene::InitMeta()
+{
+	DEFINE_META_SUPER( FScene, FObject );
+	DEFINE_META_SUPER( FSimpleScene, FScene );
+}
 
 FScene::FScene( UI32 iSceneWidth, UI32 iSceneHeight, FDrawSeq * lpDrawSeq ) : iSceneWidth( iSceneWidth ), iSceneHeight( iSceneHeight ),
 	lpDrawSeq( lpDrawSeq )

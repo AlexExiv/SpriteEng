@@ -3,6 +3,7 @@
 #include "..\Core\FLog.h"
 
 
+IMPLEMENT_OBJ_DERIVERED( FGuiScene );
 
 FGuiScene::FGuiScene( UI32 iSceneWidth, UI32 iSceneHeight, FDrawSeq * lpDrawSeq ) : FScene( iSceneWidth, iSceneHeight, lpDrawSeq ), 
 	lPrimList( 128, 0 ), lAnimatedPrimList( 128, 0 )

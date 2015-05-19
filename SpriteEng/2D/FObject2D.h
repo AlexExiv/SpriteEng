@@ -52,6 +52,10 @@ public:
 	void Move( const FVector2F & vDPos );
 	void SetPos( const FVector2F & vPos );
 	void StartAnimation( const FString & sAnimName );//запуск анимации по имени, им€ хранитс€ в атлас файле!!!
+
+	DEFINE_OBJ_DERIVERED( FObject2D );
 };
+
+DEFINE_OBJ_NAME( FObject2D );
 
 #endif

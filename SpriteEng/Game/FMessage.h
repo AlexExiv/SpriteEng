@@ -44,6 +44,10 @@ public:
     
     virtual UI32 Load( void * lpData );
     virtual void Save( FFile * lpFile );
+
+	DEFINE_OBJ_DERIVERED( FMessage );
 };
+
+DEFINE_OBJ_NAME( FMessage );
 
 #endif /* defined(__Arithmetic_Numbers__FMessage__) */

@@ -446,14 +446,14 @@ void FStringTable::Destroy()
 
 
 
+IMPLEMENT_OBJ_DERIVERED( FString );
 
-
-FString::FString() : lpString( NULL ), iLen( 0 ), iKey( 0 )
+FString::FString() : FObject( true ), lpString( NULL ), iLen( 0 ), iKey( 0 )
 {
 	
 }
 
-FString::FString( const CHAR_ * lpString0 ) : iLen( 0 ), iKey( 0 )
+FString::FString( const CHAR_ * lpString0 ) : FObject( true ), iLen( 0 ), iKey( 0 )
 {
 	if( !lpString0 )
 		return;
@@ -464,7 +464,7 @@ FString::FString( const CHAR_ * lpString0 ) : iLen( 0 ), iKey( 0 )
 	lpString = ALLOC_STRING( lpString0, iKey, iLen );
 }
 
-FString::FString( CHAR_ cChar )
+FString::FString( CHAR_ cChar ) : FObject( true )
 {
 	iLen = 1;
 	CHAR_ cBuffer[2] = { cChar, 0 };
@@ -473,7 +473,7 @@ FString::FString( CHAR_ cChar )
 	lpString = ALLOC_STRING( cBuffer, iKey, iLen );
 }
 
-FString::FString( const FString & sString ) : lpString( NULL ), iKey( sString.iKey ), iLen( sString.iLen )
+FString::FString( const FString & sString ) : FObject( true ), lpString( NULL ), iKey( sString.iKey ), iLen( sString.iLen )
 {
 	if( !sString.lpString )
 		return;
@@ -481,7 +481,7 @@ FString::FString( const FString & sString ) : lpString( NULL ), iKey( sString.iK
 	lpString = ALLOC_STRING( sString.lpString, iKey, iLen );
 }
 
-FString::FString( I32 iNum )
+FString::FString( I32 iNum ) : FObject( true )
 {
 	CHAR_ cNum[MAX_STRING];
 
@@ -492,7 +492,7 @@ FString::FString( I32 iNum )
 	lpString = ALLOC_STRING( cNum, iKey, iLen );
 }
 
-FString::FString( UI32 iNum )
+FString::FString( UI32 iNum ) : FObject( true )
 {
 	CHAR_ cNum[MAX_STRING];
 
@@ -503,7 +503,7 @@ FString::FString( UI32 iNum )
 	lpString = ALLOC_STRING( cNum, iKey, iLen );
 }
 
-FString::FString( F32 fNum )
+FString::FString( F32 fNum ) : FObject( true )
 {
 	CHAR_ cNum[MAX_STRING];
 

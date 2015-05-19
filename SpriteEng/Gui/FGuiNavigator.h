@@ -28,7 +28,10 @@ public:
 	void PushController( FGuiController * lpController );
 	void PopController();
 	void Update( F32 fDTime );
+
+	DEFINE_OBJ_DERIVERED( FGuiNavigator );
 };
 
+DEFINE_OBJ_NAME( FGuiNavigator );
 
 #endif

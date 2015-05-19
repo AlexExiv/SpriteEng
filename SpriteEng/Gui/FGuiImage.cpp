@@ -1,13 +1,16 @@
 #include "FGuiImage.h"
 #include "FGuiController.h"
 #include "..\2D\FImage2D.h"
+#include "..\Core\FString.h"
+#include "..\Base\FBaseTypes.h"
 
 
+IMPLEMENT_OBJ_DERIVERED( FGuiImage );
 
 FGuiImage::FGuiImage( const FVector2F & vPos, const FString & sImageName, FGuiView * lpSuperView ) : FGuiSingleInaccesbleView( lpSuperView )
 	, lpImage( NULL )
 {
-	lpImage = (FImage2D *)AllocObject( "FImage2D", "\\vector\\scene\\ui\\string", &vPos, GetController()->GetGuiScene(), 0, &sImageName );
+	lpImage = (FImage2D *)AllocObject( MFImage2D, RFVector2F( vPos ), GetController()->GetGuiScene(), RFUInteger( 0 ), &sImageName, NULL );
 	AddPrimitive( lpImage );
 	CalcImageSize( vPos );
 	CalcPrimitivePos( vPos );
@@ -44,7 +47,7 @@ void FGuiImage::SetImage( const FString & sName )
 	}
 
 	FVector2F vPos( rFrame.fLeft, rFrame.fBottom );
-	lpImage = (FImage2D *)AllocObject( "FImage2D", "\\vector\\scene\\ui\\string", &vPos, GetController()->GetGuiScene(), 0, &sName );
+	lpImage = (FImage2D *)AllocObject( MFImage2D, RFVector2F( vPos ), GetController()->GetGuiScene(), RFUInteger( 0 ), &sName, NULL );
 	AddPrimitive( lpImage );
 	CalcImageSize( vPos );
 	CalcPrimitivePos( vPos );

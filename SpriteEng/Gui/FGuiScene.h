@@ -25,7 +25,10 @@ public:
 	void UpToBeginObject( FPrimitive * lpPrim );
 	void AddObjectToAnimList( FPrimitive * lpPrim );
 	void RemoveObjectFromAnimList( FPrimitive * lpPrim );
+
+	DEFINE_OBJ_DERIVERED( FGuiScene );
 };
 
+DEFINE_OBJ_NAME( FGuiScene );
 
 #endif
