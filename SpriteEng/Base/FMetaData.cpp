@@ -92,6 +92,8 @@ FObjectMetaData::FConstructor * FObjectMetaData::FindConstructorByStr(  va_list 
 		for(;i < lpConstr->iArgCount;i++ )
 		{
 			FString * lpArgName = va_arg( lpArgs_, FString * );
+			if( lpArgName == NULL )
+				break;
 			if( lpConstr->sArguments[i] != *lpArgName )
 				break;
 		}
@@ -212,7 +214,7 @@ FObject * FObjectMetaData::CreateObject( void * lpPlacement, FObject * lpFirst, 
 		return lpConstr->fConstruct( lpPlacement, lpArgs );
 	}
 
-	FString sArguments;
+	FString sArguments( "" );
 	bool bIsFirst = true;
 	FObject * lpObj = lpFirst;
 
@@ -224,7 +226,7 @@ FObject * FObjectMetaData::CreateObject( void * lpPlacement, FObject * lpFirst, 
 			bIsFirst = false;
 		}
 		else
-			sArguments += (FString( " ," ) + lpObj->GetObjName());
+			sArguments += (FString( ", " ) + lpObj->GetObjName());
 
 		lpObj = va_arg( lpArgs, FObject * );
 	}
@@ -267,6 +269,9 @@ void FObjectMetaManager::RegisterMetaData( FObjectMetaData * lpMetaData )
 
 	iMaxObjSize = max( iMaxObjSize, lpMetaData->GetSize() );
 	mMetaMap.AddRecord( lpMetaData->GetName(), lpMetaData );
+#ifdef _DEBUG
+	FLog::PutMessage( "Object %s is added", lpMetaData->GetName().GetChar() );
+#endif
 }
 
 FObjectMetaData * FObjectMetaManager::FindMetaData( const FString & sName )
