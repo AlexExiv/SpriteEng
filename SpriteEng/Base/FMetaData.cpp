@@ -89,15 +89,16 @@ FObjectMetaData::FConstructor * FObjectMetaData::FindConstructorByStr(  va_list 
 	{
 		UI32 i = 0;
 		va_list lpArgs_ = lpArgs;
+		FString * lpArgName = NULL;
 		for(;i < lpConstr->iArgCount;i++ )
 		{
-			FString * lpArgName = va_arg( lpArgs_, FString * );
+			lpArgName = va_arg( lpArgs_, FString * );
 			if( lpArgName == NULL )
 				break;
 			if( lpConstr->sArguments[i] != *lpArgName )
 				break;
 		}
-		if( i == lpConstr->iArgCount )
+		if( (i == lpConstr->iArgCount)&&(lpArgName == NULL) )
 			break;
 
 		lpConstr = lpConstr->lpNext;
@@ -118,9 +119,9 @@ void FObjectMetaData::RegisterConstructor( FObjectConstructor fConstructor, ... 
 	FString sArguments( "" );
 	bool bIsFirst = true;
 
-	while( *lpArgs != NULL )
+	FString * lpArgName = va_arg( lpArgs, FString * );
+	while( lpArgName != NULL )
 	{
-		FString * lpArgName = va_arg( lpArgs, FString * );
 		if( bIsFirst )
 		{
 			sArguments += *lpArgName;
@@ -128,11 +129,12 @@ void FObjectMetaData::RegisterConstructor( FObjectConstructor fConstructor, ... 
 		}
 		else
 			sArguments += (FString( ", " ) + *lpArgName);
+		lpArgName = va_arg( lpArgs, FString * );
 	}
 	va_end( lpArgs );
 	if( lpConstr )
 	{
-		FLog::PutError( "Class %s constructor redefinition ( %s )", sClassName.GetChar(), sArguments.GetChar() );
+		FLog::PutError( "Class constructor redefinition %s( %s )", sClassName.GetChar(), sArguments.GetChar() );
 		return;
 	}
 
@@ -164,10 +166,11 @@ void FObjectMetaData::RegisterConstructor( FObjectConstructor fConstructor, ... 
 	lpConstr = new FConstructor;
 
 	UI32 iArgCount = 0;
-	while( *lpArgs != NULL )
+	lpArgName = va_arg( lpArgs, FString * );
+	while( lpArgName != NULL )
 	{
-		FString * lpArgName = va_arg( lpArgs, FString * );
 		lpConstr->sArguments[iArgCount++] = *lpArgName;
+		lpArgName = va_arg( lpArgs, FString * );
 	}
 
 	va_end( lpArgs );
@@ -222,7 +225,7 @@ FObject * FObjectMetaData::CreateObject( void * lpPlacement, FObject * lpFirst, 
 	{
 		if( bIsFirst )
 		{
-			sArguments += lpObj->GetObjName();
+			sArguments = lpObj->GetObjName();
 			bIsFirst = false;
 		}
 		else

@@ -43,13 +43,11 @@ void FResourceManager::RegisterResource( FResource * lpResource )
 
 void * FResourceManager::AllocRes()
 {
-	if( iAllocCount == RESOURCE_COUNT )
-	{
-		DestructAllRes();
-		iAllocCount = 0;
-	}
+	UI32 iAllocInd = iAllocCount%RESOURCE_COUNT;
+	if( iAllocCount >= RESOURCE_COUNT )
+		((FResource *)(lpResData + iAllocInd*iMaxResSize))->~FResource();
 
-	void * lpRet = lpResData + iAllocCount*iMaxResSize;
+	void * lpRet = lpResData + iAllocInd*iMaxResSize;
 	iAllocCount++;
 	return lpRet;
 }

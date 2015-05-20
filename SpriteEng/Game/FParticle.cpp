@@ -47,9 +47,9 @@ FParticle::~FParticle()
 
 void FParticle::Init()
 {
-	lpAnimation = (FObject2D *)AllocObject( MFObject2D, RFVector2F( vPos ), lpWorld->GetScene(), RFUInteger( 0 ), &sPartName, NULL );
+	lpAnimation = (FObject2D *)AllocObject( MFObject2D, RFVector2F( vPos ), lpWorld->GetScene(), RFUInteger( 1 ), &sPartName, NULL );
 	lpAnimation->StartAnimation( sParticleAnim );
-    lpAnimation->SetDuration( 9.f );
+    lpAnimation->SetDuration( 18.f );
 }
 
 F32 FParticle::GetWidth()const

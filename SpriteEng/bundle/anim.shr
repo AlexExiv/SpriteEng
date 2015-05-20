@@ -15,5 +15,6 @@ uniform sampler2D tAtlasTex;
 
 void main()
 {
-	gl_FragColor = texture2D( tAtlasTex, gl_TexCoord[0].xy );
+	gl_FragColor.rgb = texture2D( tAtlasTex, gl_TexCoord[0].xy ).rgb;
+	gl_FragColor.a = texture2D( tAtlasTex, gl_TexCoord[0].xy ).a;
 }
