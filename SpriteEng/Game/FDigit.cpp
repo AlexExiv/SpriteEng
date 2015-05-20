@@ -113,10 +113,11 @@ void FDigit::CenterLabel()
 
 FDigit * FDigit::CreateMirror( const FVector2F & vMirrorPos )
 {
-	FDigit * lpDigit = (FDigit *)AllocObject( MFDigit, &FVector2F_( vMirrorPos ), FUInteger( iNum ), lpWorld, NULL );
+	FDigit * lpDigit = (FDigit *)AllocObject( MFDigit, RFVector2F( vMirrorPos ), RFUInteger( iNum ), lpWorld, NULL );
     lpDigit->iObjState = iObjState;
     lpDigit->lpAnimation->Scale( 1.f );
     lpDigit->lpLabel->Scale( 1.f );
+	lpDigit->Move( vMirrorPos );
     
     return lpDigit;
 }
@@ -258,6 +259,7 @@ void FDigit::StrideLeft( F32 fDTime )
     }
     
     UI32 iFieldW = GetFieldWidth();
+	F32 fFieldW = GetFieldWidth();
 	//вычисляем реальные координаты из виртуальных
     vPos.x = F32(I32( fXLine ) % iFieldW) + (fXLine - F32( I32(fXLine) ));
 	vPos.y = lpWorld->GetWorldHeight() - (I32( fXLine )/iFieldW + 1)*GetHeight();
@@ -267,9 +269,9 @@ void FDigit::StrideLeft( F32 fDTime )
     if( ((vPos.x + GetWidth()) > iFieldW) && !IsBorning() )
     {
         if( !lpMirror )
-			lpMirror = CreateMirror( FVector2F( -iFieldW + vPos.x, lpWorld->GetWorldHeight() - (I32( fXLine )/iFieldW + 2)*GetHeight() ) );
+			lpMirror = CreateMirror( FVector2F( -fFieldW + vPos.x, lpWorld->GetWorldHeight() - (I32( fXLine )/iFieldW + 2)*GetHeight() ) );
         else
-			lpMirror->Move( FVector2F( -iFieldW + vPos.x, lpWorld->GetWorldHeight() - (I32( fXLine )/iFieldW + 2)*GetHeight() ) );
+			lpMirror->Move( FVector2F( -fFieldW + vPos.x, lpWorld->GetWorldHeight() - (I32( fXLine )/iFieldW + 2)*GetHeight() ) );
     }
     
     if( lpMirror )

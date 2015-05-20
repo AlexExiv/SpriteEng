@@ -95,6 +95,7 @@ FGraphObject * FGraphObjectManager::Find( const FString & sName )
 	{
 		if( lpNode->lpObject->GetName() == sName )
 			return lpNode->lpObject;
+		lpNode = lpNode->lpNext;
 	}
 
 	return NULL;

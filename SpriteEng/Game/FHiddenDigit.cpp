@@ -75,7 +75,7 @@ void FHiddenDigit::ReadyDigit()
 
 FDigit * FHiddenDigit::CreateMirror( const FVector2F & vMirrorPos )
 {
-	FHiddenDigit * lpDigit = (FHiddenDigit *)AllocObject( MFHiddenDigit, &FVector2F_( vMirrorPos ), &FUInteger( 10 ), lpWorld, NULL );
+	FHiddenDigit * lpDigit = (FHiddenDigit *)AllocObject( MFHiddenDigit, RFVector2F( vMirrorPos ), RFUInteger( 10 ), lpWorld, NULL );
 
     lpDigit->iObjState = iObjState;
     lpDigit->lpAnimation->Scale( 1.f );

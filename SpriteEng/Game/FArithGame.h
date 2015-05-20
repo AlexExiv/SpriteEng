@@ -54,9 +54,9 @@ public:
     void Save( const FString & sFileName );
     void Load( const FString & sFileName );
     
-	void ClickDown( const FVector2F & vPos, UI32 iIndex );
-	void ClickUp( const FVector2F & vPos, UI32 iIndex );
-	void ClickMove( const FVector2F & vPos, UI32 iIndex );
+	void ClickDown( const FVector2F & vPos, UI32 iIndex, UI32 iFlags );
+	void ClickUp( const FVector2F & vPos, UI32 iIndex, UI32 iFlags );
+	void ClickMove( const FVector2F & vPos, UI32 iIndex, UI32 iFlags );
       
     UI32 GetScore()const;
     UI32 GetGameTime()const;

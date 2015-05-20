@@ -58,7 +58,7 @@ FScoreAdd::FScoreAdd( const FVector2F & vPos, FArithWorld * lpWorld, I32 iIncrSc
     else
         cColor = FColor4F( 1.f, 0.f, 0.f, 1.f );
     
-	lpLabel = (FText *)AllocObject( MFText, RFVector2F( vPos ), RFColor4F( cColor ), RFUInteger( 15 ), &sScore, 
+	lpLabel = (FText *)AllocObject( MFText, RFVector2F( vPos ), RFColor4F( cColor ), RFFloat( 15.f ), &sScore, 
 		&sScoreFont, RFUInteger( 1 ), lpWorld->GetScene(), NULL );
     lpLabel->SetAlpha( 0.f );
     

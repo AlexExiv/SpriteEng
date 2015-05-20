@@ -36,7 +36,7 @@ FInterface::FInterface( FGuiScene * lpGuiScene ) : FGuiController( lpGuiScene ),
 	lpGameOver = (FGuiImage *)AllocObject( MFGuiImage, RFVector2F( 0.f, 0.f ), &sGameOver, lpMainView, NULL );
 	lpScore = (FGuiLabel *)AllocObject( MFGuiLabel, RFVector2F( 0.f, 0.f ), &FString( "00000000" ), &sDeffFont, RFColor4F( 1.f, 0.f, 0.f, 1.f ), 
 		RFFloat( 12.f ), lpMainView, NULL );
-	lpTime = (FGuiLabel *)AllocObject( MFGuiLabel, RFVector2F( 0.f, 0.f ), &FString( "0" ), &sDeffFont, RFColor4F( 0.f, 0.f , 0.f, 1.f ), 
+	lpTime = (FGuiLabel *)AllocObject( MFGuiLabel, RFVector2F( 0.f, 0.f ), &FString( "00:00" ), &sDeffFont, RFColor4F( 0.f, 0.f , 0.f, 1.f ), 
 		RFFloat( 12.f ), lpMainView, NULL );
 
 	rFrame.fLeft = 0.f;

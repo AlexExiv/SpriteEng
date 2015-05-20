@@ -119,7 +119,7 @@ void FGame::InitMeta()
 	FPrimitive::InitMetaData();
 	FGuiController::InitMeta();
 
-	DEFINE_META( FGameObject );
+	DEFINE_META_SUPER( FGameObject, FObject );
 	DEFINE_META_SUPER( FDigit, FGameObject );
 	DEFINE_META_SUPER( FHiddenDigit, FGameObject );
 	DEFINE_META_SUPER( FAttention, FGameObject );
@@ -159,15 +159,15 @@ FGame::~FGame()
 }
 
 
-void FGame::ClickDown( const FVector2F & vPos, UI32 iIndex )
+void FGame::ClickDown( const FVector2F & vPos, UI32 iIndex, UI32 iFlags )
 {
 }
 
-void FGame::ClickUp( const FVector2F & vPos, UI32 iIndex )
+void FGame::ClickUp( const FVector2F & vPos, UI32 iIndex, UI32 iFlags )
 {
 }
 
-void FGame::ClickMove( const FVector2F & vPos, UI32 iIndex )
+void FGame::ClickMove( const FVector2F & vPos, UI32 iIndex, UI32 iFlags )
 {
 }
 

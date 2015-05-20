@@ -179,13 +179,13 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam )
 	switch( iMsg )
 	{
 	case WM_MOUSEMOVE:
-		lpGame->ClickMove( FVector2F( GET_X_LPARAM( lParam ), GET_Y_LPARAM( lParam ) ),  0 );
+		lpGame->ClickMove( FVector2F( GET_X_LPARAM( lParam ), GET_Y_LPARAM( lParam ) ),  0, FGame::GAME_INVERT_Y );
 		break;
 	case WM_LBUTTONDOWN:
-		lpGame->ClickDown( FVector2F( GET_X_LPARAM( lParam ), GET_Y_LPARAM( lParam ) ), 0 );
+		lpGame->ClickDown( FVector2F( GET_X_LPARAM( lParam ), GET_Y_LPARAM( lParam ) ), 0, FGame::GAME_INVERT_Y );
 		break;
 	case WM_LBUTTONUP:
-		lpGame->ClickUp( FVector2F( GET_X_LPARAM( lParam ), GET_Y_LPARAM( lParam ) ), 0 );
+		lpGame->ClickUp( FVector2F( GET_X_LPARAM( lParam ), GET_Y_LPARAM( lParam ) ), 0, FGame::GAME_INVERT_Y );
 		break;
 	case WM_RBUTTONDOWN:
 		break;

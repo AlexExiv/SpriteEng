@@ -159,41 +159,51 @@ void FArithGame::Load( const FString & sFileName )
 	POP_BLOCK;
 }
 
-void FArithGame::ClickDown( const FVector2F & vPos, UI32 iIndex )
+void FArithGame::ClickDown( const FVector2F & vPos, UI32 iIndex, UI32 iFlags )
 {
 	if( iIndex > MAX_CLICK )
 	{
 		FLog::PutError( "Dispacth click index is more then MAX_CLICK constant" );
 		return;
 	}
-    cClickSeq[iIndex].x = vPos.x;
-    cClickSeq[iIndex].y = vPos.y;
+	FVector2F vPos_ = vPos;
+ 	if( iFlags & FGame::GAME_INVERT_Y )
+		vPos_.y = FView::GetMainView()->GetHeight() - vPos.y;
+
+    cClickSeq[iIndex].x = vPos_.x;
+	cClickSeq[iIndex].y = vPos_.y;
     cClickSeq[iIndex].iPush = 1;
     
-    lpAWorld->ClickDown( vPos, iIndex );
+    lpAWorld->ClickDown( vPos_, iIndex );
 }
 
-void FArithGame::ClickUp( const FVector2F & vPos, UI32 iIndex )
+void FArithGame::ClickUp( const FVector2F & vPos, UI32 iIndex, UI32 iFlags )
 {
   	if( iIndex > MAX_CLICK )
 	{
 		FLog::PutError( "Dispacth click index is more then MAX_CLICK constant" );
 		return;
 	}
+	FVector2F vPos_ = vPos;
+ 	if( iFlags & FGame::GAME_INVERT_Y )
+		vPos_.y = FView::GetMainView()->GetHeight() - vPos.y;
 
 	cClickSeq[iIndex].iPush = 0;
-    lpAWorld->ClickUp( vPos, iIndex );
+    lpAWorld->ClickUp( vPos_, iIndex );
 }
 
-void FArithGame::ClickMove( const FVector2F & vPos, UI32 iIndex )
+void FArithGame::ClickMove( const FVector2F & vPos, UI32 iIndex, UI32 iFlags )
 {
 	if( iIndex > MAX_CLICK )
 	{
 		FLog::PutError( "Dispacth click index is more then MAX_CLICK constant" );
 		return;
 	}
+	FVector2F vPos_ = vPos;
+ 	if( iFlags & FGame::GAME_INVERT_Y )
+		vPos_.y = FView::GetMainView()->GetHeight() - vPos.y;
 
-    lpAWorld->ClickMove( vPos, iIndex );
+    lpAWorld->ClickMove( vPos_, iIndex );
 }
 
 UI32 FArithGame::GetScore()const

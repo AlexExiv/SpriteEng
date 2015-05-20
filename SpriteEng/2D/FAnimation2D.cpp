@@ -91,7 +91,7 @@ FAnimation2D::~FAnimation2D()
 void FAnimation2D::DeleteAll()
 {
 	for( UI32 i = 0;i < aFrameArr.GetCount();i++ )
-		delete aFrameArr[i];
+		delete (*aFrameArr[i]);
 	aFrameArr.Clear();
 
 	FAnimationDict::FStringList lStringList;

@@ -61,6 +61,9 @@ FObjectMetaData::FConstructor * FObjectMetaData::FindConstructorByObj( FObject *
 		FObject * lpObj = lpFirst;
 		for(;i < lpConstr->iArgCount;i++ )
 		{
+			if( !lpObj )
+				break;
+
 			if( lpConstr->sArguments[i] != lpObj->GetObjName() )
 			{
 				FObjectMetaData * lpSuperMeta = META( lpConstr->sArguments[i] ), 
@@ -109,7 +112,30 @@ void FObjectMetaData::RegisterConstructor( FObjectConstructor fConstructor, ... 
 	FConstructor * lpConstr = FindConstructorByStr( lpArgs );
 	va_end( lpArgs );
 	va_start( lpArgs, fConstructor );
+#ifdef _DEBUG
+	FString sArguments( "" );
+	bool bIsFirst = true;
 
+	while( *lpArgs != NULL )
+	{
+		FString * lpArgName = va_arg( lpArgs, FString * );
+		if( bIsFirst )
+		{
+			sArguments += *lpArgName;
+			bIsFirst = false;
+		}
+		else
+			sArguments += (FString( ", " ) + *lpArgName);
+	}
+	va_end( lpArgs );
+	if( lpConstr )
+	{
+		FLog::PutError( "Class %s constructor redefinition ( %s )", sClassName.GetChar(), sArguments.GetChar() );
+		return;
+	}
+
+	va_start( lpArgs, fConstructor );
+#else
 	if( lpConstr )
 	{
 		FString sArguments;
@@ -131,6 +157,8 @@ void FObjectMetaData::RegisterConstructor( FObjectConstructor fConstructor, ... 
 		FLog::PutError( "Class %s constructor redefinition ( %s )", sClassName.GetChar(), sArguments.GetChar() );
 		return;
 	}
+#endif
+
 	lpConstr = new FConstructor;
 
 	UI32 iArgCount = 0;
@@ -146,6 +174,8 @@ void FObjectMetaData::RegisterConstructor( FObjectConstructor fConstructor, ... 
 	lpConstr->iArgCount = iArgCount;
 	lpConstr->lpNext = lpConstrList;
 	lpConstrList = lpConstr;
+
+	FLog::PutMessage( "Register constructor %s( %s )", sClassName.GetChar(), sArguments.GetChar() );
 }
 
 
