@@ -151,11 +151,11 @@ void FInterface::Update( F32 fDTime )
     if( fShowTimeDC > DOUBLE_COMMA_TIME )
     {
         fShowTimeDC = 0.f;
-		if( cTime[3] == ' ' )
-			cTime[3] = ':';
+		if( cTime[2] == ' ' )
+			cTime[2] = ':';
 		else
-			cTime[3] = ' ';
-		lpScore->SetText( cTime );
+			cTime[2] = ' ';
+		lpTime->SetText( cTime );
     }
     
     if( fScoreTime >= SCORES_INCR_TIME )

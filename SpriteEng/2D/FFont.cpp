@@ -335,6 +335,7 @@ void FFont::DrawInLine( const FVector2F & vPos, const CHAR_ * lpString, F32 fFon
 		lpDstInd += 6;
 		lpSym++;
 		fXSym += fWidth;
+		iStartVert += 4;
 	}
 }
 
@@ -413,6 +414,7 @@ void FFont::DrawInRect( const FRect & rOutputRect, const CHAR_ * lpText, F32 fFo
 		lpDstInd += 6;
 		lpSym++;
 		fXSym += fWidth;
+		iStartVert += 4;
 	}
 }
 
@@ -492,6 +494,7 @@ void FFont::DrawInRectStart( const FVector2F & vPos, const FRect & rOutputRect, 
 		lpDstInd += 6;
 		lpSym++;
 		fXSym += fWidth;
+		iStartVert += 4;
 	}
 }
 

@@ -15,6 +15,8 @@
 #include "../Core/FFile.h"
 #include "..\Core\FLog.h"
 #include "..\Base\FBaseTypes.h"
+#include "..\2D\FScene.h"
+
 
 
 #define CUR_VER 2
@@ -153,6 +155,12 @@ void FDigit::BornDigit( F32 fDTime )
     F32 fScale = 3.f*fDestrTime/DIGIT_BORN_TIME;
     lpAnimation->Scale( fScale );
     lpLabel->Scale( fScale );
+
+	I32 iLayer = fScale*F32( FScene::MAX_LAYER_COUNT )/3.f - 1;
+	if( (iLayer - 1) < 0 )
+		iLayer = 1;
+	lpAnimation->ChangeLayer( iLayer - 1 );
+	lpLabel->ChangeLayer( iLayer );
     
     if( fDestrTime > DIGIT_BORN_TIME )
     {
@@ -171,10 +179,19 @@ void FDigit::Move2Pos( F32 fDTime )
     F32 xn = (lpWorld->GetWorldWidth() - lpAnimation->GetScaleWidth())/2.f + (fDestrTime/DIGIT_MOVE_TIME)*(vPos.x - (lpWorld->GetWorldWidth() - lpAnimation->GetScaleWidth())/2.f),
     yn = 20.f + (fDestrTime/DIGIT_MOVE_TIME)*(vPos.y - 20.f);
     lpAnimation->SetPos( FVector2F( xn, yn ) );
-    F32 fScale = 4.f - 3.f*fDestrTime/DIGIT_MOVE_TIME;
+    F32 fScale = 3.f - 3.f*fDestrTime/DIGIT_MOVE_TIME;
+	if( fScale < 1.f )
+		fScale = 1.f;
+
     lpAnimation->Scale( fScale );
     lpLabel->Scale( fScale );
-    
+
+	I32 iLayer = fScale*F32( FScene::MAX_LAYER_COUNT )/3.f - (3.f - fScale)*3.5f;
+	if( (iLayer - 1) < 0 )
+		iLayer = 1;
+	lpAnimation->ChangeLayer( iLayer - 1 );
+	lpLabel->ChangeLayer( iLayer );
+   
     if( fDestrTime > DIGIT_MOVE_TIME )
     {
         iObjState = DIGIT_STAY;

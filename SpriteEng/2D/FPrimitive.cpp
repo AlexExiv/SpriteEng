@@ -116,15 +116,14 @@ UI32 FPrimitive::GetLayer()const
 
 void FPrimitive::ChangeLayer( UI32 iLayer0 )
 {
-	lpScene->RemoveObject( this );
+	//lpScene->RemoveObject( this );
+	iLayer = iLayer0;
 	if( iLayer >= FScene::MAX_LAYER_COUNT )
 	{
 		FLog::PutWarning( "Need primitive layer is more than FScene::MAX_LAYER_COUNT, need %i", iLayer );
 		iLayer = FScene::MAX_LAYER_COUNT - 1;
 	}
-	else
-		iLayer = iLayer0;
-	lpScene->AddObject( this );
+	//lpScene->AddObject( this );
 }
 
 void FPrimitive::SetAlpha( F32 fAlpha0 )

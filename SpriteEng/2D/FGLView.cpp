@@ -173,7 +173,7 @@ void FGLView::DrawIndexed( UI32 iPrimType, UI32 iPrimCount, const void * lpIndec
 
 void FGLView::BeginDraw()
 {
-	glClearColor( 1.1f, 1.1f, 1.1f, 1.f );
+	glClearColor( 0.1f, 0.1f, 0.1f, 1.f );
 	////glClearDepth( 1.f );
 	glClear( GL_COLOR_BUFFER_BIT );
 	glDisable( GL_DEPTH_TEST );
