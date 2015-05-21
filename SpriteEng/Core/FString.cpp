@@ -3,6 +3,10 @@
 #include "FString.h"
 #include <stdarg.h>
 #include "FStack.h"
+#include "FFile.h"
+#include "FLog.h"
+
+
 
 class FStringAllocator;
 class FStringTable;
@@ -20,6 +24,7 @@ class FStringAllocator final
 		CHAR_ * lpStrData;
 		UI32 iLen;
 		UI32 iFlags;
+		UI32 iReAllocCnt;
 	};
 
 	enum
@@ -32,6 +37,7 @@ class FStringAllocator final
 	UI32 iFullSize, iAllocSize;
 	UI32 iOutAllocType;
 	FNode * lpFreeNodes[STR_NODE_COUNT];
+	UI32 iFreeSize;
 	FNode * lpOutOfMemNode;
 
 	FBYTE * AllockBlock( UI32 iSize );
@@ -43,6 +49,7 @@ public:
 
 	CHAR_ * AllocString( UI32 iLen );
 	void FreeString( CHAR_ * lpStr );
+	void DumpFreeStrings( FFile * lpFile );
 
 	static FStringAllocator * GetInstance();
 	static void Destroy();
@@ -50,7 +57,8 @@ public:
 };
 
 
-FStringAllocator::FStringAllocator( UI32 iFullSize, UI32 iOutAllocType ) : iFullSize( iFullSize ), iAllocSize( 0 ), lpAllocData( NULL ), iOutAllocType( iOutAllocType ), lpOutOfMemNode( NULL )
+FStringAllocator::FStringAllocator( UI32 iFullSize, UI32 iOutAllocType ) : iFullSize( iFullSize ), iAllocSize( 0 ), 
+	lpAllocData( NULL ), iOutAllocType( iOutAllocType ), lpOutOfMemNode( NULL ), iFreeSize( 0 )
 {
 	lpAllocData = (FBYTE *)FMalloc( iFullSize );
 	for( UI32 i = 0;i < STR_NODE_COUNT;i++ )
@@ -102,6 +110,7 @@ CHAR_ * FStringAllocator::AllocString( UI32 iLen )
 		lpStrNode->lpNext = NULL;
 		lpStrNode->lpPrev = NULL;
 		lpStrNode->iLen = iLen;
+		lpStrNode->iReAllocCnt = 0;
 		lpStrNode->lpStrData = (CHAR_ *)(lpStr + sizeof( FNode ));
 	}
 
@@ -136,6 +145,7 @@ void FStringAllocator::FreeString( CHAR_ * lpStr )
 
 	lpStrNode->lpNext = NULL;
 	lpStrNode->lpPrev = NULL;
+	iFreeSize += (lpStrNode->iLen + 1)*sizeof( CHAR_ ) + sizeof( FNode );
 
 	//всатвляем блок в список свободных, сортируя по возрастанию длины
 	if( lpFreeNodes[iPos] )//если в списке есть элементы
@@ -183,6 +193,42 @@ void FStringAllocator::FreeString( CHAR_ * lpStr )
 	}
 }
 
+void FStringAllocator::DumpFreeStrings( FFile * lpFile )
+{
+	CHAR_ cBuffer[512];
+	sprintf( cBuffer, "Totaly allocated memory for string: %i bytes, including: %i bytes realy occupied, %i bytes free for alloc", iAllocSize,
+		(iAllocSize - iFreeSize), iFreeSize );
+	lpFile->Write( cBuffer, strlen( cBuffer ) );
+	lpFile->Write( lpEndL, strlen( lpEndL ) );
+	lpFile->Write( lpEndL, strlen( lpEndL ) );
+
+	const CHAR_ * lpMess = "Currently frees strings, length and number of reallocs of them:";
+	lpFile->Write( lpMess, strlen( lpMess ) );
+	lpFile->Write( lpEndL, strlen( lpEndL ) );
+	lpFile->Write( lpEndL, strlen( lpEndL ) );
+
+	for( UI32 i = 0;i < STR_NODE_COUNT;i++ )
+	{
+		FNode * lpNode =  lpFreeNodes[i];
+		while( lpNode )
+		{
+			itoa( lpNode->iLen, cBuffer, 10 );
+			lpFile->Write( cBuffer, strlen( cBuffer ) );
+			lpFile->Write( " ", 1 );
+
+			itoa( lpNode->iReAllocCnt, cBuffer, 10 );
+			lpFile->Write( cBuffer, strlen( cBuffer ) );
+			lpFile->Write( " ", 1 );
+
+			lpFile->Write( lpNode->lpStrData, lpNode->iLen );
+			lpFile->Write( lpEndL, strlen( lpEndL ) );
+
+			lpNode = lpNode->lpNext;
+		}
+	}
+	lpFile->Write( lpEndL, strlen( lpEndL ) );
+}
+
 //поиск подходящего по длине блока
 FStringAllocator::FNode * FStringAllocator::FindFree( UI32 iLen )
 {
@@ -220,6 +266,11 @@ FStringAllocator::FNode * FStringAllocator::FindFree( UI32 iLen )
 			break;
 		}
 		lpNode = lpNode->lpNext;
+	}
+	if( lpNode )
+	{
+		lpNode->iReAllocCnt++;
+		iFreeSize -= (lpNode->iLen + 1)*sizeof( CHAR_ ) + sizeof( FNode );;
 	}
 
 	return lpNode;
@@ -311,6 +362,7 @@ public:
 
 	CHAR_ * AllocString( const CHAR_ * lpStr, UI32 iKey, UI32 iLen );
 	void FreeString( CHAR_ * lpStr, UI32 iKey );
+	void DumpTable();
 
 	static FStringTable * GetInstance();
 	static void Destroy();
@@ -382,6 +434,48 @@ void FStringTable::FreeString( CHAR_ * lpStr, UI32 iKey )
 			lpNode = lpNode->lpNext;
 		}
 	}
+}
+
+void FStringTable::DumpTable()
+{
+	FFile * lpFile = FFile::OpenFile( "string_dump.txt", FFile::F_FILE_CREATE|FFile::F_FILE_WRITE );
+	if( !lpFile )
+	{
+		FLog::PutError( "Can't create file for dump string table" );
+		return;
+	}
+
+	FStringAllocator::GetInstance()->DumpFreeStrings( lpFile ) ;
+
+	const CHAR_ * lpMess = "Currently allocated strings and reference counter by them:";
+	lpFile->Write( lpMess, strlen( lpMess ) );
+	lpFile->Write( lpEndL, strlen( lpEndL ) );
+	lpFile->Write( lpEndL, strlen( lpEndL ) );
+
+	CHAR_ cBuffer[256];
+	for( UI32 i = 0;i < STR_MAX_HASH;i++ )
+	{
+		FNode * lpNode = lpHashTable[i];
+		if( lpNode )
+		{
+			itoa( i, cBuffer, 10 );
+			lpFile->Write( cBuffer, strlen( cBuffer ) );
+			lpFile->Write( ":", 1 );
+			lpFile->Write( lpEndL, strlen( lpEndL ) );
+		}
+		while( lpNode )
+		{
+			itoa( lpNode->iRefCount, cBuffer, 10 );
+			lpFile->Write( cBuffer, strlen( cBuffer ) );
+			lpFile->Write( " ", 1 );
+			lpFile->Write( lpNode->lpStr, strlen( lpNode->lpStr ) );
+			lpFile->Write( lpEndL, strlen( lpEndL ) );
+
+			lpNode = lpNode->lpNext;
+		}
+	}
+
+	FFile::CloseFile( lpFile );
 }
 
 //выделение записи либо из списка свободных, либо из кучи
@@ -984,4 +1078,9 @@ FString FString::PrintString( const CHAR_ * lpFormat, ... )
 	va_end( lpArgs );
 
 	return FString( cBuffer );
+}
+
+void FString::DumpStringTable()
+{
+	FStringTable::GetInstance()->DumpTable();
 }

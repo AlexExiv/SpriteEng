@@ -78,7 +78,7 @@ UI32 FWinFile::Read( void * lpData, UI32 iBytes2Read )
 	return dwRead;
 }
 
-UI32 FWinFile::Write( void * lpData, UI32 iBytes2Write )
+UI32 FWinFile::Write( const void * lpData, UI32 iBytes2Write )
 {
 	AssertFatal( hFile != INVALID_HANDLE_VALUE, "Handle value is NULL can't write file" );
 

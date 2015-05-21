@@ -19,7 +19,7 @@ public:
 	~FWinFile();
 
 	UI32 Read( void * lpData, UI32 iBytes2Read );
-	UI32 Write( void * lpData, UI32 iBytes2Write );
+	UI32 Write( const void * lpData, UI32 iBytes2Write );
 	
 	void * GetData( void * lpBuffer );
 	UI64 GetSize()const;

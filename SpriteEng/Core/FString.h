@@ -83,6 +83,7 @@ public:
 	UI32 GetKey()const;
 	void ScanString( const CHAR_ * lpFormat, ... );
 	static FString PrintString( const CHAR_ * lpFormat, ... );
+	static void DumpStringTable();
 
 	static void Init();
 	static void Destroy();

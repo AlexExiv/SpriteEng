@@ -37,7 +37,7 @@ public:
 
 	bool OpenSucc()const;
 	virtual UI32 Read( void * lpData, UI32 iBytes2Read ) = 0;
-	virtual UI32 Write( void * lpData, UI32 iBytes2Write ) = 0;
+	virtual UI32 Write( const void * lpData, UI32 iBytes2Write ) = 0;
 	
 	virtual void * GetData( void * lpBuffer ) = 0;
 	virtual UI64 GetSize()const = 0;

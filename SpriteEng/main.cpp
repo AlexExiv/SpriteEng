@@ -6,6 +6,7 @@
 #include "Core\FException.h"
 #include "Core\FLog.h"
 #include <gl\GL.h>
+#include "2D\glext.h"
 #include "Core\FStack.h"
 
 
@@ -27,7 +28,7 @@ UI32 InitPixelFormat( HDC hDC )
 	pfd.dwFlags = PFD_SUPPORT_OPENGL | PFD_DOUBLEBUFFER | PFD_DRAW_TO_WINDOW;
 	pfd.iPixelType = PFD_TYPE_RGBA;
 	pfd.cColorBits = 32;
-	pfd.cDepthBits = 32;
+	//pfd.cDepthBits = 32;
 
 	iPixelFormat = ChoosePixelFormat( hDC, &pfd );
 	if( !iPixelFormat )
@@ -57,13 +58,13 @@ void InitGL( HWND hWnd )
 
 	glHint    ( GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST );
 	//glHint( GL_GENERATE_MIPMAP_HINT_SGIS, GL_FASTEST );
-	glEnable        ( GL_DEPTH_TEST );							// enable z-buffering
+	//glEnable        ( GL_DEPTH_TEST );							// enable z-buffering
 	glEnable        ( GL_BLEND );
 	glDisable( GL_CULL_FACE );
 	glDepthFunc     ( GL_LEQUAL );								// set depth comparison (<=)
 	glBlendFunc     ( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP );
-	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
+	glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE );
 
 	//glGetIntegerv( GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &iMaxAniso );
 	//iCurAniso = 0;
@@ -191,6 +192,14 @@ LRESULT CALLBACK WndProc( HWND hWnd, UINT iMsg, WPARAM wParam, LPARAM lParam )
 		break;
 	case WM_RBUTTONUP:
 		break;
+	case WM_KEYDOWN:
+		switch( wParam )
+		{
+		case 0x46:
+			FString::DumpStringTable();
+			break;
+		};
+		return 0;
 	};
 	return DefWindowProc( hWnd, iMsg, wParam, lParam );
 }

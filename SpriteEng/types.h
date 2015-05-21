@@ -78,7 +78,7 @@ struct RGBA
 #define STR_OUT_MEM_MESS 2//если закончится память то строковая переменная будет равна "out of mem"
 
 #ifdef WINDOWS_FAMILY
-#define lpEndL "\n\r"
+#define lpEndL "\r\n"
 #elif UNIX_FAMILY
 #define lpEndL "\n"
 #endif
