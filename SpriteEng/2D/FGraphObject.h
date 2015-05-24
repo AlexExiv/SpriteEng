@@ -3,6 +3,7 @@
 
 
 #include "..\Core\FString.h"
+#include "..\Core\FDictionary.h"
 
 class FTexture;
 class FImageResource;
@@ -43,9 +44,14 @@ protected:
 		FGraphObject * lpObject;
 	};
 
+	typedef FDictionary<FGraphObject *> FObjectChache;
+	typedef FDictionary<FGraphObject *>::FRecord FObjectRecord;
+
 	FNode * lpNodeArr, * lpFreeArr;
 	UI32 iNodeCount, iCurNode;
 	FNode * lpObjectHash[MAX_HASH];
+
+	FObjectChache dObjectChache;
 
 	FNode * AllocNode();
 	void FreeNode( FNode * lpNode );
@@ -58,6 +64,10 @@ public:
 	FTexture * CreateTexture( const FString & sName, const FImageResource * lpImg );
 	void ReleaseObject( FGraphObject * lpObject );
 	void Clear();
+
+	void ChacheObject( const FString & sName, UI32 iObjType );
+	void UnChacheObject( const FString & sName );
+	void ClearChache();
 
 	static FGraphObjectManager * GetInstance();
 };

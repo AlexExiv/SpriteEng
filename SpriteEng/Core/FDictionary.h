@@ -210,7 +210,7 @@ public:
 			return;
 
 		UI32 iKey = sKey.GetKey()%iHashSize;
-		FNode * lpNode = lpHashNodes[iKey], lpPrevNode = NULL;
+		FNode * lpNode = lpHashNodes[iKey], * lpPrevNode = NULL;
 
 		while( lpNode )
 		{

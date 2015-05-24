@@ -21,6 +21,7 @@
 #include "FMessage.h"
 #include "..\Core\FLog.h"
 #include "..\Base\FBaseTypes.h"
+#include "..\2D\FGraphObject.h"
 //#import <UIKit/UIKit.h>
 #include <string.h>
 
@@ -100,10 +101,13 @@ FArithWorld::FArithWorld( FArithGame * lpGame ) : FWorld( lpGame->GetWorldScene(
 	lpAttention = (FAttention *)AllocObject( MFAttention, RFVector2F( fWorldWidth/2.f, fWorldHeight/2.f ), this, NULL );
 	lp2XScoreMess = (FMessage *)AllocObject( MFMessage, this, NULL );
 //    lObjectList.PushBack( lpAttention );
+	FGraphObjectManager::GetInstance()->ChacheObject( sPartName, FGraphObjectManager::OBJECT_ANIMATION );
+	FGraphObjectManager::GetInstance()->ChacheObject( sScoreFont, FGraphObjectManager::OBJECT_FONT );
 }
 
 FArithWorld::~FArithWorld()
 {
+	FGraphObjectManager::GetInstance()->ClearChache();
     Clear();
 	if( lp2XScoreMess )
 		Delete( lp2XScoreMess );

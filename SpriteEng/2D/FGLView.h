@@ -17,8 +17,12 @@ class FGLView : public FView
 
 	void ResetStates();
 
+#ifdef WINDOWS_FAMILY
+	FWndAdd * lpWndAdd;
+#endif
+
 public:
-	FGLView( UI32 iWidth, UI32 iHeight );
+	FGLView( UI32 iWidth, UI32 iHeight, void * lpAddData );
 	~FGLView();
 
 	void LineWidth( F32 fWidth );
@@ -31,6 +35,7 @@ public:
 
 	void BeginDraw();
 	void EndDraw();
+	void SwapBuffers();
 
 	FTexture * CreateTexture( FGraphObject * lpPlacement, const FString & sName );
 	FTexture * CreateTexture( FGraphObject * lpPlacement, const FString & sName, const FImageResource * lpImg );

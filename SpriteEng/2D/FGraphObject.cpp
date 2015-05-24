@@ -2,11 +2,10 @@
 #include "..\Core\FLog.h"
 #include "FAnimation2D.h"
 #include "FShader.h"
-#include "FView.h"
 #include "..\Core\FException.h"
 #include "FFont.h"
 #include "FTexture.h"
-
+#include "FView.h"
 
 
 static FGraphObjectManager * lpGrManager = NULL;
@@ -150,7 +149,7 @@ FGraphObject * FGraphObjectManager::CreateObject( const FString & sName, UI32 iO
 			FFree( lpObject );
 		lpObject = NULL;
 
-		FLog::PutError( FString::PrintString( "%s: \"%s\"", eExcp.GetMessage().GetChar(), sName.GetChar() ) );
+		FLog::PutError( FString::PrintString( "%s: \"%s\"", eExcp.GetMess().GetChar(), sName.GetChar() ) );
 		if( eExcp.GetCode() == FException::EXCP_FATAL_ERROR )
 			throw eExcp;
 	}
@@ -236,6 +235,45 @@ void FGraphObjectManager::Clear()
 		}
 	}
 }
+
+void FGraphObjectManager::ChacheObject( const FString & sName, UI32 iObjType )
+{
+	FGraphObject * lpObject = CreateObject( sName, iObjType );
+	if( !lpObject )
+	{
+		FLog::PutError( "Can't chache object, \"%s\" is not exist", sName.GetChar() );
+		return;
+	}
+
+	dObjectChache.AddRecord( sName, lpObject );
+}
+
+void FGraphObjectManager::UnChacheObject( const FString & sName )
+{
+	FObjectRecord rRec = dObjectChache.FindRecord( sName );
+	if( rRec == FObjectRecord( NULL ) )
+	{
+		FLog::PutError( "Chached object with name \"%\" is not found", sName.GetChar() );
+		return;
+	}
+
+	ReleaseObject( rRec );
+	dObjectChache.RemoveRecord( sName );
+}
+
+void FGraphObjectManager::ClearChache()
+{
+	FObjectChache::FStringList lStringList;
+	dObjectChache.GetKeyList( lStringList );
+	FObjectChache::FStringIterator iIt = lStringList.Begin();
+	for(;iIt != lStringList.End();iIt++ )
+	{
+		FObjectRecord rRec = dObjectChache.FindRecord( *iIt );
+		ReleaseObject( rRec );
+		dObjectChache.RemoveRecord( *iIt );
+	}
+}
+
 
 FGraphObjectManager * FGraphObjectManager::GetInstance()
 {

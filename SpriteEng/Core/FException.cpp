@@ -13,7 +13,7 @@ UI32 FException::GetCode()const
 	return iCode;
 }
 
-FString FException::GetMessage()const
+FString FException::GetMess()const
 {
 	return sMessage;
 }

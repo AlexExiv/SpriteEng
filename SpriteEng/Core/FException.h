@@ -35,7 +35,7 @@ public:
 	~FException();
 
 	UI32 GetCode()const;
-	FString GetMessage()const;
+	FString GetMess()const;
  //   UI32 Process( const CHAR_ * lpFormat, ... );
 };
 

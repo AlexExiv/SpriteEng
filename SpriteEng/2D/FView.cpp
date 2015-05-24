@@ -19,12 +19,17 @@ UI32 FView::GetHeight()const
 	return iHeight;
 }
 
-#ifdef WINDOWS_FAMILY && !defined( MOBILE_DEVICE )
-void FView::Init( UI32 iWidth, UI32 iHeight )
+void FView::Init( UI32 iAPI, UI32 iWidth, UI32 iHeight, void * lpAddData )
 {
-	lpView = new FGLView( iWidth, iHeight );
+	switch( iAPI )
+	{
+	case F_API_OPENGL:
+		lpView = new FGLView( iWidth, iHeight, lpAddData );
+		break;
+	case F_API_DIRECT3D:
+		break;
+	}
 }
-#endif
 
 FView * FView::GetMainView()
 {

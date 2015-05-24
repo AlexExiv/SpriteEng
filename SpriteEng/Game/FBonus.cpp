@@ -13,6 +13,7 @@
 #include "..\2D\FScene.h"
 #include "..\Core\FFile.h"
 #include "..\Base\FBaseTypes.h"
+#include "..\2D\FGraphObject.h"
 
 
 
@@ -27,11 +28,19 @@ struct FBonusBlock
 };
 
 const FString sBonusNames[] = { "bundle\\firstbonus.bmp", "bundle\\timebonus.bmp", "bundle\\bonus2X.bmp", "bundle\\bonus_score.bmp", "bundle\\bonus_pairs.bmp" };
+static bool bIsFirstBonus = true;
 
 IMPLEMENT_OBJ_DERIVERED( FBonus );
 
 FBonus::FBonus( FArithWorld * lpWorld ) : FGameObject( FGameObject::OBJECT_BONUS, lpWorld ), lpImage( NULL ), fShowTime( 0.f ), iBonusType( -1 )
 {
+ 	if( bIsFirstBonus )
+	{
+		for( UI32 i = 0;i < ARRAY_SIZE( sBonusNames );i++ )
+			FGraphObjectManager::GetInstance()->ChacheObject( sBonusNames[i], FGraphObjectManager::OBJECT_IMAGE );
+		bIsFirstBonus = false;
+	}
+
     fSpeed = 3.f;
     bSolid = false;
     iObjState = BONUS_SHOW;
@@ -40,8 +49,15 @@ FBonus::FBonus( FArithWorld * lpWorld ) : FGameObject( FGameObject::OBJECT_BONUS
 
 FBonus::FBonus( const FVector2F & vPos, UI32 iBonusType, FArithWorld * lpWorld ) : FGameObject( vPos, FGameObject::OBJECT_BONUS, lpWorld ), lpImage( NULL ), fShowTime( 0.f ), iBonusType( iBonusType )
 {
+	if( bIsFirstBonus )
+	{
+		for( UI32 i = 0;i < ARRAY_SIZE( sBonusNames );i++ )
+			FGraphObjectManager::GetInstance()->ChacheObject( sBonusNames[i], FGraphObjectManager::OBJECT_IMAGE );
+		bIsFirstBonus = false;
+	}
+
     fSpeed = 3.f;
-	lpImage = (FImage2D *)AllocObject( MFImage2D, &FVector2F_( vPos ), lpWorld->GetScene(), &FUInteger( 1 ), &sBonusNames[iBonusType] );
+	lpImage = (FImage2D *)AllocObject( MFImage2D, RFVector2F( vPos ), lpWorld->GetScene(), RFUInteger( 1 ), &sBonusNames[iBonusType] );
     bSolid = false;
     iObjState = BONUS_SHOW;
     Move( FVector2F( vPos.x - lpImage->GetWidth()/2.f, vPos.y - lpImage->GetHeight()/2.f ) );

@@ -116,13 +116,13 @@ FResource * FResourceManager::CreateResource( const FString & sFileName )
 		case FException::EXCP_UNK_FILE_FORMAT:
 		case FException::EXCP_UNK_IMAGE_FORMAT:
 		case FException::EXCP_RESALLOC_INSUFFIENC:
-			FLog::PutError( "%s, name of resource \"%s\"", eExcp.GetMessage().GetChar(), sFileName.GetChar() );
+			FLog::PutError( "%s, name of resource \"%s\"", eExcp.GetMess().GetChar(), sFileName.GetChar() );
 			break;
 		case FException::EXCP_FATAL_ERROR:
 			throw eExcp;
 			break;
 		default:
-			FLog::PutError( eExcp.GetMessage() );
+			FLog::PutError( eExcp.GetMess() );
 		};
 
 		//if( lpRes )

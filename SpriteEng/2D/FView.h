@@ -24,6 +24,15 @@ struct FDrawDataCont
 	};
 };
 
+#ifdef WINDOWS_FAMILY
+
+#include <Windows.h>
+
+struct FWndAdd
+{
+	HWND hWnd;
+};
+#endif
 
 class FView 
 {
@@ -53,6 +62,12 @@ public:
 		ATTRIB_DATA
 	};
 
+	enum
+	{
+		F_API_OPENGL = 1,
+		F_API_DIRECT3D
+	};
+
 protected:
 	UI32 iWidth, iHeight;
 
@@ -70,6 +85,7 @@ public:
 
 	virtual void BeginDraw() = 0;
 	virtual void EndDraw() = 0;
+	virtual void SwapBuffers() = 0;
 
 	virtual FTexture * CreateTexture( FGraphObject * lpPlacement, const FString & sName ) = 0;
 	virtual FTexture * CreateTexture( FGraphObject * lpPlacement, const FString & sName, const FImageResource * lpImg ) = 0;
@@ -81,7 +97,7 @@ public:
 	virtual UI32 GetTextureObjSize()const = 0;
 	virtual UI32 GetShaderObjSize()const = 0;
 
-	static void Init( UI32 iWidth, UI32 iHeight );
+	static void Init( UI32 iApi, UI32 iWidth, UI32 iHeight, void * lpAddData );
 	static FView * GetMainView();
 };
 
